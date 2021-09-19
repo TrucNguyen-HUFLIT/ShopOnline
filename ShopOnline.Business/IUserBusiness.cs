@@ -1,12 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using ShopOnline.Core.Models.Account;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace ShopOnline.Business
 {
-    interface IUserBusiness
+    public interface IUserBusiness
     {
+        Task<ClaimsPrincipal> LoginAsync(AccountLogin accountLogin);
+
+        Task<bool> RegisterAsync(AccountRegister accountRegister);
+
+        Task ResetPasswordAsync(string email);
     }
 }

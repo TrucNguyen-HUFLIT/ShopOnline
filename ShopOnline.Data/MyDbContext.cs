@@ -45,6 +45,7 @@ namespace ShopOnline.Core
 
             modelBuilder.Entity<StaffEntity>(entity =>
             {
+                entity.ToTable("Staff");
                 entity.HasKey(x => x.Id);
 
                 entity.Property(x => x.FullName).IsRequired();
@@ -56,6 +57,7 @@ namespace ShopOnline.Core
 
             modelBuilder.Entity<ReviewDetailEntity>(entity =>
             {
+                entity.ToTable("ReviewDetail");
                 entity.HasKey(x => x.Id);
 
                 entity.HasOne(x => x.Customer)
@@ -74,6 +76,7 @@ namespace ShopOnline.Core
 
             modelBuilder.Entity<CustomerEntity>(entity =>
             {
+                entity.ToTable("Customer");
                 entity.HasKey(x => x.Id);
 
                 entity.Property(x => x.FullName).IsRequired();
@@ -85,6 +88,7 @@ namespace ShopOnline.Core
 
             modelBuilder.Entity<OrderEntity>(entity =>
             {
+                entity.ToTable("Order");
                 entity.HasKey(x => x.Id);
 
                 entity.HasOne(x => x.Customer)
@@ -98,6 +102,7 @@ namespace ShopOnline.Core
 
             modelBuilder.Entity<OrderDetailEntity>(entity =>
             {
+                entity.ToTable("OrderDetail");
                 entity.HasKey(x => new { x.IdOrder, x.IdProduct });
 
                 entity.HasOne(x => x.Product)
@@ -113,6 +118,7 @@ namespace ShopOnline.Core
 
             modelBuilder.Entity<ProductEntity>(entity =>
             {
+                entity.ToTable("Product");
                 entity.HasKey(x => x.Id);
 
                 entity.HasOne(x => x.ProductDetail)
@@ -126,6 +132,7 @@ namespace ShopOnline.Core
 
             modelBuilder.Entity<ProductDetailEntity>(entity =>
             {
+                entity.ToTable("ProductDetail");
                 entity.HasKey(x => x.Id);
 
                 entity.HasOne(x => x.ProductType)
@@ -140,6 +147,7 @@ namespace ShopOnline.Core
 
             modelBuilder.Entity<BrandEntity>(entity =>
             {
+                entity.ToTable("Brand");
                 entity.HasKey(x => x.Id);
 
                 entity.Property(x => x.BrandName).IsRequired();
@@ -147,6 +155,7 @@ namespace ShopOnline.Core
 
             modelBuilder.Entity<ProductTypeEntity>(entity =>
             {
+                entity.ToTable("ProductType");
                 entity.HasKey(x => x.Id);
 
                 entity.HasOne(x => x.Brand)

@@ -1,3 +1,5 @@
+using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -5,7 +7,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using ShopOnline.Business;
+using ShopOnline.Business.Logic;
 using ShopOnline.Core;
+using ShopOnline.Core.Filters;
+using ShopOnline.Core.Validators.Account;
 using ShopOnline.Models;
 using System;
 using System.Collections.Generic;
@@ -33,6 +39,29 @@ namespace ShopOnline
             // Use AppSetting by DI
             var appSetting = _configuration.GetSection("AppSetting");
             services.Configure<AppSetting>(appSetting);
+
+            services.AddMvc(option =>
+            {
+                option.Filters.Add(typeof(ModelStateAjaxFilter));
+            })
+            .AddFluentValidation(opt =>
+            {
+                opt.RegisterValidatorsFromAssemblyContaining<AccountLoginValidator>();
+            });
+
+            services.AddSession();
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(opt =>
+                {
+                    opt.LoginPath = "/account/login";
+                    opt.AccessDeniedPath = "/login";
+                    opt.ReturnUrlParameter = "returnUrl";
+                    opt.LogoutPath = "/logout";
+                    opt.ExpireTimeSpan = TimeSpan.FromMinutes(20);
+                });
+
+            services.AddScoped<IUserBusiness, UserBusiness>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -48,11 +77,14 @@ namespace ShopOnline
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            app.UseSession();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
