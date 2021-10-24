@@ -18,6 +18,6 @@ namespace ShopOnline.Core.Entities
         public ProductTypeEntity ProductType { get; set; }
         public ICollection<ProductEntity> Products { get; set; }
         public virtual ICollection<ReviewDetailEntity> ReviewDetails { get; set; }
-
+        public virtual ICollection<FavoriteProductEntity> FavoriteProducts { get; set; }
     }
 }

@@ -28,10 +28,12 @@ namespace ShopOnline.Core
 
         #region DbSet
 
+        public DbSet<FavoriteProductEntity> FavoriteProducts { get; set; }
         public DbSet<ReviewDetailEntity> ReviewDetails { get; set; }
         public DbSet<StaffEntity> Staffs { get; set; }
         public DbSet<CustomerEntity> Customers { get; set; }
         public DbSet<OrderEntity> Orders { get; set; }
+        public DbSet<ShipperEntity> Shippers { get; set; }
         public DbSet<OrderDetailEntity> OrderDetails { get; set; }
         public DbSet<ProductEntity> Products { get; set; }
         public DbSet<ProductDetailEntity> ProductDetails { get; set; }
@@ -53,6 +55,7 @@ namespace ShopOnline.Core
                 entity.Property(x => x.Password).IsRequired();
                 entity.Property(x => x.PhoneNumber).IsRequired();
                 entity.Property(x => x.TypeAcc).IsRequired();
+                entity.Property(x => x.Salary).IsRequired();
             });
 
             modelBuilder.Entity<ReviewDetailEntity>(entity =>
@@ -74,6 +77,23 @@ namespace ShopOnline.Core
                 entity.Property(x => x.IdProductDetail).IsRequired();
             });
 
+            modelBuilder.Entity<FavoriteProductEntity>(entity =>
+            {
+                entity.ToTable("FavoriteProduct");
+                entity.HasKey(x => x.Id);
+
+                entity.HasOne(x => x.Customer)
+                    .WithMany(x => x.FavoriteProducts)
+                    .HasForeignKey(x => x.IdCustomer);
+
+                entity.HasOne(x => x.ProductDetail)
+                    .WithMany(x => x.FavoriteProducts)
+                    .HasForeignKey(x => x.IdProductDetail);
+
+                entity.Property(x => x.IdCustomer).IsRequired();
+                entity.Property(x => x.IdProductDetail).IsRequired();
+            });
+
             modelBuilder.Entity<CustomerEntity>(entity =>
             {
                 entity.ToTable("Customer");
@@ -86,6 +106,19 @@ namespace ShopOnline.Core
                 entity.Property(x => x.TypeAcc).IsRequired();
             });
 
+            modelBuilder.Entity<ShipperEntity>(entity =>
+            {
+                entity.ToTable("Shipper");
+                entity.HasKey(x => x.Id);
+
+                entity.Property(x => x.FullName).IsRequired();
+                entity.Property(x => x.Email).IsRequired();
+                entity.Property(x => x.Password).IsRequired();
+                entity.Property(x => x.PhoneNumber).IsRequired();
+                entity.Property(x => x.TypeAcc).IsRequired();
+                entity.Property(x => x.Salary).IsRequired();
+            });
+
             modelBuilder.Entity<OrderEntity>(entity =>
             {
                 entity.ToTable("Order");
@@ -95,9 +128,14 @@ namespace ShopOnline.Core
                     .WithMany(x => x.Orders)
                     .HasForeignKey(x => x.IdCustomer);
 
+                entity.HasOne(x => x.Shipper)
+                    .WithMany(x => x.Orders)
+                    .HasForeignKey(x => x.IdShipper);
+
                 entity.Property(x => x.OrderDay).IsRequired();
                 entity.Property(x => x.StatusOrder).IsRequired();
                 entity.Property(x => x.IdCustomer).IsRequired();
+                entity.Property(x => x.IdShipper).IsRequired();
             });
 
             modelBuilder.Entity<OrderDetailEntity>(entity =>

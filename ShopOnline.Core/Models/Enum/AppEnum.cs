@@ -5,16 +5,19 @@ namespace ShopOnline.Core.Models.Enum
     {
         public enum TypeAcc
         {
-            Admin = 0,
-            Staff = 1,
-            Customer = 2,
+            Admin = 1,
+            Staff = 2,
+            Customer = 3,
+            Shipper = 4,
         }
 
         public enum StatusOrder
         {
-            Processing = 0,
-            Accepted = 1,
-            Paid = 2,
+            Processing = 1,
+            Accepted = 2,
+            Paid = 3,
+            Delivering = 4,
+            Completed = 5,
         }
 
         public enum ProductSize
@@ -37,7 +40,6 @@ namespace ShopOnline.Core.Models.Enum
 
         public enum ProductStatus
         {
-            Deleted = 0,
             Available = 1,
             Unavailable = 2,
         }

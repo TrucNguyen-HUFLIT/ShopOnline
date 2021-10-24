@@ -11,6 +11,6 @@ namespace ShopOnline.Core.Entities
         public string Address { get; set; }
         public string Avatar { get; set; }
         public TypeAcc TypeAcc { get; set; }
-
+        public int Salary { get; set; }
     }
 }

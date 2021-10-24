@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using static ShopOnline.Core.Models.Enum.AppEnum;
+﻿using ShopOnline.Core.Models.Enum;
+using System.Collections.Generic;
 
 namespace ShopOnline.Core.Entities
 {
-    public class CustomerEntity : BaseEntity, IBaseUserEntity
+    public class ShipperEntity : BaseEntity, IBaseUserEntity
     {
         public string FullName { get; set; }
         public string Email { get; set; }
@@ -11,11 +11,10 @@ namespace ShopOnline.Core.Entities
         public string PhoneNumber { get; set; }
         public string Address { get; set; }
         public string Avatar { get; set; }
-        public TypeAcc TypeAcc { get; set; }
+        public AppEnum.TypeAcc TypeAcc { get; set; }
+        public int Salary { get; set; }
 
         public virtual ICollection<OrderEntity> Orders { get; set; }
-        public virtual ICollection<ReviewDetailEntity> ReviewDetails { get; set; }
-        public virtual ICollection<FavoriteProductEntity> FavoriteProducts { get; set; }
 
     }
 }

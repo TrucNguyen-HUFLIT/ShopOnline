@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ShopOnline.Core;
 
 namespace ShopOnline.Data.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    partial class MyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211022153126_AddTableFavoriteProduct")]
+    partial class AddTableFavoriteProduct
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -131,13 +133,7 @@ namespace ShopOnline.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("ExtraFee")
-                        .HasColumnType("int");
-
                     b.Property<int>("IdCustomer")
-                        .HasColumnType("int");
-
-                    b.Property<int>("IdShipper")
                         .HasColumnType("int");
 
                     b.Property<bool>("IsDelete")
@@ -152,8 +148,6 @@ namespace ShopOnline.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("IdCustomer");
-
-                    b.HasIndex("IdShipper");
 
                     b.ToTable("Order");
                 });
@@ -285,49 +279,6 @@ namespace ShopOnline.Data.Migrations
                     b.ToTable("ReviewDetail");
                 });
 
-            modelBuilder.Entity("ShopOnline.Core.Entities.ShipperEntity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Avatar")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FullName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsDelete")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Salary")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TypeAcc")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Shipper");
-                });
-
             modelBuilder.Entity("ShopOnline.Core.Entities.StaffEntity", b =>
                 {
                     b.Property<int>("Id")
@@ -359,9 +310,6 @@ namespace ShopOnline.Data.Migrations
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Salary")
-                        .HasColumnType("int");
 
                     b.Property<int>("TypeAcc")
                         .HasColumnType("int");
@@ -417,15 +365,7 @@ namespace ShopOnline.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ShopOnline.Core.Entities.ShipperEntity", "Shipper")
-                        .WithMany("Orders")
-                        .HasForeignKey("IdShipper")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Customer");
-
-                    b.Navigation("Shipper");
                 });
 
             modelBuilder.Entity("ShopOnline.Core.Entities.ProductDetailEntity", b =>
@@ -516,11 +456,6 @@ namespace ShopOnline.Data.Migrations
             modelBuilder.Entity("ShopOnline.Core.Entities.ProductTypeEntity", b =>
                 {
                     b.Navigation("ProductDetails");
-                });
-
-            modelBuilder.Entity("ShopOnline.Core.Entities.ShipperEntity", b =>
-                {
-                    b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618
         }
