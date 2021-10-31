@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿
+using ShopOnline.Core.Models.Client;
 using System.Threading.Tasks;
 
 namespace ShopOnline.Business.Customer
 {
-    interface IClientBusiness
+    public interface IClientBusiness
     {
+        Task<ProductForHomePageModel> GetProductForHomePageAsync();
     }
 }

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ShopOnline.Core;
 
 namespace ShopOnline.Data.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    partial class MyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211024095718_UpdateFieldsName")]
+    partial class UpdateFieldsName
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -165,7 +167,7 @@ namespace ShopOnline.Data.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("IdProductType")
+                    b.Property<int>("IProductType")
                         .HasColumnType("int");
 
                     b.Property<bool>("IsDelete")
@@ -192,7 +194,7 @@ namespace ShopOnline.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IdProductType");
+                    b.HasIndex("IProductType");
 
                     b.ToTable("ProductDetail");
                 });
@@ -429,7 +431,7 @@ namespace ShopOnline.Data.Migrations
                 {
                     b.HasOne("ShopOnline.Core.Entities.ProductTypeEntity", "ProductType")
                         .WithMany("ProductDetails")
-                        .HasForeignKey("IdProductType")
+                        .HasForeignKey("IProductType")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
