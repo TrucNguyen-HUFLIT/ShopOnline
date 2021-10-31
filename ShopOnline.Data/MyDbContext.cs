@@ -72,7 +72,7 @@ namespace ShopOnline.Core
                     .HasForeignKey(x => x.IdProductDetail);
 
                 entity.Property(x => x.Content).IsRequired();
-                entity.Property(x => x.DateTime).IsRequired();
+                entity.Property(x => x.ReviewTime).IsRequired();
                 entity.Property(x => x.IdCustomer).IsRequired();
                 entity.Property(x => x.IdProductDetail).IsRequired();
             });
@@ -163,8 +163,8 @@ namespace ShopOnline.Core
                     .WithMany(x => x.Products)
                     .HasForeignKey(x => x.IdProductDetail);
 
-                entity.Property(x => x.ProductName).IsRequired();
-                entity.Property(x => x.ProductSize).IsRequired();
+                entity.Property(x => x.Name).IsRequired();
+                entity.Property(x => x.Size).IsRequired();
                 entity.Property(x => x.IdProductDetail).IsRequired();
             });
 
@@ -175,12 +175,12 @@ namespace ShopOnline.Core
 
                 entity.HasOne(x => x.ProductType)
                     .WithMany(x => x.ProductDetails)
-                    .HasForeignKey(x => x.IProductType);
+                    .HasForeignKey(x => x.IdProductType);
 
-                entity.Property(x => x.ProductName).IsRequired();
+                entity.Property(x => x.Name).IsRequired();
                 entity.Property(x => x.Price).IsRequired();
                 entity.Property(x => x.Status).IsRequired();
-                entity.Property(x => x.IProductType).IsRequired();
+                entity.Property(x => x.IdProductType).IsRequired();
             });
 
             modelBuilder.Entity<BrandEntity>(entity =>
@@ -188,7 +188,7 @@ namespace ShopOnline.Core
                 entity.ToTable("Brand");
                 entity.HasKey(x => x.Id);
 
-                entity.Property(x => x.BrandName).IsRequired();
+                entity.Property(x => x.Name).IsRequired();
             });
 
             modelBuilder.Entity<ProductTypeEntity>(entity =>

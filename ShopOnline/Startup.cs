@@ -8,7 +8,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ShopOnline.Business;
+using ShopOnline.Business.Customer;
 using ShopOnline.Business.Logic;
+using ShopOnline.Business.Logic.Customer;
 using ShopOnline.Core;
 using ShopOnline.Core.Filters;
 using ShopOnline.Core.Validators.Account;
@@ -62,6 +64,7 @@ namespace ShopOnline
                 });
 
             services.AddScoped<IUserBusiness, UserBusiness>();
+            services.AddScoped<IClientBusiness, ClientBusiness>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
