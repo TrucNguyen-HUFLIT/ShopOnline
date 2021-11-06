@@ -1,0 +1,372 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<environment names="Development">
+    <link rel="shortcut icon" type="image/x-icon" href="~/img/icon/icon-title.png" />
+    <link rel="stylesheet" href="~/css/style/base.css" />
+    <link rel="stylesheet" href="~/css/style/style.css">
+    <link rel="stylesheet" href="~/css/style/responsive.css">
+</environment>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dreams Store</title>
+</head>
+<body>
+    <div class="header">
+        <div class="header__info">
+            <p class="header__info-hotline">Hotline - 0933090455</p>
+            <ul class="header__info-list">
+                <li><a href="login.html">Sign in</a></li>
+                <li><a class="header__info-list-special" href="register.html">Sign up</a></li>
+                <li><a href="#footer">Help</a></li>
+            </ul>
+        </div>
+        <div class="header__navbar">
+            <div class="header__navbar-logo">
+                <a href="#"><img src="~/img/icon/circle.png" alt="Logo"></a>
+            </div>
+            <div id="header__navbar-items" class="header__navbar-items">
+                <ul id="nav">
+                    <li><a href="#">Adidas</a></li>
+                    <li><a href="#">Nike</a></li>
+                    <li><a href="#">Puma</a></li>
+                    <li><a href="#">New Balance</a></li>
+                    <li><a href="#footer">About Us</a></li>
+                </ul>
+            </div>
+            <div class="header__navbar-btn">
+                <div class="header__navbar-btn-search">
+                    <input type="text" placeholder="Search">
+                </div>
+                <div class="header__navbar-btn-cart">
+                    <img src="~/img/icon/favorite.png" alt="" />
+                    <img src="~/img/icon/shopping-cart.png" alt="">
+                    <span class="header__navbar-btn-cart-count">(0)</span>
+                </div>
+            </div>
+            <div id="mobile-menu" class="mobile-menu-btn">
+                <img src="~/img/icon/icon-menu.png" alt="" onclick="mobileMenuBtn()">
+            </div>
+        </div>
+    </div>
+    <div class="main">
+        <div class="main__slider">
+            <div class="main__slider-slides">
+                <input type="radio" name="radio_btn" id="radio1">
+                <input type="radio" name="radio_btn" id="radio2">
+                <input type="radio" name="radio_btn" id="radio3">
+                <input type="radio" name="radio_btn" id="radio4">
+
+                <div class="main__slider-slide first">
+                    <h1>WELCOME TO DREAMS STORE</h1>
+                </div>
+                <div class="main__slider-slide">
+                    <h1>FREE DELIVERY FOR ORDERS ABOVE $10.000</h1>
+                </div>
+                <div class="main__slider-slide">
+                    <h1>SALE UP TO 50%</h1>
+                </div>
+                <div class="main__slider-slide">
+                    <h1>24/7 CUSTOMER CARE SERVICE</h1>
+                </div>
+            </div>
+        </div>
+        <div class="main__content">
+            <img src="~/img/background.jpg" alt="">
+            <div class="main__content-feature">
+                <h1>FEATURE PRODUCTS</h1>
+                <p>We will bring you the most comfortable feeling</p>
+                <button><a href="products.html">Shop now</a></button>
+            </div>
+            <div class="main__content-brand-feature">
+                <div class="main__content-brand-feature-items">
+                    <h1>ADIDAS</h1>
+                    <a href="">More &nbsp<img src="~/img/icon/icon-rarrow.png" style="height: 14px; padding-top: 2px;"></a>
+                </div>
+                <div class="main__content-brand-feature-items brand">
+                    <div class="main__content-brand-feature-item">
+                        <div class="main__box">
+                            <img src="~/img/Product/air-jordan-xxxvi-se-luka-global-game-basketball-shoes-slhKLz_1.png" alt="">
+                            <div class="main__box-disc">
+                                <div>
+                                    <h2>Adidas Stan Smith</h2>
+                                    <p>1.800.000đ</p>
+                                </div>
+                                <input type="submit" value="ADD TO CART">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="main__content-brand-feature-item">
+                        <div class="main__box">
+                            <img src="~/img/Product/air-jordan-xxxvi-se-luka-global-game-basketball-shoes-slhKLz_1.png" alt="">
+                            <div class="main__box-disc">
+                                <div>
+                                    <h2>Adidas Stan Smith</h2>
+                                    <p>1.800.000đ</p>
+                                </div>
+                                <input type="submit" value="ADD TO CART">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="main__content-brand-feature-item">
+                        <div class="main__box">
+                            <img src="~/img/Product/air-jordan-xxxvi-se-luka-global-game-basketball-shoes-slhKLz_1.png" alt="">
+                            <div class="main__box-disc">
+                                <div>
+                                    <h2>Adidas Stan Smith</h2>
+                                    <p>1.800.000đ</p>
+                                </div>
+                                <input type="submit" value="ADD TO CART">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="main__content-brand-feature-item">
+                        <div class="main__box">
+                            <img src="~/img/Product/air-jordan-xxxvi-se-luka-global-game-basketball-shoes-slhKLz_1.png" alt="">
+                            <div class="main__box-disc">
+                                <div>
+                                    <h2>Adidas Stan Smith</h2>
+                                    <p>1.800.000đ</p>
+                                </div>
+                                <input type="submit" value="ADD TO CART">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="main__content-brand-feature">
+                <div class="main__content-brand-feature-items">
+                    <h1>NIKE</h1>
+                    <a href="">More &nbsp<img src="~/img/icon/icon-rarrow.png" style="height: 14px; padding-top: 2px;"></a>
+                </div>
+                <div class="main__content-brand-feature-items brand">
+                    <div class="main__content-brand-feature-item">
+                        <div class="main__box">
+                            <img src="~/img/Product/air-jordan-xxxvi-se-luka-global-game-basketball-shoes-slhKLz_1.png" alt="">
+                            <div class="main__box-disc">
+                                <div>
+                                    <h2>Nike Air Force 1</h2>
+                                    <p>2.600.000đ</p>
+                                </div>
+                                <input type="submit" value="ADD TO CART">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="main__content-brand-feature-item">
+                        <div class="main__box">
+                            <img src="~/img/Product/air-jordan-xxxvi-se-luka-global-game-basketball-shoes-slhKLz_1.png" alt="">
+                            <div class="main__box-disc">
+                                <div>
+                                    <h2>Nike Air Force 1</h2>
+                                    <p>2.600.000đ</p>
+                                </div>
+                                <input type="submit" value="ADD TO CART">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="main__content-brand-feature-item">
+                        <div class="main__box">
+                            <img src="~/img/Product/air-jordan-xxxvi-se-luka-global-game-basketball-shoes-slhKLz_1.png" alt="">
+                            <div class="main__box-disc">
+                                <div>
+                                    <h2>Nike Air Force 1</h2>
+                                    <p>2.600.000đ</p>
+                                </div>
+                                <input type="submit" value="ADD TO CART">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="main__content-brand-feature-item">
+                        <div class="main__box">
+                            <img src="~/img/Product/air-jordan-xxxvi-se-luka-global-game-basketball-shoes-slhKLz_1.png" alt="">
+                            <div class="main__box-disc">
+                                <div>
+                                    <h2>Nike Air Force 1</h2>
+                                    <p>2.600.000đ</p>
+                                </div>
+                                <input type="submit" value="ADD TO CART">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="main__content-brand-feature">
+                <div class="main__content-brand-feature-items">
+                    <h1>PUMA</h1>
+                    <a href="">More &nbsp<img src="~/img/icon/icon-rarrow.png" style="height: 14px; padding-top: 2px;"></a>
+                </div>
+                <div class="main__content-brand-feature-items brand">
+                    <div class="main__content-brand-feature-item">
+                        <div class="main__box">
+                            <img src="~/img/Product/air-jordan-xxxvi-se-luka-global-game-basketball-shoes-slhKLz_1.png" alt="">
+                            <div class="main__box-disc">
+                                <div>
+                                    <h2>Puma Clyde Core Foil</h2>
+                                    <p>1.780.000đ</p>
+                                </div>
+                                <input type="submit" value="ADD TO CART">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="main__content-brand-feature-item">
+                        <div class="main__box">
+                            <img src="~/img/Product/air-jordan-xxxvi-se-luka-global-game-basketball-shoes-slhKLz_1.png" alt="">
+                            <div class="main__box-disc">
+                                <div>
+                                    <h2>Puma Clyde Core Foil</h2>
+                                    <p>1.780.000đ</p>
+                                </div>
+                                <input type="submit" value="ADD TO CART">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="main__content-brand-feature-item">
+                        <div class="main__box">
+                            <img src="~/img/Product/air-jordan-xxxvi-se-luka-global-game-basketball-shoes-slhKLz_1.png" alt="">
+                            <div class="main__box-disc">
+                                <div>
+                                    <h2>Puma Clyde Core Foil</h2>
+                                    <p>1.780.000đ</p>
+                                </div>
+                                <input type="submit" value="ADD TO CART">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="main__content-brand-feature-item">
+                        <div class="main__box">
+                            <img src="~/img/Product/air-jordan-xxxvi-se-luka-global-game-basketball-shoes-slhKLz_1.png" alt="">
+                            <div class="main__box-disc">
+                                <div>
+                                    <h2>Puma Clyde Core Foil</h2>
+                                    <p>1.780.000đ</p>
+                                </div>
+                                <input type="submit" value="ADD TO CART">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="main__content-brand-feature">
+                <div class="main__content-brand-feature-items">
+                    <h1>NEW BALANCE</h1>
+                    <a href="">More &nbsp<img src="~/img/icon/icon-rarrow.png" style="height: 14px; padding-top: 2px;"></a>
+                </div>
+                <div class="main__content-brand-feature-items brand">
+                    <div class="main__content-brand-feature-item">
+                        <div class="main__box">
+                            <img src="~/img/Product/air-jordan-xxxvi-se-luka-global-game-basketball-shoes-slhKLz_1.png" alt="">
+                            <div class="main__box-disc">
+                                <div>
+                                    <h2>Puma Clyde Core Foil</h2>
+                                    <p>1.780.000đ</p>
+                                </div>
+                                <input type="submit" value="ADD TO CART">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="main__content-brand-feature-item">
+                        <div class="main__box">
+                            <img src="~/img/Product/air-jordan-xxxvi-se-luka-global-game-basketball-shoes-slhKLz_1.png" alt="">
+                            <div class="main__box-disc">
+                                <div>
+                                    <h2>Puma Clyde Core Foil</h2>
+                                    <p>1.780.000đ</p>
+                                </div>
+                                <input type="submit" value="ADD TO CART">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="main__content-brand-feature-item">
+                        <div class="main__box">
+                            <img src="~/img/Product/air-jordan-xxxvi-se-luka-global-game-basketball-shoes-slhKLz_1.png" alt="">
+                            <div class="main__box-disc">
+                                <div>
+                                    <h2>Puma Clyde Core Foil</h2>
+                                    <p>1.780.000đ</p>
+                                </div>
+                                <input type="submit" value="ADD TO CART">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="main__content-brand-feature-item">
+                        <div class="main__box">
+                            <img src="~/img/Product/air-jordan-xxxvi-se-luka-global-game-basketball-shoes-slhKLz_1.png" alt="">
+                            <div class="main__box-disc">
+                                <div>
+                                    <h2>Puma Clyde Core Foil</h2>
+                                    <p>1.780.000đ</p>
+                                </div>
+                                <input type="submit" value="ADD TO CART">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="btn-scroll-to-top">
+        <img onclick="topFunction()" src="~/img/icon/icon-arrow-top.png" alt="">
+    </div>
+    <div id="footer">
+        <div class="footer___content">
+            <div class="footer__content-items">
+                <h1>STORES</h1>
+                <br>
+                <p>46 Bui Vien Street</p>
+                <p>30 Ho Van Hue Street</p>
+                <p>79 Cach Mang Thang 8 Street</p>
+                <p>789 Su Van Hanh Street</p>
+                <p>115/103 Le Van Sy Street</p>
+            </div>
+            <div class="footer__content-items">
+                <h1>BRANDS</h1>
+                <br>
+                <ul>
+                    <li><a href="">ADIDAS</a></li>
+                    <li><a href="">NIKE</a></li>
+                    <li><a href="">PUMA</a></li>
+                    <li><a href="">NEW BALANCE</a></li>
+                </ul>
+            </div>
+            <div class="footer__content-items">
+                <h1>FOUNDERS</h1>
+                <br>
+                <ul>
+                    <li><a href="https://www.facebook.com/nguyenngoctruc021099" target="_blank">NGUYEN NGOC TRUC</a></li>
+                    <li><a href="https://www.facebook.com/nguyenminhtam701/" target="_blank">NGUYEN MINH TAM</a></li>
+                    <li><a href="https://www.facebook.com/profile.php?id=100008582981127" target="_blank">NGUYEN GIA HUY</a></li>
+                    <li><a href="https://www.facebook.com/duongquangtuongg" target="_blank">DUONG QUANG TUONG</a></li>
+                </ul>
+            </div>
+            <div class="footer__content-items">
+                <div class="footer__content-icon">
+                    <img src="~/img/icon/icon-facebook.png" alt="">
+                    <img src="~/img/icon/icon-instagram.png" alt="">
+                    <img src="~/img/icon/icon-youtube.png" alt="">
+                    <img src="~/img/icon/icon-twitter.png" alt="">
+                    <img src="~/img/icon/icon-zalo.png" alt="">
+                </div>
+            </div>
+        </div>
+        <div class="footer__dics">
+            <div class="footer__dics-item">
+                <img src="~/img/icon//icon-pin.png" alt="">
+                <h1>Viet Nam</h1>
+            </div>
+            <div class="footer__dics-item">
+                <a href="#">Cooding by Dreams Team</a>
+            </div>
+        </div>
+    </div>
+    <script src="~/js/myJS.js"></script>
+</body>
+</html>

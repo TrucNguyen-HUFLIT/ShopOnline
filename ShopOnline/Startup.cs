@@ -36,7 +36,7 @@ namespace ShopOnline
         {
             services.AddControllersWithViews();
 
-            services.AddDbContext<MyDbContext>(option => option.UseSqlServer(_configuration.GetConnectionString("TrucConnectionString")));
+            services.AddDbContext<MyDbContext>(option => option.UseSqlServer(_configuration.GetConnectionString("TamConnectionString")));
 
             // Use AppSetting by DI
             var appSetting = _configuration.GetSection("AppSetting");
@@ -56,15 +56,16 @@ namespace ShopOnline
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(opt =>
                 {
-                    opt.LoginPath = "/account/login";
-                    opt.AccessDeniedPath = "/login";
+                    opt.LoginPath = "/Account/Login";
+                    opt.AccessDeniedPath = "/Login";
                     opt.ReturnUrlParameter = "returnUrl";
-                    opt.LogoutPath = "/logout";
+                    opt.LogoutPath = "/Logout";
                     opt.ExpireTimeSpan = TimeSpan.FromMinutes(20);
                 });
 
             services.AddScoped<IUserBusiness, UserBusiness>();
             services.AddScoped<IClientBusiness, ClientBusiness>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -94,7 +95,7 @@ namespace ShopOnline
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Client}/{action=Index}/{id?}");
+                    pattern: "{controller=Client}/{action=Home}/{id?}");
             });
         }
     }
