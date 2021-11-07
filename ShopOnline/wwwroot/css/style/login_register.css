@@ -1,0 +1,124 @@
+﻿html {
+    background-color: #888;
+}
+
+.main__login {
+    width: 360px;
+    top: 50%;
+    right: 50%;
+    background-color: #fff;
+    position: absolute;
+    transform: translate(50%, -50%);
+    border: 1px solid #eee;
+    border-radius: 5px;
+    box-shadow: rgba(25,25,25,.04) 0 0 1px 0,rgba(0,0,0,.1) 0 3px 4px 0;
+}
+
+    .main__login h2,
+    .main__login h1 {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .main__login h2 {
+        font-size: 18px;
+        padding-top: 30px;
+        font-weight: 700;
+    }
+
+    .main__login h1 {
+        font-size: 32px;
+        font-weight: 1000;
+    }
+
+.main__login-box {
+    width: 360px;
+    padding-top: 30px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+    .main__login-box input {
+        width: 280px;
+        height: 40px;
+        font-size: 16px;
+        margin-top: 30px;
+        border-bottom: 1px solid #ccc;
+        outline: none;
+    }
+
+        .main__login-box input:hover {
+            border-bottom: 1px solid #000;
+        }
+
+.main__login-remember {
+    margin-top: 30px;
+    display: flex;
+    margin-left: 40px;
+}
+
+    .main__login-remember input {
+        height: 17px;
+        width: 17px;
+    }
+
+        .main__login-remember input:hover {
+            cursor: pointer;
+        }
+
+        .main__login-remember input[type=checkbox]:checked {
+            color: #666;
+        }
+
+    .main__login-remember label {
+        font-size: 13px;
+        color: #777;
+        padding-top: 2px;
+        padding-left: 4px;
+    }
+
+    .main__login-remember a {
+        font-size: 13px;
+        width: 170px;
+        text-align: right;
+        padding-top: 2px;
+        font-style: italic;
+    }
+
+.main__login > input[type=submit] {
+    height: 40px;
+    width: 280px;
+    margin-left: 40px;
+    margin-top: 40px;
+    background-color: rgba(0, 0, 0, 0.9);
+    border-radius: 5px;
+    color: #fff;
+    letter-spacing: 2px;
+}
+
+    .main__login > input[type=submit]:hover {
+        opacity: 0.8;
+        cursor: pointer;
+    }
+
+.main__login > p {
+    margin-top: 60px;
+    padding-bottom: 20px;
+    text-align: center;
+    font-size: 13px;
+    color: #666;
+}
+
+    .main__login > p:hover {
+        cursor: default;
+    }
+
+.main__login a {
+    color: #777;
+    text-decoration: none;
+}
+
+    .main__login a:hover {
+        color: rgba(0, 0, 0, 0.9);
+    }

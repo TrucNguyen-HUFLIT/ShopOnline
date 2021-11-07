@@ -10,7 +10,6 @@ namespace ShopOnline.Controllers
     public class AccountController : Controller
     {
         private readonly IUserBusiness _userBusiness;
-
         public AccountController(IUserBusiness userBusiness)
         {
             _userBusiness = userBusiness;
@@ -58,7 +57,7 @@ namespace ShopOnline.Controllers
             bool isSuccess = await _userBusiness.RegisterAsync(accountRegister);
             if (isSuccess)
             {
-                return Created("/login", new
+                return Created("/Login", new
                 {
                     email = accountRegister.Email,
                     password = accountRegister.Password

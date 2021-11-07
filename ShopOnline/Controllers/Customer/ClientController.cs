@@ -17,6 +17,7 @@ namespace ShopOnline.Controllers.Customer
             _clientBusiness = clientBusiness;
         }
 
+        [HttpGet]
         public async Task<IActionResult> HomeAsync()
         {
             var model = await _clientBusiness.GetProductForHomePageAsync();
