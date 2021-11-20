@@ -1,11 +1,11 @@
 ﻿
 @{
-    
+
 }
 <environment names="Development">
-    <link rel="shortcut icon" type="image/x-icon" href="~/img/icon/icon-title.png" />
-    <link rel="stylesheet" href="~/css/style/base.css" />
-    <link rel="stylesheet" href="~/css/style/login_register.css"/>
+    <link rel="shortcut icon" type="image/x-icon" href="./assets/img/icon/icon-title.png" />
+    <link rel="stylesheet" href="/css/style/base.css">
+    <link rel="stylesheet" href="/css/style/login.css">
 </environment>
 <!DOCTYPE html>
 <html lang="en">
@@ -19,18 +19,19 @@
     <div class="main__login">
         <h2>Welcome to</h2>
         <h1>DREAMS STORE</h1>
-        <div class="main__login-box">
-            <input type="text" name="" id="" placeholder="Username">
-            <input type="password" name="" id="" placeholder="Password">
-        </div>
-        <div class="main__login-remember">
-            <input type="checkbox" name="" id="check-remember">
-            <label for="#check-remember"><em>Remember me</em></label>
-            <a href="reset_password.html">Forgot password?</a>
-        </div>
+        <form action="">
+            <div class="main__login-box">
+                <input type="text" name="" id="" placeholder="Username">
+                <input type="password" name="" id="" placeholder="Password">
+            </div>
+            <div class="main__login-remember">
+                <input type="checkbox" name="" id="check-remember">
+                <label for="#check-remember"><em>Remember me</em></label>
+                <a asp-action="ResetPassword">Forgot password?</a>
+            </div>
+        </form>
         <input type="submit" value="LOGIN">
-        <p>Don't have an account? <a href="register.html">Register now!</a></p>
+        <p>Don't have an account? <a asp-action="Register">Register now!</a></p>
     </div>
 </body>
 </html>
-

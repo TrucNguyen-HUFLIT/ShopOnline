@@ -1,0 +1,169 @@
+﻿*,
+*:before,
+*:after {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #888;
+    font-family: 'Roboto', sans-serif;
+}
+
+.main__register {
+    background-color: #ffffff;
+    width: 360px;
+    position: absolute;
+    transform: translate(-50%,-50%);
+    left: 50%;
+    top: 50%;
+    border-radius: 8px;
+    box-shadow: 0 20px 25px rgba(0,0,0,0.2);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+    .main__register h2,
+    .main__register h1 {
+        text-align: center;
+        padding-top: 10px;
+    }
+
+    .main__register h2 {
+        font-size: 18px;
+        padding-top: 40px;
+        font-weight: 700;
+    }
+
+    .main__register h1 {
+        font-size: 32px;
+        font-weight: 1000;
+    }
+
+    .main__register > p {
+        font-size: 16px;
+        font-weight: 550;
+        text-align: center;
+        padding-top: 30px;
+    }
+
+input {
+    font-size: 14px;
+}
+
+form {
+    padding: 20px 0;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+    form > input,
+    #confirm-password {
+        width: 280px;
+        height: 40px;
+        margin: auto;
+        margin-bottom: 10px;
+        border: none;
+        border-bottom: 1px solid #ccc;
+        outline: none;
+    }
+
+        form input:hover,
+        #confirm-password:hover {
+            border-bottom: 1px solid #000;
+        }
+
+.main__register input[type="submit"] {
+    background-color: #000;
+    width: 280px;
+    height: 40px;
+    margin-bottom: 20px;
+    opacity: 0.9;
+    color: #fff;
+    margin-top: 30px;
+    border-radius: 5px;
+    letter-spacing: 2px;
+    outline: none;
+    border: none;
+}
+
+    .main__register input[type="submit"]:hover {
+        cursor: pointer;
+        opacity: 0.7;
+    }
+
+.main__register-check-password {
+    width: 280px;
+    position: relative;
+    margin: auto;
+}
+
+    .main__register-check-password > input {
+        width: 100%;
+        height: 40px;
+        position: relative;
+        border: none;
+        border-bottom: 1px solid #ccc;
+        outline: none;
+    }
+
+#toggle,
+#toggle1 {
+    position: absolute;
+    top: 17px;
+    right: 15px;
+    color: #808080;
+    cursor: pointer;
+}
+
+.strength {
+    width: 25%;
+    display: inline-block;
+    position: relative;
+    height: 100%;
+    bottom: 0.5px;
+}
+
+#strength-bar {
+    background-color: #dcdcdc;
+    height: 10px;
+    position: relative;
+}
+
+p {
+    width: 100%;
+    margin-top: 10px;
+}
+
+#msg, #check-confirm-pass {
+    color: #888;
+    font-size: 14px;
+    font-weight: 700;
+    padding-bottom: 5px;
+    text-align: left;
+    margin-left: 40px;
+}
+
+#check-confirm-pass {
+    display: none;
+}
+
+.main__register h3 {
+    font-size: 14px;
+    font-weight: 500;
+    margin-top: 20px;
+    margin-bottom: 30px;
+    color: #666;
+}
+
+.main__register a {
+    text-decoration: none;
+    color: #000;
+}
+
+    .main__register a:hover {
+        cursor: pointer;
+        opacity: 0.7;
+    }
