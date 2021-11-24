@@ -4,6 +4,6 @@ namespace ShopOnline.Core.Entities
     public abstract class BaseEntity
     {
         public virtual int Id { get; set; }
-        public virtual bool IsDelete{get;set;}
+        public virtual bool IsDelete { get; set; }
     }
 }

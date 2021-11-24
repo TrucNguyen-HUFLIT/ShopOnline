@@ -1,0 +1,69 @@
+﻿@{
+    ViewData["Title"] = "Products";
+    Layout = "~/Views/Shared/_LayoutClient.cshtml";
+}
+
+@model ShopOnline.Core.Models.Client.ProductsBrandPageViewModel
+@using X.PagedList.Mvc.Core;
+
+<div class="main__selection">
+    <!-- Get brands -->
+    <h1>
+        @Model.TypeOfBrand.BrandInfor.Name (@Model.AmountProduct)   <!--789 are all product items of brand--> <span>
+            <img id="show-more-btn" class="main__selection-img" src="./assets/img/icon/icon-arrow-down.png" alt="" onclick="showMoreCateBtn()">
+        </span>
+    </h1>
+    <div class="main__selection-btn">
+        <div class="main__selection-btn-sort">
+            <span>Price: High-Low</span>
+            @Html.ActionLink("Price: High-Low", "Products", new { brandId = Model.TypeOfBrand.BrandInfor.Id, typeId = ViewBag.CurrentType, sortIncrease = false })
+            <img src="./assets/img/icon/icon-down-arrow.png" alt="">
+        </div>
+        <div class="main__selection-btn-sort">
+            <span>Price: Low-High</span>
+            @Html.ActionLink("Price: Low-High", "Products", new { brandId = Model.TypeOfBrand.BrandInfor.Id, typeId = ViewBag.CurrentType, sortIncrease = true })
+
+            <img src="./assets/img/icon/icon-up-arrow.png" alt="">
+        </div>
+    </div>
+</div>
+<div class="main__producst">
+    <div id="main__products-filters" class="main__products-filters">
+        <div class="main__products-filters-title">
+            <ul>
+                @foreach (var type in Model.TypeOfBrand.TypeInfors)
+                {
+                    var param = new
+                    {
+                        BrandId = Model.TypeOfBrand.BrandInfor.Id,
+                        TypeId = type.Id
+                    };
+
+                    <li><a asp-action="Products"
+                           asp-route-brandId="@param.BrandId"
+                           asp-route-typeId="@param.TypeId">@type.Name</a></li>
+                }
+            </ul>
+        </div>
+    </div>
+    <div class="main__products-items">
+        @foreach (var productInforDetail in Model.ProductsInfor)
+        {
+            <div class="main__products-item">
+                <a asp-action="DetailProduct" asp-route-id="@productInforDetail.Id"><img src="@productInforDetail.Pic" alt=""></a>
+                <div class="main__box-disc special">
+                    <div>
+                        <h2>@productInforDetail.Name</h2>
+                        <p>@string.Format("{0:N0}", ((Int64)productInforDetail.Price)) VNĐ</p>
+                    </div>
+                    <input type="submit" value="ADD TO CART">
+                </div>
+            </div>
+        }
+        Page @(Model.ProductsInfor.PageCount < Model.ProductsInfor.PageNumber
+                ? 0 : Model.ProductsInfor.PageNumber) of @Model.ProductsInfor.PageCount
+
+                @Html.PagedListPager(Model.ProductsInfor, page => Url.Action("Products",
+                    new { brandId = Model.TypeOfBrand.BrandInfor.Id, typeId = ViewBag.CurrentType, sortIncrease = ViewBag.CurrentSort, page }))
+            </div>
+        </div>

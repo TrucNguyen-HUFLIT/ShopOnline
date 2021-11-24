@@ -7,7 +7,6 @@ using ShopOnline.Core.Entities;
 using ShopOnline.Core.Exceptions;
 using ShopOnline.Core.Helpers;
 using ShopOnline.Core.Models.Account;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -27,11 +26,12 @@ namespace ShopOnline.Business.Logic
 
         public async Task<ClaimsPrincipal> LoginAsync(AccountLogin accountLogin)
         {
-            string password = AccountHelper.HashPassword(accountLogin.Password);
+            HashPasswordHelper.HashPasswordStrategy = new HashMD5Strategy();
+            string password = HashPasswordHelper.DoHash(accountLogin.Password);
             bool isHaveCustomer = await _context.Customers
                 .AnyAsync(x => x.Email == accountLogin.Email && x.Password == password && !x.IsDelete);
 
-            var account = new 
+            var account = new
             {
                 FullName = "",
                 Avatar = "",
@@ -42,7 +42,7 @@ namespace ShopOnline.Business.Logic
             {
                 account = await _context.Customers
                 .Where(x => x.Email == accountLogin.Email && x.Password == password && !x.IsDelete)
-                .Select(x=>new { x.FullName, x.Avatar, x.TypeAcc })
+                .Select(x => new { x.FullName, x.Avatar, x.TypeAcc })
                 .FirstOrDefaultAsync();
             }
             else
@@ -73,21 +73,22 @@ namespace ShopOnline.Business.Logic
                 return null;
             }
         }
-    
+
         public async Task<bool> RegisterAsync(AccountRegister accountRegister)
         {
             bool isExistingEmail = await _context.Customers.AnyAsync(x => x.Email == accountRegister.Email);
-            
+
             if (isExistingEmail)
             {
                 throw new UserFriendlyException($"Email '{accountRegister.Email}' already exists!");
             }
 
+            HashPasswordHelper.HashPasswordStrategy = new HashMD5Strategy();
             var newAccountCustomer = new CustomerEntity()
             {
                 FullName = accountRegister.FullName,
                 Email = accountRegister.Email,
-                Password = AccountHelper.HashPassword(accountRegister.Password),
+                Password = HashPasswordHelper.DoHash(accountRegister.Password),
                 TypeAcc = TypeAcc.Customer
             };
 
@@ -108,7 +109,9 @@ namespace ShopOnline.Business.Logic
 
             var accountReset = await _context.Customers.Where(x => x.Email == email).FirstOrDefaultAsync();
             string newPassword = AccountHelper.GetNewRandomPassword();
-            accountReset.Password = AccountHelper.HashPassword(newPassword);
+            
+            HashPasswordHelper.HashPasswordStrategy = new HashMD5Strategy();
+            accountReset.Password = HashPasswordHelper.DoHash(newPassword);
 
             MimeMessage message = new();
 
@@ -125,12 +128,12 @@ namespace ShopOnline.Business.Logic
                 TextBody = "Mật Khẩu của bạn đã được thay đổi "
             };
             message.Body = bodyBuilder.ToMessageBody();
-            
+
             SmtpClient client = new();
             //connect (smtp address, port , true)
             await client.ConnectAsync("smtp.gmail.com", 465, true);
             await client.AuthenticateAsync("h2t.moto.huflit@gmail.com", "H2tmotohuflit");
-            
+
             await client.SendAsync(message);
             await client.DisconnectAsync(true);
             client.Dispose();
