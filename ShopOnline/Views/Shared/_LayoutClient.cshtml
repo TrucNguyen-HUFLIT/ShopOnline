@@ -1,4 +1,6 @@
-﻿<environment names="Development">
+﻿@using ShopOnline.Core.Helpers 
+
+<environment names="Development">
     <link rel="shortcut icon" type="image/x-icon" href="~/img/icon/icon-title.png" />
     <link rel="stylesheet" href="~/css/style/base.css" />
     <link rel="stylesheet" href="~/css/style/style.css">
@@ -10,7 +12,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dreams Store</title>
+    <title>Dreams Store | @ViewData["Title"]</title>
 </head>
 <body>
     <div class="header">
@@ -24,15 +26,15 @@
         </div>
         <div class="header__navbar">
             <div class="header__navbar-logo">
-                <a href="#"><img src="~/img/icon/circle.png" alt="Logo"></a>
+                <a asp-action="Home"><img src="~/img/icon/circle.png" alt="Logo"></a>
             </div>
             <div id="header__navbar-items" class="header__navbar-items">
                 <ul id="nav">
-                    <li><a href="#">Adidas</a></li>
-                    <li><a href="#">Nike</a></li>
-                    <li><a href="#">Puma</a></li>
-                    <li><a href="#">New Balance</a></li>
-                    <li><a href="#footer">About Us</a></li>
+                    @foreach (var brandInfor in BrandSingleton.Instance.BrandInfors)
+                    {
+                        <a asp-action="Products" asp-route-brandid="@brandInfor.Id"><li>@brandInfor.Name</li></a>
+                    }
+                    <a href="#footer"><li>About Us</li></a>
                 </ul>
             </div>
             <div class="header__navbar-btn">
@@ -92,10 +94,10 @@
                 <h1>BRANDS</h1>
                 <br>
                 <ul>
-                    <li><a href="">ADIDAS</a></li>
-                    <li><a href="">NIKE</a></li>
-                    <li><a href="">PUMA</a></li>
-                    <li><a href="">NEW BALANCE</a></li>
+                    @foreach (var brandInfor in BrandSingleton.Instance.BrandInfors)
+                    {
+                        <li><a asp-action="Products" asp-route-brandid="@brandInfor.Id">@brandInfor.Name</a></li>
+                    }
                 </ul>
             </div>
             <div class="footer__content-items">
@@ -128,6 +130,9 @@
             </div>
         </div>
     </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/js/myJS.js"></script>
+    <script src="~/js/Customer/ajaxClient.js"></script>
 </body>
 </html>

@@ -1,4 +1,12 @@
-﻿.header__info {
+﻿/*#region Common css*/
+
+h2 a {
+    text-decoration: none;
+}
+
+/*#endregion*/
+
+.header__info {
     height: 32px;
     width: 100%;
     display: flex;
@@ -308,7 +316,6 @@
     text-decoration: none;
     color: #000;
     padding-top: 20px;
-    padding-right: 10px;
     font-size: 14px;
 }
 
@@ -334,15 +341,13 @@
 }
 
 .main__box {
-    width: 95%;
-    margin: 0 auto;
+    width: 100%;
 }
 
     .main__box img {
         display: flex;
         margin: 0 auto;
-        width: 100%;
-        height:320px;
+        height: 320px;
     }
 
         .main__box img:hover {
@@ -360,7 +365,7 @@
 }
 
 .main__box-disc {
-    width: 100%;
+    width: 350px;
     display: flex;
     padding-top: 20px;
     justify-content: space-between;
@@ -603,7 +608,7 @@
     height: 480px;
 }
 
-    .main__products-item > img {
+    .main__products-item > a > img {
         width: 350px;
         margin: 0 15px;
     }
@@ -696,6 +701,7 @@
 .main__product-details-disc-content h1 {
     margin-top: 20px;
     font-size: 30px;
+    line-height: 1.1em;
     font-weight: normal;
 }
 
@@ -806,46 +812,41 @@
         cursor: pointer;
     }
 
-.main__product-details-add-review {
-    padding-top: 50px;
+.main__product-details-add-review > form > textarea {
+    margin-top: 10px;
+    padding: 10px;
+    width: 352px;
+    height: 135px;
+    font-size: 14px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    outline: none;
 }
 
-    .main__product-details-add-review > input:nth-last-child(2) {
-        margin-top: 10px;
-        padding-left: 10px;
-        width: 352px;
-        height: 100px;
-        font-size: 14px;
-        border-radius: 5px;
-        border: 1px solid #ccc;
-        outline: none;
+.main__product-details-add-review > form > textarea:hover {
+    border: 1px solid #333;
+}
+
+.main__product-details-add-review > form > input:last-child {
+    width: 352px;
+    height: 54px;
+    font-size: 16px;
+    margin-top: 17.5px;
+    border-radius: 5px;
+    background-color: rgba(0, 0, 0, 0.9);
+    color: #fff;
+}
+
+    .main__product-details-add-review > input:last-child:hover {
+        opacity: 0.8;
+        cursor: pointer;
     }
-
-        .main__product-details-add-review > input:nth-last-child(2):hover {
-            border: 1px solid #333;
-        }
-
-    .main__product-details-add-review > input:last-child {
-        width: 352px;
-        height: 54px;
-        font-size: 16px;
-        margin-top: 17.5px;
-        border-radius: 5px;
-        background-color: rgba(0, 0, 0, 0.9);
-        color: #fff;
-    }
-
-        .main__product-details-add-review > input:last-child:hover {
-            opacity: 0.8;
-            cursor: pointer;
-        }
 /* Product deatails end */
 
 /* Product reviews star */
 .main__product-reviews {
     width: 1300px;
     margin-top: 0;
-    margin-left: 170px;
 }
 
     .main__product-reviews h1,

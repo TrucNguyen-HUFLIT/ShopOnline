@@ -13,12 +13,14 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
+    <PackageReference Include="X.PagedList.Mvc.Core" Version="8.1.0" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="wwwroot\img\Avatar\" />
     <Folder Include="wwwroot\img\Source\" />
     <Folder Include="wwwroot\img\Product\" />
+    <Folder Include="wwwroot\js\Staff\" />
   </ItemGroup>
 
   <ItemGroup>

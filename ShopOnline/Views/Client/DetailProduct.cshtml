@@ -1,0 +1,110 @@
+﻿@{
+    ViewData["Title"] = "Detail Product";
+    Layout = "~/Views/Shared/_LayoutClient.cshtml";
+}
+
+@model ShopOnline.Core.Models.Client.ProductDetailPageViewModel
+
+<div class="main__product-details">
+    <div class="main__product-details-img">
+        <div class="main__product-details-default">
+            <img class="main__slides-products" src="@Model.ProductDetail.Pic1" alt="">
+            <img class="main__slides-products" src="@Model.ProductDetail.Pic2" alt="" style="display: none;">
+            <img class="main__slides-products" src="@Model.ProductDetail.Pic3" alt="" style="display: none;">
+        </div>
+        <div class="main__product-details-img-box">
+            <img class="main__slides-products-picker demo-off" src="@Model.ProductDetail.Pic1" alt="" onclick="currentDiv(1)">
+            <img class="main__slides-products-picker demo-off" src="@Model.ProductDetail.Pic2" alt="" onclick="currentDiv(2)">
+            <img class="main__slides-products-picker demo-off" src="@Model.ProductDetail.Pic3" alt="" onclick="currentDiv(3)">
+        </div>
+    </div>
+    <div class="main__product-details-disc">
+        <div class="main__product-details-disc-content">
+            <!-- Get name brand -->
+            <h2><a  href="@Model.ProductDetail.BrandInfor.Id">@Model.ProductDetail.BrandInfor.Name</a></h2>
+            <!-- Get name product -->
+            <h1>@Model.ProductDetail.Name</h1>
+            <!-- Get price product -->
+            <p>@string.Format("{0:N0}", ((Int64)Model.ProductDetail.Price))<span> VNĐ</span></p>
+        </div>
+        <div class="main__product-details-disc-select-size">
+            <h2>Select Size</h2>
+            <div class="main__product-select-size">
+                @foreach (var productSize in Model.ProductDetail.ProductSizeInfors)
+                {
+                    if (productSize.IsAvailable)
+                    {
+                        <input class="main__product-select-size-btn" type="submit" value="@((int)productSize.Size)">
+                    }
+                    else
+                    {
+                        <input class="main__product-select-size-btn unable" type="submit" value="@((int)productSize.Size)">
+                    }
+                }
+            </div>
+        </div>
+        <div class="main__product-details-select-quantity">
+            <h2>Quantity</h2>
+            <div class="main__product-quantity-box">
+                <button id="downQuantity" onclick="upDateQuantity (downQuantity)">-</button>
+                <p id="resultOfQuantity">1</p>
+                <button id="upQuantity" onclick="upDateQuantity (upQuantity)">+</button>
+            </div>
+        </div>
+        <div class="main__product-details-disc-submit">
+            <input type="submit" value="Add to Cart">
+        </div>
+    </div>
+</div>
+<div class="main__product-details">
+    <div class="main__product-details-img">
+        <div class="main__product-reviews">
+            <h1>Reviews (@Model.ProductDetail.ReviewsDetail.Count()) <!--get count reviews--></h1>
+            <div class="main__box-reviews">
+                @foreach (var reviewDetail in Model.ProductDetail.ReviewsDetail)
+                {
+                    <div class="main__box-reviews-items">
+                        <div class="main__box-reviews-item">
+                            <!--Get name-->
+                            <h2>@reviewDetail.CustomerFullName</h2>
+                            <!--Get time-->
+                            <p><span><img src="~/img/icon/icon-watch.png" alt=""></span><em>@reviewDetail.ReviewTime</em></p>
+                        </div>
+                        <p>@reviewDetail.Content</p>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="main__product-details-disc">
+        <div class="main__product-details-add-review">
+            <h2>Write a review</h2>
+            <form id="create-review-detail-form">
+                <textarea placeholder="Enter your review..." name="Content"></textarea>
+                <input name="IdCustomer" value="1" hidden>
+                <input name="IdProductDetail" value="@Model.ProductDetail.Id" hidden>
+
+                <input type="submit" value="Submit" onclick="CreateReviewDetail()">
+                <input type="submit" value="ADD" onclick="CreateReviewDetail()">
+            </form>
+        </div>
+    </div>
+</div>
+<div class="main__product-random">
+    <h1>YOU MIGHT ALSO LIKE</h1>
+    <div class="main__product-random-items">
+            @foreach (var productInforDetail in Model.ProductInfors)
+            {
+                <div class="main__product-random-item">
+                    <a asp-action="DetailProduct" asp-route-id="@productInforDetail.Id"><img src="@productInforDetail.Pic" alt=""></a>
+                    <div class="main__product-ramdon-item-box">
+                        <div class="main__ramdon-box-item">
+                            <h1></h1>
+                            <p>@string.Format("{0:N0}", ((Int64)productInforDetail.Price)) VNĐ</p>
+                        </div>
+                        <input type="submit" value="ADD TO CART">
+                    </div>
+                </div>
+            }
+    </div>
+</div>
