@@ -1,10 +1,19 @@
-﻿using System;
+﻿using EnumsNET;
+using ShopOnline.Core.Models.Enum;
+using System;
 
 namespace ShopOnline.Core.Exceptions
 {
     public class UserFriendlyException : Exception
     {
-        public UserFriendlyException(string message) : base(message)
+        public UserFriendlyException(ErrorCode errorCode) 
+            : base(errorCode.AsString(EnumFormat.Description))
+        {
+
+        }
+
+        public UserFriendlyException(string mess)
+            : base(mess)
         {
 
         }

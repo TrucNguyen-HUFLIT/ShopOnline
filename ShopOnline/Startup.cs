@@ -64,12 +64,14 @@ namespace ShopOnline
 
             services.AddMvc(option =>
             {
+                option.Filters.Add(typeof(ExceptionFilter));
                 option.Filters.Add(typeof(ModelStateAjaxFilter));
             })
             .AddFluentValidation(opt =>
             {
                 opt.RegisterValidatorsFromAssemblyContaining<AccountLoginValidator>();
             });
+            //services.AddScoped<ModelStateAjaxFilter>();
 
             services.AddSession();
 

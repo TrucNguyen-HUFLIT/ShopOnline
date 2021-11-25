@@ -10,11 +10,18 @@ let check = document.getElementById("check-confirm-pass")
 
 function strengthChecker() {
     let password = document.getElementById("password").value;
-
     parameters.letters = (/[A-Za-z]+/.test(password)) ? true : false;
     parameters.numbers = (/[0-9]+/.test(password)) ? true : false;
     parameters.special = (/[!\"$%&/()=?@~`\\.\';:+=^*_-]+/.test(password)) ? true : false;
     parameters.count = (password.length > 7) ? true : false;
+
+    if (password && password.length != 0) {
+        strengthBar.style.display = "block";
+    }
+    else {
+        strengthBar.style.display = "none";
+        msg.textContent = ""
+    }
 
     let barLength = Object.values(parameters).filter(value => value);
 

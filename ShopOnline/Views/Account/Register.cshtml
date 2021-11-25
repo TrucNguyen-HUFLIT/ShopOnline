@@ -1,48 +1,30 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
+    ViewData["Title"] = "Register";
+    Layout = "~/Views/Shared/_LayoutAccount.cshtml";
 }
-<environment names="Development">
-    <link rel="shortcut icon" type="image/x-icon" href="./assets/img/icon/icon-title.png" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link rel="stylesheet" href="/css/style/register.css">
-</environment>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dreams Store - Register</title>
-</head>
-<body>
-    <div class="main__register">
-        <h2>Welcome to</h2>
-        <h1>DREAMS STORE</h1>
-        <form action="">
-            <input type="text" placeholder="Full name">
-            <input type="email" placeholder="Email">
-            <input type="text" placeholder="Phone number">
-            <div class="main__register-check-password">
-                <input type="password" id="password" oninput="strengthChecker()" placeholder="Password">
-                <span id="toggle" onclick="toggle()">
-                    <i class="fas fa-eye"></i>
-                </span>
-                <div id="strength-bar"></div>
-            </div>
-            <p id="msg"></p>
-            <div class="main__register-check-password">
-                <input type="password" id="confirm-password" oninput="checkPassword()" placeholder="Confirm password">
-                <span id="toggle1" onclick="toggle1()">
-                    <i class="fas fa-eye"></i>
-                </span>
-            </div>
-            <p id="check-confirm-pass"></p>
-        </form>
-        <input type="submit" value="REGISTER">
-        <h3>Have an account? <a asp-action="Login">Login now !!!</a></h3>
-    </div>
-    <script src="/js/CheckStrengPass.js"></script>
-</body>
-</html>
+<div class="main__register">
+    <h2>Welcome to</h2>
+    <h1><a asp-controller="Client" asp-action="Home">DREAMS STORE</a></h1>
+    <form action="">
+        <input type="text" class="input-decor" placeholder="Full name">
+        <input type="email" class="input-decor" placeholder="Email">
+        <input type="text" class="input-decor" placeholder="Phone number">
+        <div class="main__register-check-password">
+            <input type="password" id="password" class="input-decor" oninput="strengthChecker()" placeholder="Password">
+            <span id="toggle" onclick="toggle()">
+                <i class="fas fa-eye"></i>
+            </span>
+            <div id="strength-bar"></div>
+        </div>
+        <p id="msg"></p>
+        <div class="main__register-check-password">
+            <input type="password" id="confirm-password" class="input-decor" oninput="checkPassword()" placeholder="Confirm password">
+            <span id="toggle1" onclick="toggle1()">
+                <i class="fas fa-eye"></i>
+            </span>
+        </div>
+        <p id="check-confirm-pass"></p>
+    </form>
+    <input type="submit" value="REGISTER">
+    <h3>Have an account? <a asp-action="Login">Login now !!!</a></h3>
+</div>

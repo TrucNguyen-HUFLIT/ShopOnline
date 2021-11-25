@@ -7,8 +7,11 @@ using ShopOnline.Core.Entities;
 using ShopOnline.Core.Exceptions;
 using ShopOnline.Core.Helpers;
 using ShopOnline.Core.Models.Account;
+using ShopOnline.Core.Models.Enum;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using static ShopOnline.Core.Models.Enum.AppEnum;
@@ -26,52 +29,68 @@ namespace ShopOnline.Business.Logic
 
         public async Task<ClaimsPrincipal> LoginAsync(AccountLogin accountLogin)
         {
-            HashPasswordHelper.HashPasswordStrategy = new HashMD5Strategy();
-            string password = HashPasswordHelper.DoHash(accountLogin.Password);
-            bool isHaveCustomer = await _context.Customers
-                .AnyAsync(x => x.Email == accountLogin.Email && x.Password == password && !x.IsDelete);
-
-            var account = new
+            Expression<Func<IBaseUserEntity, BaseInforAccount>> selectBaseInforAccount = x => new BaseInforAccount
             {
-                FullName = "",
-                Avatar = "",
-                TypeAcc = TypeAcc.Customer,
+                Email = x.Email,
+                Password = x.Password,
+                FullName = x.FullName,
+                Avatar = x.Avatar,
+                TypeAcc = x.TypeAcc,
             };
 
-            if (isHaveCustomer)
+            var inforAccount = await _context.Customers.Where(x => x.Email == accountLogin.Email && !x.IsDelete)
+                                        .Select(selectBaseInforAccount)
+                                        .FirstOrDefaultAsync();
+            if (inforAccount == null)
+                inforAccount = await _context.Staffs.Where(x => x.Email == accountLogin.Email && !x.IsDelete)
+                                        .Select(selectBaseInforAccount)
+                                        .FirstOrDefaultAsync();
+            if (inforAccount == null)
+                inforAccount = await _context.Shippers.Where(x => x.Email == accountLogin.Email && !x.IsDelete)
+                                        .Select(selectBaseInforAccount)
+                                        .FirstOrDefaultAsync();
+            if (inforAccount == null)
+                throw new UserFriendlyException(ErrorCode.WrongEmail);
+
+            string password;
+            bool loginSuccess = false;
+
+            switch (inforAccount.TypeAcc)
             {
-                account = await _context.Customers
-                .Where(x => x.Email == accountLogin.Email && x.Password == password && !x.IsDelete)
-                .Select(x => new { x.FullName, x.Avatar, x.TypeAcc })
-                .FirstOrDefaultAsync();
-            }
-            else
-            {
-                account = await _context.Staffs
-                .Where(x => x.Email == accountLogin.Email && x.Password == password && !x.IsDelete)
-                .Select(x => new { x.FullName, x.Avatar, x.TypeAcc })
-                .FirstOrDefaultAsync();
+                case TypeAcc.Customer:
+                    HashPasswordHelper.HashPasswordStrategy = new HashMD5Strategy();
+                    password = HashPasswordHelper.DoHash(accountLogin.Password);
+                    if (inforAccount.Password == password)
+                        loginSuccess = true;
+                    break;
+                case TypeAcc.Shipper:
+                    HashPasswordHelper.HashPasswordStrategy = new HashSHA1Strategy();
+                    password = HashPasswordHelper.DoHash(accountLogin.Password);
+                    if (inforAccount.Password == password)
+                        loginSuccess = true;
+                    break;
+                default: // Admin || Staff
+                    HashPasswordHelper.HashPasswordStrategy = new HashSHA256Strategy();
+                    password = HashPasswordHelper.DoHash(accountLogin.Password);
+                    if (inforAccount.Password == password)
+                        loginSuccess = true;
+                    break;
             }
 
-            if (account.TypeAcc != TypeAcc.Admin)
-            {
-                var claims = new List<Claim>
+            if (!loginSuccess)
+                throw new UserFriendlyException(ErrorCode.WrongPassword);
+
+            var claims = new List<Claim>
                 {
-                    new Claim(ClaimTypes.Email, accountLogin.Email),
-                    new Claim(ClaimTypes.Name, account.FullName),
-                    new Claim("Avatar", account.Avatar),
-                    new Claim(ClaimTypes.Role, account.TypeAcc.ToString()),
+                    new Claim(ClaimTypes.Email, inforAccount.Email),
+                    new Claim(ClaimTypes.Name, inforAccount.FullName),
+                    new Claim("Avatar", inforAccount.Avatar),
+                    new Claim(ClaimTypes.Role, inforAccount.TypeAcc.ToString()),
                 };
+            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
 
-                var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
-
-                return claimsPrincipal;
-            }
-            else
-            {
-                return null;
-            }
+            return claimsPrincipal;
         }
 
         public async Task<bool> RegisterAsync(AccountRegister accountRegister)
@@ -109,13 +128,13 @@ namespace ShopOnline.Business.Logic
 
             var accountReset = await _context.Customers.Where(x => x.Email == email).FirstOrDefaultAsync();
             string newPassword = AccountHelper.GetNewRandomPassword();
-            
+
             HashPasswordHelper.HashPasswordStrategy = new HashMD5Strategy();
             accountReset.Password = HashPasswordHelper.DoHash(newPassword);
 
             MimeMessage message = new();
 
-            MailboxAddress from = new("H2T Moto", "h2t.moto.huflit@gmail.com");
+            MailboxAddress from = new("SHOES SHOP", "shop.online.huflit@gmail.com");
             message.From.Add(from);
 
             MailboxAddress to = new(accountReset.FullName, accountReset.Email);
@@ -132,7 +151,7 @@ namespace ShopOnline.Business.Logic
             SmtpClient client = new();
             //connect (smtp address, port , true)
             await client.ConnectAsync("smtp.gmail.com", 465, true);
-            await client.AuthenticateAsync("h2t.moto.huflit@gmail.com", "H2tmotohuflit");
+            await client.AuthenticateAsync("shop.online.huflit@gmail.com", "ShopOnlineHuflit");
 
             await client.SendAsync(message);
             await client.DisconnectAsync(true);
