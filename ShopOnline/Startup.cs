@@ -1,3 +1,4 @@
+using AutoMapper;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
@@ -7,10 +8,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using ReflectionIT.Mvc.Paging;
 using ShopOnline.Business;
 using ShopOnline.Business.Customer;
 using ShopOnline.Business.Logic;
 using ShopOnline.Business.Logic.Customer;
+using ShopOnline.Business.Logic.Staff;
+using ShopOnline.Business.Staff;
 using ShopOnline.Core;
 using ShopOnline.Core.Filters;
 using ShopOnline.Core.Validators.Account;
@@ -36,11 +40,27 @@ namespace ShopOnline
         {
             services.AddControllersWithViews();
 
-            services.AddDbContext<MyDbContext>(option => option.UseSqlServer(_configuration.GetConnectionString("TrucConnectionString")));
+            services.AddDbContext<MyDbContext>(option => option.UseSqlServer(_configuration.GetConnectionString("HuyConnectionString")));
 
             // Use AppSetting by DI
             var appSetting = _configuration.GetSection("AppSetting");
             services.Configure<AppSetting>(appSetting);
+
+            services.AddPaging(options =>
+            {
+                options.ViewName = "Bootstrap4";
+                options.PageParameterName = "page";
+            });
+
+            //User AutoMapper
+            //var mappingConfig = new MapperConfiguration(mc =>
+            //{
+            //    mc.AddProfile(new StaffProfile());
+            //});
+            //mappingConfig.AssertConfigurationIsValid();
+            //IMapper mapper = mappingConfig.CreateMapper();
+            //services.AddSingleton(mapper);
+
 
             services.AddMvc(option =>
             {
@@ -65,6 +85,8 @@ namespace ShopOnline
 
             services.AddScoped<IUserBusiness, UserBusiness>();
             services.AddScoped<IClientBusiness, ClientBusiness>();
+            services.AddScoped<IStaffBusiness, StaffBusiness>();
+            services.AddScoped<IProductBusiness, ProductBusiness>();
 
         }
 
