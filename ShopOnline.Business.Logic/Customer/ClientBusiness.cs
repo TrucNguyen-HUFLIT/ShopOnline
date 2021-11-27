@@ -7,6 +7,7 @@ using ShopOnline.Core.Models.Client;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using static ShopOnline.Core.Models.Enum.AppEnum;
 
@@ -26,7 +27,7 @@ namespace ShopOnline.Business.Logic.Customer
             var productsInfor = new List<ProductInforViewModel>();
             var currentBrandIds = BrandSingleton.Instance.BrandInfors.Select(x => x.Id).ToList();
 
-            var productsDetailInfor = await _context.ProductDetails
+            var productsDetail = await _context.ProductDetails
                                         .Where(x => currentBrandIds.Contains(x.ProductType.IdBrand)
                                                 && !x.IsDelete && !x.ProductType.IsDelete)
                                         .Select(x => new
@@ -38,50 +39,67 @@ namespace ShopOnline.Business.Logic.Customer
                                             BrandId = x.ProductType.IdBrand
                                         })
                                         .OrderByDescending(x => x.Id)
+                                        .Take(amountTake ?? 0)
                                         .ToListAsync();
+            var productsInforDetail = new List<ProductInforModel>();
+
+            foreach (var product in productsDetail)
+            {
+                var priceUSD = await ConvertCurrencyHelper.ConvertVNDToUSD(product.Price);
+                productsInforDetail.Add(new ProductInforModel
+                {
+                    Id = product.Id,
+                    Name = product.Name,
+                    PriceVND = product.Price,
+                    PriceUSD = priceUSD,
+                    Pic = product.Pic1
+                });
+            }
 
             foreach (var brandId in currentBrandIds)
             {
                 productsInfor.Add(new ProductInforViewModel
                 {
                     BrandInfor = BrandSingleton.Instance.BrandInfors.Where(x => x.Id == brandId).FirstOrDefault(),
-                    ProductInforsDetail = productsDetailInfor.Where(x => x.BrandId == brandId)
-                                        .Select(x => new ProductInforModel
-                                        {
-                                            Id = x.Id,
-                                            Name = x.Name,
-                                            Price = x.Price,
-                                            Pic = x.Pic1
-                                        })
-                                        .Take(amountTake ?? 0)
-                                        .ToList(),
+                    ProductsInforDetail = productsInforDetail,
                 });
             }
 
             #region init data to demo
-            for (int i = 0; i < productsInfor.Count(); i++)
+            for (int i = 0; i < productsInfor.Count; i++)
             {
-                productsInfor[i].ProductInforsDetail.Add(CreateDemoProduct(productsInfor[1].ProductInforsDetail[0]));
-                productsInfor[i].ProductInforsDetail[0].Price = 10043000;
-                productsInfor[i].ProductInforsDetail.Add(CreateDemoProduct(productsInfor[i].ProductInforsDetail[0]));
-                productsInfor[i].ProductInforsDetail[1].Price = 110900;
-                productsInfor[i].ProductInforsDetail.Add(CreateDemoProduct(productsInfor[i].ProductInforsDetail[1]));
-                productsInfor[i].ProductInforsDetail[2].Price = 123123;
-                productsInfor[i].ProductInforsDetail.Add(CreateDemoProduct(productsInfor[i].ProductInforsDetail[2]));
-                productsInfor[i].ProductInforsDetail[3].Price = 10123100;
-                productsInfor[i].ProductInforsDetail.Add(CreateDemoProduct(productsInfor[i].ProductInforsDetail[3]));
-                productsInfor[i].ProductInforsDetail[4].Price = 5012300;
-                productsInfor[i].ProductInforsDetail.Add(CreateDemoProduct(productsInfor[1].ProductInforsDetail[0]));
-                productsInfor[i].ProductInforsDetail[5].Price = 1000700;
-                productsInfor[i].ProductInforsDetail.Add(CreateDemoProduct(productsInfor[i].ProductInforsDetail[0]));
-                productsInfor[i].ProductInforsDetail[6].Price = 1106300;
-                productsInfor[i].ProductInforsDetail.Add(CreateDemoProduct(productsInfor[i].ProductInforsDetail[1]));
-                productsInfor[i].ProductInforsDetail[7].Price = 123123;
-                productsInfor[i].ProductInforsDetail.Add(CreateDemoProduct(productsInfor[i].ProductInforsDetail[2]));
-                productsInfor[i].ProductInforsDetail[8].Price = 104123100;
-                productsInfor[i].ProductInforsDetail.Add(CreateDemoProduct(productsInfor[i].ProductInforsDetail[3]));
-                productsInfor[i].ProductInforsDetail[9].Price = 50900;
-                productsInfor[i].ProductInforsDetail = productsInfor[i].ProductInforsDetail.Take(amountTake ?? 0).ToList();
+                productsInfor[i].ProductsInforDetail.Add(CreateDemoProduct(productsInfor[1].ProductsInforDetail[0]));
+                productsInfor[i].ProductsInforDetail[1].PriceVND = 10043000;
+                productsInfor[i].ProductsInforDetail[1].PriceUSD = await ConvertCurrencyHelper.ConvertVNDToUSD(10043000);
+                productsInfor[i].ProductsInforDetail.Add(CreateDemoProduct(productsInfor[i].ProductsInforDetail[0]));
+                productsInfor[i].ProductsInforDetail[2].PriceVND = 110900;
+                productsInfor[i].ProductsInforDetail[2].PriceUSD = await ConvertCurrencyHelper.ConvertVNDToUSD(110900);
+                productsInfor[i].ProductsInforDetail.Add(CreateDemoProduct(productsInfor[i].ProductsInforDetail[0]));
+                productsInfor[i].ProductsInforDetail[3].PriceVND = 123123;
+                productsInfor[i].ProductsInforDetail[3].PriceUSD = await ConvertCurrencyHelper.ConvertVNDToUSD(123123);
+                productsInfor[i].ProductsInforDetail.Add(CreateDemoProduct(productsInfor[i].ProductsInforDetail[0]));
+                productsInfor[i].ProductsInforDetail[4].PriceVND = 10123100;
+                productsInfor[i].ProductsInforDetail[4].PriceUSD = await ConvertCurrencyHelper.ConvertVNDToUSD(10123100);
+                productsInfor[i].ProductsInforDetail.Add(CreateDemoProduct(productsInfor[i].ProductsInforDetail[0]));
+                productsInfor[i].ProductsInforDetail[5].PriceVND = 5012300;
+                productsInfor[i].ProductsInforDetail[5].PriceUSD = await ConvertCurrencyHelper.ConvertVNDToUSD(5012300);
+                productsInfor[i].ProductsInforDetail.Add(CreateDemoProduct(productsInfor[1].ProductsInforDetail[0]));
+                productsInfor[i].ProductsInforDetail[6].PriceVND = 1000700;
+                productsInfor[i].ProductsInforDetail[6].PriceUSD = await ConvertCurrencyHelper.ConvertVNDToUSD(1000700);
+                productsInfor[i].ProductsInforDetail.Add(CreateDemoProduct(productsInfor[i].ProductsInforDetail[0]));
+                productsInfor[i].ProductsInforDetail[7].PriceVND = 1106300;
+                productsInfor[i].ProductsInforDetail[7].PriceUSD = await ConvertCurrencyHelper.ConvertVNDToUSD(1106300);
+                productsInfor[i].ProductsInforDetail.Add(CreateDemoProduct(productsInfor[i].ProductsInforDetail[0]));
+                productsInfor[i].ProductsInforDetail[8].PriceVND = 123123;
+                productsInfor[i].ProductsInforDetail[8].PriceUSD = await ConvertCurrencyHelper.ConvertVNDToUSD(123123);
+                productsInfor[i].ProductsInforDetail.Add(CreateDemoProduct(productsInfor[i].ProductsInforDetail[0]));
+                productsInfor[i].ProductsInforDetail[9].PriceVND = 104123100;
+                productsInfor[i].ProductsInforDetail[9].PriceUSD = await ConvertCurrencyHelper.ConvertVNDToUSD(104123100);
+                productsInfor[i].ProductsInforDetail.Add(CreateDemoProduct(productsInfor[i].ProductsInforDetail[0]));
+                productsInfor[i].ProductsInforDetail[10].PriceVND = 50900;
+                productsInfor[i].ProductsInforDetail[10].PriceUSD = await ConvertCurrencyHelper.ConvertVNDToUSD(50900);
+
+                productsInfor[i].ProductsInforDetail = productsInfor[i].ProductsInforDetail.Take(amountTake ?? 0).ToList();
             }
             #endregion
 
@@ -101,7 +119,7 @@ namespace ShopOnline.Business.Logic.Customer
                                             Pic2 = x.Pic2,
                                             Pic3 = x.Pic3,
                                             Description = x.Description,
-                                            Price = x.Price,
+                                            PriceVND = x.Price,
                                             BrandInfor = new BrandInforModel
                                             {
                                                 Id = x.ProductType.IdBrand,
@@ -131,6 +149,7 @@ namespace ShopOnline.Business.Logic.Customer
                                                             .ToList()
                                         })
                                         .SingleOrDefaultAsync();
+            productDetail.PriceUSD = await ConvertCurrencyHelper.ConvertVNDToUSD(productDetail.PriceVND);
 
             var availableSize = productDetail.BaseProductInfors
                                         .Where(x => x.Quantity != 0)
@@ -163,32 +182,48 @@ namespace ShopOnline.Business.Logic.Customer
                                          {
                                              Id = x.Id,
                                              Name = x.Name,
-                                             Price = x.Price,
+                                             PriceVND = x.Price,
                                              Pic = x.Pic1
                                          })
                                         .Take(amountTake)
                                         .ToListAsync();
+
+            foreach (var product in products)
+            {
+                product.PriceUSD = await ConvertCurrencyHelper.ConvertVNDToUSD(product.PriceVND);
+            }
+
             #region init data to demo
             products.Add(CreateDemoProduct(products[0]));
-            products[0].Price = 1004000;
+            products[1].PriceVND = 1004000;
+            products[1].PriceUSD = await ConvertCurrencyHelper.ConvertVNDToUSD(1004000);
             products.Add(CreateDemoProduct(products[1]));
-            products[1].Price = 100000;
+            products[2].PriceVND = 100000;
+            products[2].PriceUSD = await ConvertCurrencyHelper.ConvertVNDToUSD(100000);
             products.Add(CreateDemoProduct(products[2]));
-            products[2].Price = 108000;
+            products[3].PriceVND = 108000;
+            products[3].PriceUSD = await ConvertCurrencyHelper.ConvertVNDToUSD(108000);
             products.Add(CreateDemoProduct(products[3]));
-            products[3].Price = 7345;
+            products[4].PriceVND = 7345;
+            products[4].PriceUSD = await ConvertCurrencyHelper.ConvertVNDToUSD(7345);
             products.Add(CreateDemoProduct(products[4]));
-            products[4].Price = 64586923;
+            products[5].PriceVND = 64586923;
+            products[5].PriceUSD = await ConvertCurrencyHelper.ConvertVNDToUSD(64586923);
             products.Add(CreateDemoProduct(products[5]));
-            products[5].Price = 523462;
+            products[6].PriceVND = 523462;
+            products[6].PriceUSD = await ConvertCurrencyHelper.ConvertVNDToUSD(523462);
             products.Add(CreateDemoProduct(products[6]));
-            products[6].Price = 523363;
+            products[7].PriceVND = 523363;
+            products[7].PriceUSD = await ConvertCurrencyHelper.ConvertVNDToUSD(523363);
             products.Add(CreateDemoProduct(products[7]));
-            products[7].Price = 4575685;
+            products[8].PriceVND = 4575685;
+            products[8].PriceUSD = await ConvertCurrencyHelper.ConvertVNDToUSD(4575685);
             products.Add(CreateDemoProduct(products[8]));
-            products[8].Price = 34521315;
+            products[9].PriceVND = 34521315;
+            products[9].PriceUSD = await ConvertCurrencyHelper.ConvertVNDToUSD(34521315);
             products.Add(CreateDemoProduct(products[9]));
-            products[9].Price = 75467358;
+            products[10].PriceVND = 75467358;
+            products[10].PriceUSD = await ConvertCurrencyHelper.ConvertVNDToUSD(75467358);
             products = products.Take(amountTake).ToList();
             #endregion
 
@@ -266,36 +301,49 @@ namespace ShopOnline.Business.Logic.Customer
             {
                 Id = x.Id,
                 Name = x.Name,
-                Price = x.Price,
+                PriceVND = x.Price,
                 Pic = x.Pic1
             })
             .ToListAsync();
+
+            foreach (var product in productsInfor)
+            {
+                product.PriceUSD = await ConvertCurrencyHelper.ConvertVNDToUSD(product.PriceVND);
+            }
 
             #region init data to demo
             if (productsInfor.Count != 0)
             {
                 productsInfor.Add(CreateDemoProduct(productsInfor[0]));
-                productsInfor[0].Price = 1004000;
+                productsInfor[1].PriceVND = 1004000;
+                productsInfor[1].PriceUSD = await ConvertCurrencyHelper.ConvertVNDToUSD(1004000);
                 productsInfor.Add(CreateDemoProduct(productsInfor[1]));
-                productsInfor[1].Price = 100000;
+                productsInfor[2].PriceVND = 100000;
+                productsInfor[2].PriceUSD = await ConvertCurrencyHelper.ConvertVNDToUSD(100000);
                 productsInfor.Add(CreateDemoProduct(productsInfor[2]));
-                productsInfor[2].Price = 108000;
+                productsInfor[3].PriceVND = 108000;
+                productsInfor[3].PriceUSD = await ConvertCurrencyHelper.ConvertVNDToUSD(108000);
                 productsInfor.Add(CreateDemoProduct(productsInfor[3]));
-                productsInfor[3].Price = 7345;
+                productsInfor[4].PriceVND = 7345;
+                productsInfor[4].PriceUSD = await ConvertCurrencyHelper.ConvertVNDToUSD(7345);
                 productsInfor.Add(CreateDemoProduct(productsInfor[4]));
-                productsInfor[4].Price = 64586923;
+                productsInfor[5].PriceVND = 64586923;
+                productsInfor[5].PriceUSD = await ConvertCurrencyHelper.ConvertVNDToUSD(64586923);
                 productsInfor.Add(CreateDemoProduct(productsInfor[5]));
-                productsInfor[5].Price = 523462;
+                productsInfor[6].PriceVND = 523462;
+                productsInfor[6].PriceUSD = await ConvertCurrencyHelper.ConvertVNDToUSD(523462);
                 productsInfor.Add(CreateDemoProduct(productsInfor[6]));
-                productsInfor[6].Price = 523363;
+                productsInfor[7].PriceVND = 523363;
+                productsInfor[7].PriceUSD = await ConvertCurrencyHelper.ConvertVNDToUSD(523363);
                 productsInfor.Add(CreateDemoProduct(productsInfor[7]));
-                productsInfor[7].Price = 4575685;
+                productsInfor[8].PriceVND = 4575685;
+                productsInfor[8].PriceUSD = await ConvertCurrencyHelper.ConvertVNDToUSD(4575685);
                 productsInfor.Add(CreateDemoProduct(productsInfor[8]));
-                productsInfor[8].Price = 34521315;
+                productsInfor[9].PriceVND = 34521315;
+                productsInfor[9].PriceUSD = await ConvertCurrencyHelper.ConvertVNDToUSD(34521315);
                 productsInfor.Add(CreateDemoProduct(productsInfor[9]));
-                productsInfor[9].Price = 75467358;
-                productsInfor.Add(CreateDemoProduct(productsInfor[10]));
-                productsInfor[10].Price = 445467358;
+                productsInfor[10].PriceVND = 75467358;
+                productsInfor[10].PriceUSD = await ConvertCurrencyHelper.ConvertVNDToUSD(75467358);
             }
             #endregion
 
@@ -313,7 +361,8 @@ namespace ShopOnline.Business.Logic.Customer
             {
                 Id = old.Id,
                 Name = old.Name,
-                Price = old.Price,
+                PriceVND = old.PriceVND,
+                PriceUSD = old.PriceUSD,
                 Pic = old.Pic
             };
         }

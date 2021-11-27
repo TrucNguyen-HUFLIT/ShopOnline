@@ -11,7 +11,7 @@ namespace ShopOnline.Core.Models.Client
     public class ProductInforViewModel
     {
         public BrandInforModel BrandInfor { get; set; }
-        public List<ProductInforModel> ProductInforsDetail { get; set; }
+        public List<ProductInforModel> ProductsInforDetail { get; set; }
 
     }
 
@@ -32,7 +32,8 @@ namespace ShopOnline.Core.Models.Client
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public int Price { get; set; }
+        public int PriceVND { get; set; }
+        public int PriceUSD { get; set; }
         public string Pic { get; set; }
     }
 

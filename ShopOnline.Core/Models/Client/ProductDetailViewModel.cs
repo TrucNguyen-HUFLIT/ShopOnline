@@ -17,7 +17,8 @@ namespace ShopOnline.Core.Models.Client
         public string Pic2 { get; set; }
         public string Pic3 { get; set; }
         public string Description { get; set; }
-        public int Price { get; set; }
+        public int PriceVND { get; set; }
+        public int PriceUSD { get; set; }
         public BrandInforModel BrandInfor { get; set; }
         public List<ProductSizeInfor> ProductSizeInfors { get; set; }
         public ProductStatus Status { get; set; }
