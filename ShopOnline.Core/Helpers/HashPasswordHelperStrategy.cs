@@ -15,6 +15,7 @@ namespace ShopOnline.Core.Helpers
         string DoHash(string password);
     }
 
+    //for Customer
     public class HashMD5Strategy : IHashPasswordStrategy
     {
         public string DoHash(string password)
@@ -32,6 +33,7 @@ namespace ShopOnline.Core.Helpers
         }
     }
 
+    //for Shipper
     public class HashSHA1Strategy : IHashPasswordStrategy
     {
         public string DoHash(string password)
@@ -49,6 +51,7 @@ namespace ShopOnline.Core.Helpers
         }
     }
 
+    //for Admin & Staff
     public class HashSHA256Strategy : IHashPasswordStrategy
     {
         public string DoHash(string password)

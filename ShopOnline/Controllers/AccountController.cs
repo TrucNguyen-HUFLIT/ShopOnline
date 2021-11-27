@@ -24,7 +24,7 @@ namespace ShopOnline.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(AccountLogin accountLogin)
+        public async Task<IActionResult> Login(AccountLoginModel accountLogin)
         {
             var claimsPrincipal = await _userBusiness.LoginAsync(accountLogin);
 
@@ -55,15 +55,15 @@ namespace ShopOnline.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register(AccountRegister accountRegister)
+        public async Task<IActionResult> Register(AccountRegisterModel accountRegister)
         {
             bool isSuccess = await _userBusiness.RegisterAsync(accountRegister);
             if (isSuccess)
             {
-                return Created("/Login", new
+                return Created("/Login", new AccountLoginModel
                 {
-                    email = accountRegister.Email,
-                    password = accountRegister.Password
+                    Email = accountRegister.Email,
+                    Password = accountRegister.Password
                 });
             }
             else
@@ -79,9 +79,9 @@ namespace ShopOnline.Controllers
         }
 
         [HttpPost]
-        public async Task ResetPassword(string email)
+        public async Task ResetPassword(ResetPasswordModel resetPasswordModel)
         {
-            await _userBusiness.ResetPasswordAsync(email);
+            await _userBusiness.ResetPasswordAsync(resetPasswordModel);
         }
     }
 }

@@ -5,26 +5,30 @@
 <div class="main__register">
     <h2>Welcome to</h2>
     <h1><a asp-controller="Client" asp-action="Home">DREAMS STORE</a></h1>
-    <form action="">
-        <input type="text" class="input-decor" placeholder="Full name">
-        <input type="email" class="input-decor" placeholder="Email">
-        <input type="text" class="input-decor" placeholder="Phone number">
+    <form id="register-form">
+        <input type="text" class="input-decor" name="fullName" placeholder="Full name">
+        <p id="fullname_msg" class="text-msg-error"></p>
+        <input type="email" class="input-decor" name="email" placeholder="Email" oninput="this.value=this.value.toLowerCase()">
+        <p id="email_msg" class="text-msg-error"></p>
+        <input type="tel" oninput="this.value = phoneFormat(this.value)" name="phoneNumber" class="input-decor" placeholder="Phone number">
+        <p id="phonenumber_msg" class="text-msg-error"></p>
         <div class="main__register-check-password">
-            <input type="password" id="password" class="input-decor" oninput="strengthChecker()" placeholder="Password">
+            <input type="password" id="password" name="password" class="input-decor" oninput="strengthChecker()" placeholder="Password">
             <span id="toggle" onclick="toggle()">
                 <i class="fas fa-eye"></i>
             </span>
             <div id="strength-bar"></div>
         </div>
+        <p id="password_msg" class="text-msg-error"></p>
         <p id="msg"></p>
         <div class="main__register-check-password">
-            <input type="password" id="confirm-password" class="input-decor" oninput="checkPassword()" placeholder="Confirm password">
+            <input type="password" id="confirm-password" name="confirmPassword" class="input-decor" oninput="checkPassword()" placeholder="Confirm password">
             <span id="toggle1" onclick="toggle1()">
                 <i class="fas fa-eye"></i>
             </span>
         </div>
-        <p id="check-confirm-pass"></p>
+        <p id="confirmpassword_msg" class="text-msg-error"></p>
     </form>
-    <input type="submit" value="REGISTER">
+    <input type="submit" value="REGISTER" onclick="register()">
     <h3>Have an account? <a asp-action="Login">Login now !!!</a></h3>
 </div>

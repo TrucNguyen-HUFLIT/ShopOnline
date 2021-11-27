@@ -27,14 +27,13 @@ namespace ShopOnline.Business.Logic
             _context = context;
         }
 
-        public async Task<ClaimsPrincipal> LoginAsync(AccountLogin accountLogin)
+        public async Task<ClaimsPrincipal> LoginAsync(AccountLoginModel accountLogin)
         {
-            Expression<Func<IBaseUserEntity, BaseInforAccount>> selectBaseInforAccount = x => new BaseInforAccount
+            Expression<Func<IBaseUserEntity, BaseInforAccountModel>> selectBaseInforAccount = x => new BaseInforAccountModel
             {
                 Email = x.Email,
                 Password = x.Password,
                 FullName = x.FullName,
-                Avatar = x.Avatar,
                 TypeAcc = x.TypeAcc,
             };
 
@@ -84,7 +83,6 @@ namespace ShopOnline.Business.Logic
                 {
                     new Claim(ClaimTypes.Email, inforAccount.Email),
                     new Claim(ClaimTypes.Name, inforAccount.FullName),
-                    new Claim("Avatar", inforAccount.Avatar),
                     new Claim(ClaimTypes.Role, inforAccount.TypeAcc.ToString()),
                 };
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -93,13 +91,13 @@ namespace ShopOnline.Business.Logic
             return claimsPrincipal;
         }
 
-        public async Task<bool> RegisterAsync(AccountRegister accountRegister)
+        public async Task<bool> RegisterAsync(AccountRegisterModel accountRegister)
         {
             bool isExistingEmail = await _context.Customers.AnyAsync(x => x.Email == accountRegister.Email);
 
             if (isExistingEmail)
             {
-                throw new UserFriendlyException($"Email '{accountRegister.Email}' already exists!");
+                throw new UserFriendlyException(ErrorCode.EmailExisted);
             }
 
             HashPasswordHelper.HashPasswordStrategy = new HashMD5Strategy();
@@ -107,6 +105,7 @@ namespace ShopOnline.Business.Logic
             {
                 FullName = accountRegister.FullName,
                 Email = accountRegister.Email,
+                PhoneNumber = accountRegister.PhoneNumber,
                 Password = HashPasswordHelper.DoHash(accountRegister.Password),
                 TypeAcc = TypeAcc.Customer
             };
@@ -117,16 +116,20 @@ namespace ShopOnline.Business.Logic
             return true;
         }
 
-        public async Task ResetPasswordAsync(string email)
+        public async Task ResetPasswordAsync(ResetPasswordModel resetPasswordModel)
         {
-            bool isExistingEmail = await _context.Customers.AnyAsync(x => x.Email == email);
+            var accountReset = await _context.Customers.Where(x => x.Email == resetPasswordModel.Email).FirstOrDefaultAsync();
 
-            if (!isExistingEmail)
+            if (accountReset == null)
             {
-                throw new UserFriendlyException($"Email '{email}' does not exist!");
+                throw new UserFriendlyException(ErrorCode.EmailNotExisted);
             }
 
-            var accountReset = await _context.Customers.Where(x => x.Email == email).FirstOrDefaultAsync();
+            if (accountReset.PhoneNumber != resetPasswordModel.PhoneNumber)
+            {
+                throw new UserFriendlyException(ErrorCode.PhoneNotMatch);
+            }
+
             string newPassword = AccountHelper.GetNewRandomPassword();
 
             HashPasswordHelper.HashPasswordStrategy = new HashMD5Strategy();
@@ -134,7 +137,7 @@ namespace ShopOnline.Business.Logic
 
             MimeMessage message = new();
 
-            MailboxAddress from = new("SHOES SHOP", "shop.online.huflit@gmail.com");
+            MailboxAddress from = new("Dreams Store", "dreamsstore.ss@gmail.com");
             message.From.Add(from);
 
             MailboxAddress to = new(accountReset.FullName, accountReset.Email);
@@ -148,14 +151,22 @@ namespace ShopOnline.Business.Logic
             };
             message.Body = bodyBuilder.ToMessageBody();
 
-            SmtpClient client = new();
-            //connect (smtp address, port , true)
-            await client.ConnectAsync("smtp.gmail.com", 465, true);
-            await client.AuthenticateAsync("shop.online.huflit@gmail.com", "ShopOnlineHuflit");
+            try
+            {
+                SmtpClient client = new();
+                //connect (smtp address, port , true)
+                await client.ConnectAsync("smtp.gmail.com", 465, true);
+                await client.AuthenticateAsync("dreamsstore.ss@gmail.com", "4thanggay");
 
-            await client.SendAsync(message);
-            await client.DisconnectAsync(true);
-            client.Dispose();
+                await client.SendAsync(message);
+                await client.DisconnectAsync(true);
+                client.Dispose();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw new UserFriendlyException(ErrorCode.NotResponse);
+            }
 
             _context.Customers.Update(accountReset);
             await _context.SaveChangesAsync();

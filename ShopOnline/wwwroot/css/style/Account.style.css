@@ -308,13 +308,17 @@ p {
     margin-left: 40px;
 }
 
-.input-decor{
+.input-decor {
     padding-left: 10px;
 }
 
 /*#region list Id element error */
 
-#email_msg, #password_msg {
+#fullname_msg,
+#email_msg,
+#phonenumber_msg,
+#password_msg,
+#confirmpassword_msg {
     display: none
 }
 
