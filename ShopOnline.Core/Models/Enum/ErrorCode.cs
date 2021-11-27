@@ -25,21 +25,30 @@ namespace ShopOnline.Core.Models.Enum
         //[Display(GroupName = "Account")]
         //[Description("Not Found")]
         //NotFound = Account + 4,
+
         [Display(GroupName = "Account")]
-        [Description("The email isn't incorrect")]
+        [Description("Email isn't incorrect")]
         WrongEmail = Account + 1,
 
         [Display(GroupName = "Account")]
-        [Description("The password isn't incorrect")]
+        [Description("Password isn't incorrect")]
         WrongPassword = Account + 2,
 
         [Display(GroupName = "Account")]
-        [Description("The phone number isn't incorrect")]
-        WrongPhoneNumber = Account + 3,
+        [Description("Phone number doesn't match")]
+        PhoneNotMatch = Account + 3,
 
         [Display(GroupName = "Account")]
-        [Description("The email was existed")]
+        [Description("Email already exists")]
         EmailExisted = Account + 4,
+
+        [Display(GroupName = "Account")]
+        [Description("Email doesn't exist")]
+        EmailNotExisted = Account + 5,
+
+        [Display(GroupName = "Account")]
+        [Description("The server does not respond, please try again later!")]
+        NotResponse = Account + 6,
 
         #endregion
 

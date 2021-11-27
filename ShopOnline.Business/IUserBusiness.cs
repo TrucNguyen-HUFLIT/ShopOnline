@@ -6,10 +6,10 @@ namespace ShopOnline.Business
 {
     public interface IUserBusiness
     {
-        Task<ClaimsPrincipal> LoginAsync(AccountLogin accountLogin);
+        Task<ClaimsPrincipal> LoginAsync(AccountLoginModel accountLogin);
 
-        Task<bool> RegisterAsync(AccountRegister accountRegister);
+        Task<bool> RegisterAsync(AccountRegisterModel accountRegister);
 
-        Task ResetPasswordAsync(string email);
+        Task ResetPasswordAsync(ResetPasswordModel resetPasswordModel);
     }
 }

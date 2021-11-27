@@ -3,12 +3,12 @@ using ShopOnline.Core.Models.Account;
 
 namespace ShopOnline.Core.Validators.Account
 {
-    public class AccountLoginValidator : AbstractValidator<AccountLoginModel>
+    public class ResetPasswordValidator : AbstractValidator<ResetPasswordModel>
     {
-        public AccountLoginValidator()
+        public ResetPasswordValidator()
         {
             RuleFor(actor => actor.Email).NotEmpty();
-            RuleFor(actor => actor.Password).NotEmpty();
+            RuleFor(actor => actor.PhoneNumber).NotEmpty();
         }
     }
 }

@@ -6,7 +6,7 @@
 }
 let strengthBar = document.getElementById("strength-bar");
 let msg = document.getElementById("msg");
-let check = document.getElementById("check-confirm-pass")
+let check = document.getElementById("confirmpassword_msg")
 
 function strengthChecker() {
     let password = document.getElementById("password").value;
@@ -105,4 +105,11 @@ function checkPassword() {
         check.textContent = "Confirm password didn't match"
         check.style.color = "#ff3e36"
     }
+}
+
+function phoneFormat(input) {//returns (###) ###-####
+    input = input.replace(/\D/g, '').substring(0, 11); //Strip everything but 1st 10 digits
+    var size = input.length;
+    if (size > 11) { input = input.slice(0, 11) }
+    return input;
 }

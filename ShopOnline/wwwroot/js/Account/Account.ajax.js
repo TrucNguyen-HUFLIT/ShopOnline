@@ -1,61 +1,92 @@
-﻿//#region Login
-function login() {
-    let form = $('#login-form').serializeArray();
+﻿const ROUTE = {
+    ACCOUNT: {
+        LOGIN: '/account/login',
+        REGISTER: '/account/register',
+        RESET_PASSWORD: '/account/resetpassword',
+    },
+    CLIENT: {
+        HOME: '/client/home',
+    },
+    SHIPPER: {
+        HOME: '/shipper/home',
+    },
+    STAFF: {
+        INDEX: '/staff/index',
+    },
+}
 
-    const ROLE =
-    {
-        CUSTOMER: 'customer',
-        SHIPPER: 'shipper',
-        ADMIN: 'admin',
-        STAFF: 'staff',
-    };
+const FORM_ID = {
+    LOGIN: '#login-form',
+    REGISTER: '#register-form',
+    RESET_PASSWORD: '#reset-password-form',
+}
+
+function innerHTMLMsg(msg, EleErrorMsg) {
+    if (typeof msg === 'string') {
+        const msgLowerCase = msg.replace(/\s/g, '').toLowerCase();
+
+        Object.entries(EleErrorMsg).forEach(([key, value]) => {
+            const element = document.getElementById(value);
+            element.style.display = 'none';
+            if (msgLowerCase.includes(key.toLowerCase())) {
+                element.innerHTML = msg;
+                element.style.display = 'block';
+            }
+        });
+    } else {
+        Object.entries(EleErrorMsg).forEach(([key, value]) => {
+            const element = document.getElementById(value);
+            const mess = msg[key];
+            element.style.display = 'none';
+            if (mess) {
+                element.innerHTML = mess;
+                element.style.display = 'block';
+            }
+        });
+    }
+}
+
+//#region Login
+
+function login() {
+    let formData = $(FORM_ID.LOGIN).serializeArray();
 
     $.ajax({
-        url: '/account/login',
+        url: ROUTE.ACCOUNT.LOGIN,
         type: 'post',
         contentType: "application/x-www-form-urlencoded",
-        data: form,
+        data: formData,
         success: function (data) {
+            const ROLE =
+            {
+                CUSTOMER: 'customer',
+                SHIPPER: 'shipper',
+                ADMIN: 'admin',
+                STAFF: 'staff',
+            };
             const role = data.toLowerCase();
 
             switch (role) {
                 case ROLE.CUSTOMER:
-                    window.location.replace("/client/home");
+                    window.location.replace(ROUTE.CLIENT.HOME);
                     break;
                 case ROLE.SHIPPER:
-                    window.location.replace("/shipper/home");
+                    window.location.replace(ROUTE.SHIPPER.HOME);
                     break;
                 default:
-                    window.location.replace("/staff/index");
+                    window.location.replace(ROUTE.STAFF.INDEX);
                     break;
             }
         },
         error: function (XMLHttpRequest) {
-            const idEmailMsg = 'email_msg';
-            const idPasswordMsg = 'password_msg';
-            const emailEle = document.getElementById(idEmailMsg);
-            const passwordEle = document.getElementById(idPasswordMsg);
-            const msg = XMLHttpRequest.responseJSON ? XMLHttpRequest.responseJSON.Email + `|${XMLHttpRequest.responseJSON.Password}` : XMLHttpRequest.responseText;
-            const msgLower = msg.toLowerCase();
-            const isErrorEmail = msgLower.includes('email');
-            const isErrorPassword = msgLower.includes('password');
-
-            emailEle.style.display = 'none';
-            passwordEle.style.display = 'none';
-
-            if (isErrorEmail && isErrorPassword) {
-                let mess = msg.split('|');
-                emailEle.style.display = 'block';
-                emailEle.innerHTML = mess[0];
-                passwordEle.style.display = 'block';
-                passwordEle.innerHTML = mess[1];
-            } else if (isErrorEmail) {
-                emailEle.style.display = 'block';
-                emailEle.innerHTML = msg;
-            } else {
-                passwordEle.style.display = 'block';
-                passwordEle.innerHTML = msg;
+            const EleErrorMsgLogin = {
+                Email: 'email_msg',
+                Password: 'password_msg',
             }
+
+            let msg = XMLHttpRequest.responseJSON ? XMLHttpRequest.responseJSON : XMLHttpRequest.responseText;
+
+            innerHTMLMsg(msg, EleErrorMsgLogin);
         },
     });
 }
@@ -65,4 +96,74 @@ function enterLogin(e) {
         login();
     }
 }
+
+//#endregion
+
+//#region Register
+
+function register() {
+    let formData = $(FORM_ID.REGISTER).serializeArray();
+
+    $.ajax({
+        url: ROUTE.ACCOUNT.REGISTER,
+        type: 'post',
+        contentType: "application/x-www-form-urlencoded",
+        data: formData,
+        success: function (data) {
+            window.location.replace("/account/login");
+        },
+        error: function (XMLHttpRequest) {
+            const EleErrorMsgRegister = {
+                FullName: 'fullname_msg',
+                Email: 'email_msg',
+                PhoneNumber: 'phonenumber_msg',
+                Password: 'password_msg',
+                ConfirmPassword: 'confirmpassword_msg',
+            }
+
+            let msg = XMLHttpRequest.responseJSON ? XMLHttpRequest.responseJSON : XMLHttpRequest.responseText;
+
+            innerHTMLMsg(msg, EleErrorMsgRegister);
+        },
+    });
+}
+
+//#endregion
+
+//#region Reset Password
+
+function resetPassword() {
+    let formData = $(FORM_ID.RESET_PASSWORD).serializeArray();
+
+    $.ajax({
+        url: ROUTE.ACCOUNT.RESET_PASSWORD,
+        type: 'post',
+        contentType: "application/x-www-form-urlencoded",
+        data: formData,
+        success: function (data) {
+            //Show mess reset success, please check your email
+            window.location.replace("/account/login");
+        },
+        error: function (XMLHttpRequest) {
+            const EleErrorMsgResetPassword = {
+                Email: 'email_msg',
+                PhoneNumber: 'phonenumber_msg',
+            }
+            let msg = XMLHttpRequest.responseJSON ? XMLHttpRequest.responseJSON : XMLHttpRequest.responseText;
+
+            if (typeof msg === 'string') {
+                const msgLowerCase = msg.replace(/\s/g, '').toLowerCase();
+                const serverNotResponse = 'notrespond';
+                if (msgLowerCase.includes(serverNotResponse)) {
+                    const element = document.getElementById(EleErrorMsgResetPassword.PhoneNumber);
+                    element.innerHTML = msg;
+                    element.style.display = 'block';
+                }
+            }
+
+            innerHTMLMsg(msg, EleErrorMsgResetPassword);
+        },
+    });
+}
+
 //#endregion
