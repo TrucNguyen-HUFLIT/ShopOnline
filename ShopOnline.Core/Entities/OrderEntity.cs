@@ -9,6 +9,7 @@ namespace ShopOnline.Core.Entities
         public DateTime OrderDay { get; set; }
         public StatusOrder StatusOrder { get; set; }
         public int ExtraFee { get; set; }
+        public string Address { get; set; }
 
         public int IdCustomer { get; set; }
         public virtual CustomerEntity Customer { get; set; }
