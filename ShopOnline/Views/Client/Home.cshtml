@@ -21,7 +21,7 @@
                 <a asp-action="Products" asp-route-brandid="@productInfor.BrandInfor.Id">More &nbsp<img src="~/img/icon/icon-rarrow.png" style="height: 14px; padding-top: 2px;"></a>
             </div>
             <div class="main__content-brand-feature-items brand">
-                @foreach (var productInforDetail in productInfor.ProductInforsDetail)
+                @foreach (var productInforDetail in productInfor.ProductsInforDetail)
                 {
                     <div class="main__content-brand-feature-item">
                         <div class="main__box">
@@ -29,7 +29,8 @@
                             <div class="main__box-disc">
                                 <div>
                                     <h2>@productInforDetail.Name</h2>
-                                    <p>@string.Format("{0:N0}", ((Int64)productInforDetail.Price)) VNĐ</p>
+                                    <p>@string.Format("{0:N0}", ((Int64)productInforDetail.PriceVND)) VND</p>
+                                    <p>@string.Format("{0:N0}", ((Int64)productInforDetail.PriceUSD)) USD</p>
                                 </div>
                                 <input type="submit" value="ADD TO CART">
                             </div>

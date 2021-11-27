@@ -18,6 +18,7 @@ namespace ShopOnline.Core.Models.Enum
             Paid = 3,
             Delivering = 4,
             Completed = 5,
+            Cancel = 6,
         }
 
         public enum ProductSize
