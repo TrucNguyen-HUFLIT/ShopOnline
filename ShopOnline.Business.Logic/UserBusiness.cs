@@ -83,7 +83,7 @@ namespace ShopOnline.Business.Logic
                 {
                     new Claim(ClaimTypes.Email, inforAccount.Email),
                     new Claim(ClaimTypes.Name, inforAccount.FullName),
-                    new Claim(ClaimTypes.Role, inforAccount.TypeAcc.ToString()),
+                    new Claim(ClaimTypes.Role, inforAccount.TypeAcc.ToString().ToLower()),
                 };
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
