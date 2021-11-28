@@ -33,12 +33,12 @@ namespace ShopOnline.Business.Logic.Staff
                 {
                     Name = brandCreate.BrandName,
                 };
-                _context.Add(brand);
+                _context.Brands.Add(brandEntity);
                 await _context.SaveChangesAsync();
             }    
-            else if(brand!=null)
+            else 
             {
-                throw new BrandExistedException(brand);
+                throw new BrandExistedException(brandCreate.BrandName);
             }    
         }
 
@@ -51,7 +51,7 @@ namespace ShopOnline.Business.Logic.Staff
             }    
             brandEntity.Name = brandInfor.BrandName;
 
-            _context.Update(brandEntity);
+            _context.Brands.Update(brandEntity);
             await _context.SaveChangesAsync();
             return true;
         }
@@ -80,7 +80,7 @@ namespace ShopOnline.Business.Logic.Staff
                         Id = brand.Id,
                         BrandName = brand.Name
                     };
-                listBrand.Add(brandInfor);
+                    listBrand.Add(brandInfor);
                 }
 
                 if (!String.IsNullOrEmpty(searchString))
@@ -150,13 +150,17 @@ namespace ShopOnline.Business.Logic.Staff
             return productType;
         }
 
-        public async Task<bool> EditBrandAsync(ProductTypeInfor productTypeInfor)
+        public async Task<bool> EditProductTypeAsync(ProductTypeInfor productType)
         {
-            var productType = await _context.ProductTypes.Where(x => x.Id == productTypeInfor.Id && !x.IsDelete).FirstOrDefaultAsync();
+            var productTypeEntity = await _context.ProductTypes.Where(x => x.Id == productType.Id && !x.IsDelete).FirstOrDefaultAsync();
+            if(productType.Name== productTypeEntity.Name)
+            {
+                throw new ProductTypeExistedException(productType.Name);
+            }
 
-            productType.Name = productTypeInfor.Name;
-            productType.IdBrand = productType.IdBrand;
-            _context.Update(productType);
+            productTypeEntity.Name = productType.Name;
+            productTypeEntity.IdBrand = productType.IdBrand;
+            _context.ProductTypes.Update(productTypeEntity);
             await _context.SaveChangesAsync();
             return true;
         }
@@ -169,6 +173,25 @@ namespace ShopOnline.Business.Logic.Staff
                 Id = x.Id,
             }).ToListAsync();
             return brands;
+        }
+
+        public async Task CreateProductTypeAsync(ProductTypeInfor productTypeInfor)
+        {
+            var productType = await _context.ProductTypes.Where(x => x.Name == productTypeInfor.Name && !x.IsDelete).Select(x => x.Name).FirstOrDefaultAsync();
+            if (productType == null)
+            {
+                var productTypeEntity = new ProductTypeEntity
+                {
+                    Name = productTypeInfor.Name,
+                    IdBrand=productTypeInfor.IdBrand,
+                };
+                _context.ProductTypes.Add(productTypeEntity);
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                throw new ProductTypeExistedException(productTypeInfor.Name);
+            }
         }
     }
 }

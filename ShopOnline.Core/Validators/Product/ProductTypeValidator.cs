@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace ShopOnline.Core.Validators.Product
 {
-    public class BrandCreateValidator: AbstractValidator<BrandCreate>
+    public class ProductTypeValidator: AbstractValidator<ProductTypeInfor>
     {
-        public BrandCreateValidator()
+        public ProductTypeValidator()
         {
-            RuleFor(x => x.BrandName).NotEmpty();
+            RuleFor(x => x.Name).NotEmpty();
         }
     }
 }

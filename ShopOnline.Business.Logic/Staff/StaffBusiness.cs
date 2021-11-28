@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using X.PagedList;
@@ -57,10 +58,10 @@ namespace ShopOnline.Business.Logic.Staff
                         await staffCreate.UploadAvt.CopyToAsync(fileStream);
                     }
                 }
-                _context.Add(staff);
+                _context.Staffs.Add(staff);
                 await _context.SaveChangesAsync();
             }
-            else if (email != null)
+            else
             {
                 throw new EmailException(email);
             }
@@ -100,7 +101,7 @@ namespace ShopOnline.Business.Logic.Staff
                     "id_desc" => listStaff.OrderByDescending(x => x.Id).ToList(),
                     _ => listStaff.OrderBy(x => x.Id).ToList(),
                 };
-                int pageSize = 1;
+                int pageSize = 10;
                 int pageNumber = (page ?? 1);
                 return listStaff.ToPagedList(pageNumber, pageSize);
             }
@@ -142,16 +143,104 @@ namespace ShopOnline.Business.Logic.Staff
                 fileName1 = Path.GetFileNameWithoutExtension(staffEdit.UploadAvt.FileName);
                 extension1 = Path.GetExtension(staffEdit.UploadAvt.FileName);
                 staffEntity.Avatar = fileName1 += extension1;
-                string path1 = Path.Combine(wwwRootPath + "/img/", fileName1);
+                string path1 = Path.Combine(wwwRootPath + "/img/Avatar/", fileName1);
                 using (var fileStream = new FileStream(path1, FileMode.Create))
                 {
                     await staffEdit.UploadAvt.CopyToAsync(fileStream);
                 }
             }
-            _context.Update(staffEntity);
+            _context.Staffs.Update(staffEntity);
             await _context.SaveChangesAsync();
             return true; 
         }
 
+        public StaffEdit GetStaffByEmail (string email)
+        {
+            var staff = _context.Staffs.Where(x => x.Email == email && !x.IsDelete).Select(x => new StaffEdit
+            {
+                Id = x.Id,
+                FullName = x.FullName,
+                Email = x.Email,
+                PhoneNumber = x.PhoneNumber,
+                Address = x.Address,
+                Avatar = x.Avatar,
+                TypeAcc = x.TypeAcc
+            }).FirstOrDefault();
+            return staff;
+        }
+
+        public StaffEdit GetDataByClaim(ClaimsPrincipal claimsPrincipal)
+        {
+            string email = claimsPrincipal.FindFirst(ClaimTypes.Email).Value;
+
+            if(email!=null)
+            {
+                var staffEdit = new StaffEdit();
+
+                var staff = GetStaffByEmail(email);
+                staffEdit.Id = staff.Id;
+                staffEdit.PhoneNumber = staff.PhoneNumber;
+                staffEdit.TypeAcc = staff.TypeAcc;
+                staffEdit.FullName = staff.FullName;
+                staffEdit.Address = staff.Address;
+                staffEdit.Avatar = staff.Avatar;
+                staffEdit.Email = staff.Email;
+
+                //StaticAcc.Avatar = model.Avt;
+                //StaticAcc.Name = model.FirstName + " " + model.LastName;
+                //StaticAcc.IdRole = model.IdRole;
+
+                return staffEdit;
+            }    
+            else
+            {
+                return null;
+            }    
+        }
+
+        public async Task<bool> UpdateProfileAsync(StaffEdit staffEdit)
+        {
+            var staff = await _context.Staffs.Where(x => x.Id == staffEdit.Id && !x.IsDelete).FirstOrDefaultAsync();
+
+            staff.FullName = staffEdit.FullName;
+            staff.Address = staffEdit.Address;
+            staff.PhoneNumber = staffEdit.PhoneNumber;
+            if (staffEdit.UploadAvt != null)
+            {
+                string wwwRootPath = hostEnvironment.WebRootPath;
+                string fileName1;
+                string extension1;
+
+                fileName1 = Path.GetFileNameWithoutExtension(staffEdit.UploadAvt.FileName);
+                extension1 = Path.GetExtension(staffEdit.UploadAvt.FileName);
+                staff.Avatar = fileName1 += extension1;
+                string path1 = Path.Combine(wwwRootPath + "/img/Avatar/", fileName1);
+                using (var fileStream = new FileStream(path1, FileMode.Create))
+                {
+                    await staffEdit.UploadAvt.CopyToAsync(fileStream);
+                }
+            }
+
+            _context.Staffs.Update(staff);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<bool> DeleteStaffAsync(StaffInfor staffInfor)
+        {
+            var staff = await _context.Staffs.Where(x => x.Id == staffInfor.Id).FirstOrDefaultAsync();
+           
+            if(staff!=null)
+            {
+                staff.IsDelete = true;
+                _context.Staffs.Update(staff);
+                await _context.SaveChangesAsync();
+                return true;
+            }    
+            else
+            {
+                return false;
+            }    
+        }
     }
 }

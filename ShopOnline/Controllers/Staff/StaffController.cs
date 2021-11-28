@@ -17,7 +17,7 @@ namespace ShopOnline.Controllers.Staff
         {
             _staffBusiness = staffBusiness;
         }
-        public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? page)
+        public async Task<IActionResult> ListStaff(string sortOrder, string currentFilter, string searchString, int? page)
         {
             ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) || sortOrder.Equals("name") ? "name_desc" : "name";
@@ -38,7 +38,7 @@ namespace ShopOnline.Controllers.Staff
         }
 
         [HttpGet]
-        public IActionResult Create()
+        public IActionResult CreateStaff()
         {
             var model = new StaffViewModel
             {
@@ -50,14 +50,14 @@ namespace ShopOnline.Controllers.Staff
         [HttpPost]
         [TypeFilter(typeof(ModelStateAjaxFilter))]
         [TypeFilter(typeof(ExceptionFilter))]
-        public async Task<IActionResult> Create([FromForm] StaffCreate staffCreate)
+        public async Task<IActionResult> CreateStaff([FromForm] StaffCreate staffCreate)
         {
             await _staffBusiness.CreateAsync(staffCreate);
             return RedirectToAction("Index");
         }
 
         [HttpGet]
-        public IActionResult Edit(int id)
+        public IActionResult UpdateStaff(int id)
         {
             var model = new StaffViewModel
             {
@@ -68,10 +68,40 @@ namespace ShopOnline.Controllers.Staff
 
         [HttpPost]
         [TypeFilter(typeof(ModelStateAjaxFilter))]
-        public async Task<IActionResult> Edit(StaffEdit staffEdit)
+        public async Task<IActionResult> UpdateStaff(StaffEdit staffEdit)
         {
             await _staffBusiness.EditAsync(staffEdit);
             return RedirectToAction("Edit", new {id= staffEdit.Id});
+        }
+
+        public async Task<IActionResult> DeleteStaff(StaffInfor staffInfor)
+        {
+            await _staffBusiness.DeleteStaffAsync(staffInfor);
+            return Ok();
+        }
+
+        [HttpGet]
+        public IActionResult Profile()
+        {
+            var model = new StaffViewModel
+            {
+                staffEdit = _staffBusiness.GetDataByClaim(User)
+            };
+            if(model==null)
+            {
+                return View(model);
+            }    
+            else
+            {
+                return NotFound();
+            }    
+         
+        }
+
+        public async Task<IActionResult> Profile(StaffEdit staffEdit)
+        {
+            await _staffBusiness.UpdateProfileAsync(staffEdit);
+            return RedirectToAction("Profile");
         }
     }
 }

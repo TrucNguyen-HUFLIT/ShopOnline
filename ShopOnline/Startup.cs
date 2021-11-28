@@ -46,22 +46,6 @@ namespace ShopOnline
             var appSetting = _configuration.GetSection("AppSetting");
             services.Configure<AppSetting>(appSetting);
 
-            services.AddPaging(options =>
-            {
-                options.ViewName = "Bootstrap4";
-                options.PageParameterName = "page";
-            });
-
-            //User AutoMapper
-            //var mappingConfig = new MapperConfiguration(mc =>
-            //{
-            //    mc.AddProfile(new StaffProfile());
-            //});
-            //mappingConfig.AssertConfigurationIsValid();
-            //IMapper mapper = mappingConfig.CreateMapper();
-            //services.AddSingleton(mapper);
-
-
             services.AddMvc(option =>
             {
                 option.Filters.Add(typeof(ExceptionFilter));

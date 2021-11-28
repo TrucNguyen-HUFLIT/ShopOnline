@@ -22,7 +22,7 @@
         <h2 class="h4">List Product Type</h2>
     </div>
     <div class="btn-toolbar mb-2 mb-md-0">
-        <a asp-action="Create" asp-controller="Staff" class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
+        <a asp-action="CreateProductType" asp-controller="Product" class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
             <svg class="icon icon-xs me-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
             Add New Product Type
         </a>
@@ -80,14 +80,15 @@
                         }
                     </td>
                     <td>
-                        <a asp-action="Edit" asp-route-id="@productType.Id" class="btn btn-pill btn-outline-info" type="button">Edit</a>
+                        <a asp-action="UpdateProductType" asp-route-id="@productType.Id" type="button"><i class="fas fa-edit" style="font-size: 20px; color: #f0bc74;"></i></a>
+                        <a asp-action="Delete" asp-route-id="@productType.Id" type="button"><i class="fas fa-trash-alt" style="font-size: 20px; color: #E11D48; margin-left:10px"></i></a>
                     </td>
                 </tr>
             }
         </tbody>
     </table>
     Page @(Model.ListProductType.PageCount < Model.ListProductType.PageNumber ? 0 : Model.ListProductType.PageNumber) of @Model.ListProductType.PageCount
-    @Html.PagedListPager(Model.ListProductType, page => Url.Action("Index",
+    @Html.PagedListPager(Model.ListProductType, page => Url.Action("ListProductType",
                                         new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
     @*<div class="fw-normal small mt-4 mt-lg-0">Showing <b>5</b> out of <b>25</b> entries</div>*@
 </div>
