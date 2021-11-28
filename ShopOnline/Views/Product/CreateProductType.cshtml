@@ -1,6 +1,6 @@
-﻿@model ShopOnline.Core.Models.Product.BrandViewModel
+﻿@model ShopOnline.Core.Models.Product.ProductTypeModel
 @{
-    ViewData["Title"] = "Create Brand";
+    ViewData["Title"] = "Create Product Type";
     Layout = "~/Views/Shared/_LayoutManager.cshtml";
 }
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
@@ -12,32 +12,43 @@
                         <svg class="icon icon-xxs" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
                     </a>
                 </li>
-                <li class="breadcrumb-item"><a>Brand Management</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Create Brand</li>
+                <li class="breadcrumb-item"><a>Product Management</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Create Product Type</li>
             </ol>
         </nav>
-        <h2 class="h4">Create Brand</h2>
+        <h2 class="h4">Create Product Type</h2>
     </div>
 </div>
 <div class="row">
     <div class="col-12 col-xl-12">
         <div class="card card-body border-0 shadow mb-4">
             <h2 class="h5 mb-4">General information</h2>
-            <form asp-action="CreateBrand" enctype="multipart/form-data" id="create-brand-form">
+            <form asp-action="CreateProductType" enctype="multipart/form-data" id="create-product-type-form">
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <div>
-                            <label asp-for="brandCreate.BrandName">Brand Name</label>
-                            <input asp-for="brandCreate.BrandName" class="form-control" type="text" placeholder="Enter brand name">
-                            <span asp-validation-for="brandCreate.BrandName" class="text-danger" id="Err_BrandName"></span>
+                            <label>Product Type Name</label>
+                            <input asp-for="productType.Name" class="form-control" type="text" placeholder="Enter product type name">
+                            <span asp-validation-for="productType.Name" class="text-danger" id="Err_ProductTypeName"></span>
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="form-group">
-                                        <span class="text-danger" id="brandAlready"></span>
+                                        <span class="text-danger" id="productTypeAlready"></span>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label>Brands</label>
+                        <select class="form-select mb-0" asp-for="productType.IdBrand">
+                            @foreach (var item in Model.ListBrand)
+                            {
+                                <option value="@item.Id">@item.BrandName </option>
+                            }
+                        </select>
                     </div>
                 </div>
                 <div class="mt-3">

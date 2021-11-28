@@ -15,6 +15,7 @@ namespace ShopOnline.Controllers.Staff
         {
             _productBusiness = productBusiness;
         }
+
         public async Task<IActionResult> ListBrand(string sortOrder, string currentFilter, string searchString, int? page)
         {
             ViewBag.CurrentSort = sortOrder;
@@ -48,17 +49,18 @@ namespace ShopOnline.Controllers.Staff
         [HttpPost]
         [TypeFilter(typeof(ModelStateAjaxFilter))]
         [TypeFilter(typeof(ExceptionFilter))]
-        public async Task<IActionResult> CreateBrand([FromForm] BrandCreate staffCreate)
+        public async Task<IActionResult> CreateBrand([FromForm] BrandCreate brandCreate)
         {
-            await _productBusiness.CreateBrandAsync(staffCreate);
+            await _productBusiness.CreateBrandAsync(brandCreate);
             return RedirectToAction("Index");
         }
 
         [HttpGet]
-        public IActionResult EditBrand(int id)
+        public IActionResult UpdateBrand(int id)
         {
             var model = new BrandViewModel
             {
+
                 brandInfor = _productBusiness.GetBrandByIdAsync(id),
             };
             return View(model);
@@ -66,7 +68,7 @@ namespace ShopOnline.Controllers.Staff
 
         [HttpPost]
         [TypeFilter(typeof(ModelStateAjaxFilter))]
-        public async Task<IActionResult> EditBrand(BrandInfor brandInfor)
+        public async Task<IActionResult> UpdateBrand(BrandInfor brandInfor)
         {
             await _productBusiness.EditBrandAsync(brandInfor);
             return RedirectToAction("Edit", new { id = brandInfor.Id });
@@ -93,6 +95,43 @@ namespace ShopOnline.Controllers.Staff
             return View(model);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> CreateProductTYpe()
+        {
+            var model = new ProductTypeModel
+            {
+                productType = new ProductTypeInfor(),
+                ListBrand = await _productBusiness.GetListBrand(),
+            }; 
+            return View(model);
+        }
 
+        [HttpPost]
+        [TypeFilter(typeof(ModelStateAjaxFilter))]
+        [TypeFilter(typeof(ExceptionFilter))]
+        public async Task<IActionResult> CreateProductType([FromForm] ProductTypeInfor productType)
+        {
+            await _productBusiness.CreateProductTypeAsync(productType);
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> UpdateProductTypeAsync(int id)
+        {
+            var model = new ProductTypeModel
+            {
+                productType = _productBusiness.GetProductTypeByIdAsync(id),
+                ListBrand = await _productBusiness.GetListBrand(),
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        [TypeFilter(typeof(ModelStateAjaxFilter))]
+        public async Task<IActionResult> UpdateProductType(ProductTypeInfor productType)
+        {
+            await _productBusiness.EditProductTypeAsync(productType);
+            return RedirectToAction("Edit", new { id = productType.Id });
+        }
     }
 }
