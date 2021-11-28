@@ -1,14 +1,17 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ShopOnline.Business.Customer;
 using ShopOnline.Core.Helpers;
 using ShopOnline.Core.Models.Client;
 using System.Threading.Tasks;
+using static ShopOnline.Core.Models.Enum.AppEnum;
 
 namespace ShopOnline.Controllers.Customer
 {
+    [Authorize(Roles = CUSTOMER)]
     public class ClientController : Controller
     {
-
+        const string CUSTOMER = "customer";
         private readonly IClientBusiness _clientBusiness;
 
         public ClientController(IClientBusiness clientBusiness)
