@@ -15,10 +15,9 @@ namespace ShopOnline.Core.Models.Enum
         {
             Processing = 1,
             Accepted = 2,
-            Paid = 3,
-            Delivering = 4,
-            Completed = 5,
-            Cancelled = 6,
+            Delivering = 3,
+            Completed = 4,
+            Cancelled = 5,
         }
 
         public enum ProductSize
