@@ -1,11 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static ShopOnline.Core.Models.Enum.AppEnum;
 
 namespace ShopOnline.Core.Models.Customer
 {

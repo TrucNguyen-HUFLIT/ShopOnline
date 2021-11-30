@@ -4,7 +4,6 @@ using ShopOnline.Business.Customer;
 using ShopOnline.Core.Helpers;
 using ShopOnline.Core.Models.Client;
 using System.Threading.Tasks;
-using static ShopOnline.Core.Models.Enum.AppEnum;
 
 namespace ShopOnline.Controllers.Customer
 {
@@ -64,9 +63,9 @@ namespace ShopOnline.Controllers.Customer
 
             var productsBrandPageViewModel = new ProductsBrandPageViewModel
             {
-                    AmountProduct = products.AmountProduct,
-                    TypeOfBrand = await _clientBusiness.GetTypesOfBrandAsync(brandId),
-                    ProductsInfor = productInforsPaged,
+                AmountProduct = products.AmountProduct,
+                TypeOfBrand = await _clientBusiness.GetTypesOfBrandAsync(brandId),
+                ProductsInfor = productInforsPaged,
             };
 
             return View(productsBrandPageViewModel);

@@ -7,7 +7,6 @@ using ShopOnline.Core.Models.Client;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 using static ShopOnline.Core.Models.Enum.AppEnum;
 
@@ -29,7 +28,7 @@ namespace ShopOnline.Business.Logic.Customer
 
             var productsDetail = await _context.ProductDetails
                                         .Where(x => currentBrandIds.Contains(x.ProductType.IdBrand)
-                                                && !x.IsDelete && !x.ProductType.IsDelete)
+                                                && !x.IsDeleted && !x.ProductType.IsDeleted)
                                         .Select(x => new
                                         {
                                             x.Id,
@@ -110,7 +109,7 @@ namespace ShopOnline.Business.Logic.Customer
         {
             var productDetail = await _context.ProductDetails
                                         .Where(x => x.Id == id && x.Status == ProductStatus.Available
-                                                && !x.IsDelete && !x.ProductType.IsDelete)
+                                                && !x.IsDeleted && !x.ProductType.IsDeleted)
                                         .Select(x => new ProductDetailViewModel
                                         {
                                             Id = x.Id,
@@ -126,7 +125,7 @@ namespace ShopOnline.Business.Logic.Customer
                                                 Name = x.ProductType.Brand.Name
                                             },
                                             BaseProductInfors = x.Products
-                                                            .Where(y => !y.IsDelete)
+                                                            .Where(y => !y.IsDeleted)
                                                             .Select(y => new BaseProductInfor
                                                             {
                                                                 Id = y.Id,
@@ -135,7 +134,7 @@ namespace ShopOnline.Business.Logic.Customer
                                                             })
                                                             .ToList(),
                                             ReviewsDetail = x.ReviewDetails
-                                                            .Where(y => !y.IsDelete)
+                                                            .Where(y => !y.IsDeleted)
                                                             .Select(y => new ReviewDetailViewModel
                                                             {
                                                                 Id = y.Id,
@@ -177,7 +176,7 @@ namespace ShopOnline.Business.Logic.Customer
         public async Task<List<ProductInforModel>> GetCurrentProductsInforAsync(int amountTake)
         {
             var products = await _context.ProductDetails
-                                         .Where(x => !x.IsDelete)
+                                         .Where(x => !x.IsDeleted)
                                          .Select(x => new ProductInforModel
                                          {
                                              Id = x.Id,
@@ -247,7 +246,7 @@ namespace ShopOnline.Business.Logic.Customer
         public async Task InitBrands()
         {
             var brandInfors = await _context.Brands
-                                .Where(x => !x.IsDelete)
+                                .Where(x => !x.IsDeleted)
                                 .Select(x => new BrandInforModel
                                 {
                                     Id = x.Id,
@@ -260,7 +259,7 @@ namespace ShopOnline.Business.Logic.Customer
         public async Task<TypeOfBrandInforModel> GetTypesOfBrandAsync(int brandId)
         {
             var brandInfor = await _context.Brands
-                                    .Where(x => x.Id == brandId && !x.IsDelete)
+                                    .Where(x => x.Id == brandId && !x.IsDeleted)
                                     .Select(x => new
                                     {
                                         BrandId = x.Id,
@@ -288,7 +287,7 @@ namespace ShopOnline.Business.Logic.Customer
         public async Task<ProductsViewModel> GetProductsByBrandAsync(int brandId, int? typeId)
         {
             var productsQuery = _context.ProductDetails.Where(x => x.ProductType.IdBrand == brandId
-                                                                && !x.IsDelete)
+                                                                && !x.IsDeleted)
                                         .AsQueryable();
             var amountProduct = await productsQuery.CountAsync();
 
@@ -347,7 +346,7 @@ namespace ShopOnline.Business.Logic.Customer
             }
             #endregion
 
-            return new ProductsViewModel 
+            return new ProductsViewModel
             {
                 AmountProduct = amountProduct,
                 ProductsInfor = productsInfor

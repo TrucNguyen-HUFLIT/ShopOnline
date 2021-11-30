@@ -41,7 +41,7 @@ namespace ShopOnline.Controllers.Staff
         {
             var model = new BrandViewModel
             {
-                 brandCreate= new BrandCreate(),
+                brandCreate = new BrandCreate(),
             };
             return View(model);
         }
@@ -102,7 +102,7 @@ namespace ShopOnline.Controllers.Staff
             {
                 productType = new ProductTypeInfor(),
                 ListBrand = await _productBusiness.GetListBrand(),
-            }; 
+            };
             return View(model);
         }
 
@@ -133,5 +133,50 @@ namespace ShopOnline.Controllers.Staff
             await _productBusiness.EditProductTypeAsync(productType);
             return RedirectToAction("Edit", new { id = productType.Id });
         }
+
+        public async Task<IActionResult> ListProductDetail(string sortOrder, string currentFilter, string searchString, int? page)
+        {
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) || sortOrder.Equals("name") ? "name_desc" : "name";
+
+            ViewBag.IdSortParm = String.IsNullOrEmpty(sortOrder) ? "id_desc" : "";
+
+            //StaticAcc.Name = User.Claims.Where(x => x.Type == "name").FirstOrDefault().Value;
+
+            if (searchString != null) page = 1;
+            else searchString = currentFilter;
+            ViewBag.CurrentFilter = searchString;
+
+            var model = new ProductDetailModel
+            {
+                ListProductType = await _productBusiness.GetListProductType(),
+                ListProductDetail = await _productBusiness.GetListProductDetailAsync(sortOrder, currentFilter, searchString, page)
+            };
+
+            return View(model);
+        }
+
+        public async Task<IActionResult> ListProduct(string sortOrder, string currentFilter, string searchString, int? page)
+        {
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) || sortOrder.Equals("name") ? "name_desc" : "name";
+
+            ViewBag.IdSortParm = String.IsNullOrEmpty(sortOrder) ? "id_desc" : "";
+
+            //StaticAcc.Name = User.Claims.Where(x => x.Type == "name").FirstOrDefault().Value;
+
+            if (searchString != null) page = 1;
+            else searchString = currentFilter;
+            ViewBag.CurrentFilter = searchString;
+
+            var model = new ProductModel
+            {
+                ListProductDetail = await _productBusiness.GetListProductDetail(),
+                ListProduct = await _productBusiness.GetListProductAsync(sortOrder, currentFilter, searchString, page)
+            };
+
+            return View(model);
+        }
+
     }
 }

@@ -15,15 +15,13 @@ namespace ShopOnline.Core.Models.Enum
         {
             Processing = 1,
             Accepted = 2,
-            Paid = 3,
-            Delivering = 4,
-            Completed = 5,
-            Cancel = 6,
+            Delivering = 3,
+            Completed = 4,
+            Cancelled = 5,
         }
 
         public enum ProductSize
         {
-            Size_34 = 34,
             Size_35 = 35,
             Size_36 = 36,
             Size_37 = 37,
@@ -36,13 +34,19 @@ namespace ShopOnline.Core.Models.Enum
             Size_44 = 44,
             Size_45 = 45,
             Size_46 = 46,
-            Size_47 = 47,
         }
 
         public enum ProductStatus
         {
             Available = 1,
             Unavailable = 2,
+        }
+
+        public enum ReviewStatus
+        {
+            Waiting = 1,
+            Approved = 2,
+            Rejected = 3,
         }
     }
 }
