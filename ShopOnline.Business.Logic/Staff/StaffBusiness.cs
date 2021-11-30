@@ -29,7 +29,7 @@ namespace ShopOnline.Business.Logic.Staff
 
         public async Task CreateAsync(StaffCreate staffCreate)
         {
-            var email = await _context.Staffs.Where(x => x.Email == staffCreate.Email && !x.IsDelete).Select(x => x.Email).FirstOrDefaultAsync();
+            var email = await _context.Staffs.Where(x => x.Email == staffCreate.Email && !x.IsDeleted).Select(x => x.Email).FirstOrDefaultAsync();
             if (email == null)
             {
                 HashPasswordHelper.HashPasswordStrategy = new HashSHA256Strategy();
@@ -72,7 +72,7 @@ namespace ShopOnline.Business.Logic.Staff
         public async Task<IPagedList<StaffInfor>> GetListStaffAsync(string sortOrder, string currentFilter, string searchString, int? page)
         {
             var listStaff = new List<StaffInfor>();
-            var staffs = await _context.Staffs.Where(x => !x.IsDelete).ToListAsync();
+            var staffs = await _context.Staffs.Where(x => !x.IsDeleted).ToListAsync();
             if (staffs != null)
             {
                 foreach (var staff in staffs)
@@ -112,7 +112,7 @@ namespace ShopOnline.Business.Logic.Staff
 
         public StaffEdit GetStaffById(int id)
         {
-            var staff = _context.Staffs.Where(x => x.Id == id && !x.IsDelete).Select(x => new StaffEdit
+            var staff = _context.Staffs.Where(x => x.Id == id && !x.IsDeleted).Select(x => new StaffEdit
             {
                 Id = x.Id,
                 FullName = x.FullName,
@@ -128,7 +128,7 @@ namespace ShopOnline.Business.Logic.Staff
 
         public async Task<bool> EditAsync(StaffEdit staffEdit)
         {
-            var staffEntity = await _context.Staffs.Where(x => x.Id == staffEdit.Id && !x.IsDelete).FirstOrDefaultAsync();
+            var staffEntity = await _context.Staffs.Where(x => x.Id == staffEdit.Id && !x.IsDeleted).FirstOrDefaultAsync();
 
             staffEntity.FullName = staffEdit.FullName;
             staffEntity.Address = staffEdit.Address;
@@ -157,7 +157,7 @@ namespace ShopOnline.Business.Logic.Staff
 
         public StaffEdit GetStaffByEmail(string email)
         {
-            var staff = _context.Staffs.Where(x => x.Email == email && !x.IsDelete).Select(x => new StaffEdit
+            var staff = _context.Staffs.Where(x => x.Email == email && !x.IsDeleted).Select(x => new StaffEdit
             {
                 Id = x.Id,
                 FullName = x.FullName,
@@ -201,7 +201,7 @@ namespace ShopOnline.Business.Logic.Staff
 
         public async Task<bool> UpdateProfileAsync(StaffEdit staffEdit)
         {
-            var staff = await _context.Staffs.Where(x => x.Id == staffEdit.Id && !x.IsDelete).FirstOrDefaultAsync();
+            var staff = await _context.Staffs.Where(x => x.Id == staffEdit.Id && !x.IsDeleted).FirstOrDefaultAsync();
 
             staff.FullName = staffEdit.FullName;
             staff.Address = staffEdit.Address;
@@ -229,11 +229,11 @@ namespace ShopOnline.Business.Logic.Staff
 
         public async Task<bool> DeleteStaffAsync(StaffInfor staffInfor)
         {
-            var staff = await _context.Staffs.Where(x => x.Id == staffInfor.Id).FirstOrDefaultAsync();
+            var staff = await _context.Staffs.Where(x => x.Id == staffInfor.Id && !x.IsDeleted).FirstOrDefaultAsync();
 
             if (staff != null)
             {
-                staff.IsDelete = true;
+                staff.IsDeleted = true;
                 _context.Staffs.Update(staff);
                 await _context.SaveChangesAsync();
                 return true;

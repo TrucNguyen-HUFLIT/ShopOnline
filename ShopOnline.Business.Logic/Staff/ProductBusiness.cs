@@ -25,7 +25,7 @@ namespace ShopOnline.Business.Logic.Staff
 
         public async Task CreateBrandAsync(BrandCreate brandCreate)
         {
-            var brand = await _context.Brands.Where(x => x.Name == brandCreate.BrandName && !x.IsDelete).Select(x => x.Name).FirstOrDefaultAsync();
+            var brand = await _context.Brands.Where(x => x.Name == brandCreate.BrandName && !x.IsDeleted).Select(x => x.Name).FirstOrDefaultAsync();
             if (brand == null)
             {
                 var brandEntity = new BrandEntity
@@ -43,7 +43,7 @@ namespace ShopOnline.Business.Logic.Staff
 
         public async Task<bool> EditBrandAsync(BrandInfor brandInfor)
         {
-            var brandEntity = await _context.Brands.Where(x => x.Id == brandInfor.Id && !x.IsDelete).FirstOrDefaultAsync();
+            var brandEntity = await _context.Brands.Where(x => x.Id == brandInfor.Id && !x.IsDeleted).FirstOrDefaultAsync();
             if (brandEntity.Name == brandInfor.BrandName)
             {
                 throw new BrandExistedException(brandInfor.BrandName);
@@ -57,7 +57,7 @@ namespace ShopOnline.Business.Logic.Staff
 
         public BrandInfor GetBrandByIdAsync(int id)
         {
-            var brand = _context.Brands.Where(x => x.Id == id && !x.IsDelete).Select(x => new BrandInfor
+            var brand = _context.Brands.Where(x => x.Id == id && !x.IsDeleted).Select(x => new BrandInfor
             {
                 Id = x.Id,
                 BrandName = x.Name,
@@ -69,7 +69,7 @@ namespace ShopOnline.Business.Logic.Staff
         public async Task<IPagedList<BrandInfor>> GetListBrandAsync(string sortOrder, string currentFilter, string searchString, int? page)
         {
             var listBrand = new List<BrandInfor>();
-            var brands = await _context.Brands.Where(x => !x.IsDelete).ToListAsync();
+            var brands = await _context.Brands.Where(x => !x.IsDeleted).ToListAsync();
             if (brands != null)
             {
                 foreach (var brand in brands)
@@ -104,7 +104,7 @@ namespace ShopOnline.Business.Logic.Staff
         public async Task<IPagedList<ProductTypeInfor>> GetListProductTypeAsync(string sortOrder, string currentFilter, string searchString, int? page)
         {
             var listProductType = new List<ProductTypeInfor>();
-            var productTypes = await _context.ProductTypes.Where(x => !x.IsDelete).ToListAsync();
+            var productTypes = await _context.ProductTypes.Where(x => !x.IsDeleted).ToListAsync();
             if (productTypes != null)
             {
                 foreach (var product in productTypes)
@@ -139,7 +139,7 @@ namespace ShopOnline.Business.Logic.Staff
 
         public ProductTypeInfor GetProductTypeByIdAsync(int id)
         {
-            var productType = _context.ProductTypes.Where(x => x.Id == id && !x.IsDelete).Select(x => new ProductTypeInfor
+            var productType = _context.ProductTypes.Where(x => x.Id == id && !x.IsDeleted).Select(x => new ProductTypeInfor
             {
                 Id = x.Id,
                 Name = x.Name,
@@ -151,7 +151,7 @@ namespace ShopOnline.Business.Logic.Staff
 
         public async Task<bool> EditProductTypeAsync(ProductTypeInfor productType)
         {
-            var productTypeEntity = await _context.ProductTypes.Where(x => x.Id == productType.Id && !x.IsDelete).FirstOrDefaultAsync();
+            var productTypeEntity = await _context.ProductTypes.Where(x => x.Id == productType.Id && !x.IsDeleted).FirstOrDefaultAsync();
             if (productType.Name == productTypeEntity.Name)
             {
                 throw new ProductTypeExistedException(productType.Name);
@@ -176,7 +176,7 @@ namespace ShopOnline.Business.Logic.Staff
 
         public async Task CreateProductTypeAsync(ProductTypeInfor productTypeInfor)
         {
-            var productType = await _context.ProductTypes.Where(x => x.Name == productTypeInfor.Name && !x.IsDelete).Select(x => x.Name).FirstOrDefaultAsync();
+            var productType = await _context.ProductTypes.Where(x => x.Name == productTypeInfor.Name && !x.IsDeleted).Select(x => x.Name).FirstOrDefaultAsync();
             if (productType == null)
             {
                 var productTypeEntity = new ProductTypeEntity
@@ -196,8 +196,8 @@ namespace ShopOnline.Business.Logic.Staff
         public async Task<IPagedList<ProductDetailInfor>> GetListProductDetailAsync(string sortOrder, string currentFilter, string searchString, int? page)
         {
             var listProductDetail = new List<ProductDetailInfor>();
-            var productDetails = await _context.ProductDetails.Where(x => !x.IsDelete).ToListAsync();
-            if (productDetails != null)
+            var productDetails = await _context.ProductDetails.Where(x => !x.IsDeleted).ToListAsync();
+            if (productDetails != null && productDetails.Any())
             {
                 foreach (var productDetail in productDetails)
                 {
@@ -205,10 +205,10 @@ namespace ShopOnline.Business.Logic.Staff
                     {
                         Id = productDetail.Id,
                         Name = productDetail.Name,
-                        Pic1=productDetail.Pic1,
-                        Price=productDetail.Price,
-                        Status=productDetail.Status,
-                        IdProductType=productDetail.IdProductType,
+                        Pic1 = productDetail.Pic1,
+                        Price = productDetail.Price,
+                        Status = productDetail.Status,
+                        IdProductType = productDetail.IdProductType,
                     };
                     listProductDetail.Add(productDetailInfor);
                 }
@@ -234,7 +234,7 @@ namespace ShopOnline.Business.Logic.Staff
 
         public async Task<List<ProductTypeInfor>> GetListProductType()
         {
-            var productTypes = await _context.ProductTypes.Select(x => new ProductTypeInfor
+            var productTypes = await _context.ProductTypes.Where(x => !x.IsDeleted).Select(x => new ProductTypeInfor
             {
                 Name = x.Name,
                 Id = x.Id,
@@ -247,8 +247,8 @@ namespace ShopOnline.Business.Logic.Staff
         public async Task<IPagedList<ProductInfor>> GetListProductAsync(string sortOrder, string currentFilter, string searchString, int? page)
         {
             var listProduct = new List<ProductInfor>();
-            var products = await _context.Products.Where(x => !x.IsDelete).ToListAsync();
-            if (products != null)
+            var products = await _context.Products.Where(x => !x.IsDeleted).ToListAsync();
+            if (products != null && products.Any())
             {
                 foreach (var product in products)
                 {
@@ -258,7 +258,7 @@ namespace ShopOnline.Business.Logic.Staff
                         Name = product.Name,
                         Quantity = product.Quantity,
                         Size = product.Size,
-                        IdProductDetail =product.IdProductDetail
+                        IdProductDetail = product.IdProductDetail
                     };
                     listProduct.Add(productInfor);
                 }
@@ -284,14 +284,14 @@ namespace ShopOnline.Business.Logic.Staff
 
         public async Task<List<ProductDetailInfor>> GetListProductDetail()
         {
-            var productDetails = await _context.ProductDetails.Select(x => new ProductDetailInfor
+            var productDetails = await _context.ProductDetails.Where(x => !x.IsDeleted).Select(x => new ProductDetailInfor
             {
                 Name = x.Name,
                 Id = x.Id,
-                Pic1= x.Pic1,
+                Pic1 = x.Pic1,
                 Price = x.Price,
-                Status =x.Status,
-                IdProductType= x.IdProductType,
+                Status = x.Status,
+                IdProductType = x.IdProductType,
             }).ToListAsync();
 
             return productDetails;

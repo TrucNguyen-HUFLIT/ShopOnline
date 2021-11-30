@@ -37,15 +37,15 @@ namespace ShopOnline.Business.Logic
                 TypeAcc = x.TypeAcc,
             };
 
-            var inforAccount = await _context.Customers.Where(x => x.Email == accountLogin.Email && !x.IsDelete)
+            var inforAccount = await _context.Customers.Where(x => x.Email == accountLogin.Email && !x.IsDeleted)
                                         .Select(selectBaseInforAccount)
                                         .FirstOrDefaultAsync();
             if (inforAccount == null)
-                inforAccount = await _context.Staffs.Where(x => x.Email == accountLogin.Email && !x.IsDelete)
+                inforAccount = await _context.Staffs.Where(x => x.Email == accountLogin.Email && !x.IsDeleted)
                                         .Select(selectBaseInforAccount)
                                         .FirstOrDefaultAsync();
             if (inforAccount == null)
-                inforAccount = await _context.Shippers.Where(x => x.Email == accountLogin.Email && !x.IsDelete)
+                inforAccount = await _context.Shippers.Where(x => x.Email == accountLogin.Email && !x.IsDeleted)
                                         .Select(selectBaseInforAccount)
                                         .FirstOrDefaultAsync();
             if (inforAccount == null)

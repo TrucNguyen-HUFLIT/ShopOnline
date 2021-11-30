@@ -152,7 +152,7 @@ namespace ShopOnline.Controllers.Staff
                 ListProductType = await _productBusiness.GetListProductType(),
                 ListProductDetail = await _productBusiness.GetListProductDetailAsync(sortOrder, currentFilter, searchString, page)
             };
-             
+
             return View(model);
         }
 
