@@ -6,7 +6,7 @@ namespace ShopOnline.Core.Exceptions
 {
     public class UserFriendlyException : Exception
     {
-        public UserFriendlyException(ErrorCode errorCode) 
+        public UserFriendlyException(ErrorCode errorCode)
             : base(errorCode.AsString(EnumFormat.Description))
         {
 

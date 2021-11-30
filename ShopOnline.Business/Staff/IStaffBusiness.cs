@@ -1,11 +1,5 @@
-﻿using ReflectionIT.Mvc.Paging;
-using ShopOnline.Core.Entities;
-using ShopOnline.Core.Models.Staff;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using ShopOnline.Core.Models.Staff;
 using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 using X.PagedList;
 

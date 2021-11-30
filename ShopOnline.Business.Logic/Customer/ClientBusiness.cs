@@ -7,7 +7,6 @@ using ShopOnline.Core.Models.Client;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 using static ShopOnline.Core.Models.Enum.AppEnum;
 
@@ -347,7 +346,7 @@ namespace ShopOnline.Business.Logic.Customer
             }
             #endregion
 
-            return new ProductsViewModel 
+            return new ProductsViewModel
             {
                 AmountProduct = amountProduct,
                 ProductsInfor = productsInfor

@@ -14,7 +14,7 @@ namespace ShopOnline.Core.Models.Account
     public class BaseInforAccountModel : AccountLoginModel
     {
         public string FullName { get; set; }
-        
+
         public TypeAcc TypeAcc { get; set; }
     }
 
@@ -31,7 +31,7 @@ namespace ShopOnline.Core.Models.Account
     public class ResetPasswordModel
     {
         public string Email { get; set; }
-       
+
         public string PhoneNumber { get; set; }
     }
 }

@@ -3,8 +3,6 @@ using ShopOnline.Business.Staff;
 using ShopOnline.Core.Filters;
 using ShopOnline.Core.Models.Staff;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace ShopOnline.Controllers.Staff
@@ -71,7 +69,7 @@ namespace ShopOnline.Controllers.Staff
         public async Task<IActionResult> UpdateStaff(StaffEdit staffEdit)
         {
             await _staffBusiness.EditAsync(staffEdit);
-            return RedirectToAction("Edit", new {id= staffEdit.Id});
+            return RedirectToAction("Edit", new { id = staffEdit.Id });
         }
 
         public async Task<IActionResult> DeleteStaff(StaffInfor staffInfor)
@@ -87,15 +85,15 @@ namespace ShopOnline.Controllers.Staff
             {
                 staffEdit = _staffBusiness.GetDataByClaim(User)
             };
-            if(model==null)
+            if (model == null)
             {
                 return View(model);
-            }    
+            }
             else
             {
                 return NotFound();
-            }    
-         
+            }
+
         }
 
         public async Task<IActionResult> Profile(StaffEdit staffEdit)

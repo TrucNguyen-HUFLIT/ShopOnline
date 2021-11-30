@@ -8,7 +8,6 @@ using ShopOnline.Core.Models.Product;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using X.PagedList;
 
@@ -26,8 +25,8 @@ namespace ShopOnline.Business.Logic.Staff
 
         public async Task CreateBrandAsync(BrandCreate brandCreate)
         {
-            var brand = await _context.Brands.Where(x => x.Name == brandCreate.BrandName && !x.IsDelete).Select(x=>x.Name).FirstOrDefaultAsync();
-            if(brand==null)
+            var brand = await _context.Brands.Where(x => x.Name == brandCreate.BrandName && !x.IsDelete).Select(x => x.Name).FirstOrDefaultAsync();
+            if (brand == null)
             {
                 var brandEntity = new BrandEntity
                 {
@@ -35,20 +34,20 @@ namespace ShopOnline.Business.Logic.Staff
                 };
                 _context.Brands.Add(brandEntity);
                 await _context.SaveChangesAsync();
-            }    
-            else 
+            }
+            else
             {
                 throw new BrandExistedException(brandCreate.BrandName);
-            }    
+            }
         }
 
         public async Task<bool> EditBrandAsync(BrandInfor brandInfor)
         {
             var brandEntity = await _context.Brands.Where(x => x.Id == brandInfor.Id && !x.IsDelete).FirstOrDefaultAsync();
-            if(brandEntity.Name == brandInfor.BrandName)
+            if (brandEntity.Name == brandInfor.BrandName)
             {
                 throw new BrandExistedException(brandInfor.BrandName);
-            }    
+            }
             brandEntity.Name = brandInfor.BrandName;
 
             _context.Brands.Update(brandEntity);
@@ -144,7 +143,7 @@ namespace ShopOnline.Business.Logic.Staff
             {
                 Id = x.Id,
                 Name = x.Name,
-                IdBrand= x.IdBrand,
+                IdBrand = x.IdBrand,
             }).FirstOrDefault();
 
             return productType;
@@ -153,7 +152,7 @@ namespace ShopOnline.Business.Logic.Staff
         public async Task<bool> EditProductTypeAsync(ProductTypeInfor productType)
         {
             var productTypeEntity = await _context.ProductTypes.Where(x => x.Id == productType.Id && !x.IsDelete).FirstOrDefaultAsync();
-            if(productType.Name== productTypeEntity.Name)
+            if (productType.Name == productTypeEntity.Name)
             {
                 throw new ProductTypeExistedException(productType.Name);
             }
@@ -183,7 +182,7 @@ namespace ShopOnline.Business.Logic.Staff
                 var productTypeEntity = new ProductTypeEntity
                 {
                     Name = productTypeInfor.Name,
-                    IdBrand=productTypeInfor.IdBrand,
+                    IdBrand = productTypeInfor.IdBrand,
                 };
                 _context.ProductTypes.Add(productTypeEntity);
                 await _context.SaveChangesAsync();
@@ -192,6 +191,110 @@ namespace ShopOnline.Business.Logic.Staff
             {
                 throw new ProductTypeExistedException(productTypeInfor.Name);
             }
+        }
+
+        public async Task<IPagedList<ProductDetailInfor>> GetListProductDetailAsync(string sortOrder, string currentFilter, string searchString, int? page)
+        {
+            var listProductDetail = new List<ProductDetailInfor>();
+            var productDetails = await _context.ProductDetails.Where(x => !x.IsDelete).ToListAsync();
+            if (productDetails != null)
+            {
+                foreach (var productDetail in productDetails)
+                {
+                    var productDetailInfor = new ProductDetailInfor
+                    {
+                        Id = productDetail.Id,
+                        Name = productDetail.Name,
+                        Pic1=productDetail.Pic1,
+                        Price=productDetail.Price,
+                        Status=productDetail.Status,
+                        IdProductType=productDetail.IdProductType,
+                    };
+                    listProductDetail.Add(productDetailInfor);
+                }
+
+                if (!String.IsNullOrEmpty(searchString))
+                {
+                    listProductDetail = listProductDetail.Where(s => s.Name.Contains(searchString)).ToList();
+                }
+                listProductDetail = sortOrder switch
+                {
+                    "name_desc" => listProductDetail.OrderByDescending(x => x.Name).ToList(),
+                    "name" => listProductDetail.OrderBy(x => x.Name).ToList(),
+                    "id_desc" => listProductDetail.OrderByDescending(x => x.Id).ToList(),
+                    _ => listProductDetail.OrderBy(x => x.Id).ToList(),
+                };
+                int pageSize = 10;
+                int pageNumber = (page ?? 1);
+                return listProductDetail.ToPagedList(pageNumber, pageSize);
+            }
+
+            return null;
+        }
+
+        public async Task<List<ProductTypeInfor>> GetListProductType()
+        {
+            var productTypes = await _context.ProductTypes.Select(x => new ProductTypeInfor
+            {
+                Name = x.Name,
+                Id = x.Id,
+                IdBrand = x.IdBrand
+            }).ToListAsync();
+
+            return productTypes;
+        }
+
+        public async Task<IPagedList<ProductInfor>> GetListProductAsync(string sortOrder, string currentFilter, string searchString, int? page)
+        {
+            var listProduct = new List<ProductInfor>();
+            var products = await _context.Products.Where(x => !x.IsDelete).ToListAsync();
+            if (products != null)
+            {
+                foreach (var product in products)
+                {
+                    var productInfor = new ProductInfor
+                    {
+                        Id = product.Id,
+                        Name = product.Name,
+                        Quantity = product.Quantity,
+                        Size = product.Size,
+                        IdProductDetail =product.IdProductDetail
+                    };
+                    listProduct.Add(productInfor);
+                }
+
+                if (!String.IsNullOrEmpty(searchString))
+                {
+                    listProduct = listProduct.Where(s => s.Name.Contains(searchString)).ToList();
+                }
+                listProduct = sortOrder switch
+                {
+                    "name_desc" => listProduct.OrderByDescending(x => x.Name).ToList(),
+                    "name" => listProduct.OrderBy(x => x.Name).ToList(),
+                    "id_desc" => listProduct.OrderByDescending(x => x.Id).ToList(),
+                    _ => listProduct.OrderBy(x => x.Id).ToList(),
+                };
+                int pageSize = 10;
+                int pageNumber = (page ?? 1);
+                return listProduct.ToPagedList(pageNumber, pageSize);
+            }
+
+            return null;
+        }
+
+        public async Task<List<ProductDetailInfor>> GetListProductDetail()
+        {
+            var productDetails = await _context.ProductDetails.Select(x => new ProductDetailInfor
+            {
+                Name = x.Name,
+                Id = x.Id,
+                Pic1= x.Pic1,
+                Price = x.Price,
+                Status =x.Status,
+                IdProductType= x.IdProductType,
+            }).ToListAsync();
+
+            return productDetails;
         }
     }
 }

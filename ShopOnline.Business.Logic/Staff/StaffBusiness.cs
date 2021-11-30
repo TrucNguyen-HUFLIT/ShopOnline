@@ -5,13 +5,13 @@ using ShopOnline.Business.Staff;
 using ShopOnline.Core;
 using ShopOnline.Core.Entities;
 using ShopOnline.Core.Exceptions;
+using ShopOnline.Core.Helpers;
 using ShopOnline.Core.Models.Staff;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 using X.PagedList;
 
@@ -29,16 +29,17 @@ namespace ShopOnline.Business.Logic.Staff
 
         public async Task CreateAsync(StaffCreate staffCreate)
         {
-            var email = await _context.Staffs.Where(x => x.Email == staffCreate.Email&& !x.IsDelete).Select(x=>x.Email).FirstOrDefaultAsync();
+            var email = await _context.Staffs.Where(x => x.Email == staffCreate.Email && !x.IsDelete).Select(x => x.Email).FirstOrDefaultAsync();
             if (email == null)
             {
+                HashPasswordHelper.HashPasswordStrategy = new HashSHA256Strategy();
                 var staff = new StaffEntity
                 {
                     FullName = staffCreate.FullName,
                     Address = staffCreate.Address,
                     Salary = staffCreate.Salary,
                     Email = staffCreate.Email,
-                    Password = ShopOnline.Core.Common.HashPassword.MD5Hash(staffCreate.Password),
+                    Password = HashPasswordHelper.DoHash(staffCreate.Password),
                     PhoneNumber = staffCreate.PhoneNumber,
                     TypeAcc = staffCreate.TypeAcc,
                 };
@@ -109,20 +110,20 @@ namespace ShopOnline.Business.Logic.Staff
             return null;
         }
 
-        public  StaffEdit GetStaffById(int id)
+        public StaffEdit GetStaffById(int id)
         {
-            var staff =  _context.Staffs.Where(x => x.Id == id && !x.IsDelete).Select(x=> new StaffEdit
-                                                                    { 
-                                                                        Id= x.Id,
-                                                                        FullName=x.FullName,
-                                                                        Email=x.Email,
-                                                                        PhoneNumber=x.PhoneNumber,
-                                                                        Address=x.Address,
-                                                                        Avatar=x.Avatar,
-                                                                        TypeAcc=x.TypeAcc
-                                                                    }).FirstOrDefault();
+            var staff = _context.Staffs.Where(x => x.Id == id && !x.IsDelete).Select(x => new StaffEdit
+            {
+                Id = x.Id,
+                FullName = x.FullName,
+                Email = x.Email,
+                PhoneNumber = x.PhoneNumber,
+                Address = x.Address,
+                Avatar = x.Avatar,
+                TypeAcc = x.TypeAcc
+            }).FirstOrDefault();
             return staff;
-           
+
         }
 
         public async Task<bool> EditAsync(StaffEdit staffEdit)
@@ -134,7 +135,7 @@ namespace ShopOnline.Business.Logic.Staff
             staffEntity.TypeAcc = staffEdit.TypeAcc;
             staffEntity.PhoneNumber = staffEdit.PhoneNumber;
 
-            if(staffEdit.UploadAvt!=null)
+            if (staffEdit.UploadAvt != null)
             {
                 string wwwRootPath = hostEnvironment.WebRootPath;
                 string fileName1;
@@ -151,10 +152,10 @@ namespace ShopOnline.Business.Logic.Staff
             }
             _context.Staffs.Update(staffEntity);
             await _context.SaveChangesAsync();
-            return true; 
+            return true;
         }
 
-        public StaffEdit GetStaffByEmail (string email)
+        public StaffEdit GetStaffByEmail(string email)
         {
             var staff = _context.Staffs.Where(x => x.Email == email && !x.IsDelete).Select(x => new StaffEdit
             {
@@ -173,7 +174,7 @@ namespace ShopOnline.Business.Logic.Staff
         {
             string email = claimsPrincipal.FindFirst(ClaimTypes.Email).Value;
 
-            if(email!=null)
+            if (email != null)
             {
                 var staffEdit = new StaffEdit();
 
@@ -191,11 +192,11 @@ namespace ShopOnline.Business.Logic.Staff
                 //StaticAcc.IdRole = model.IdRole;
 
                 return staffEdit;
-            }    
+            }
             else
             {
                 return null;
-            }    
+            }
         }
 
         public async Task<bool> UpdateProfileAsync(StaffEdit staffEdit)
@@ -229,18 +230,18 @@ namespace ShopOnline.Business.Logic.Staff
         public async Task<bool> DeleteStaffAsync(StaffInfor staffInfor)
         {
             var staff = await _context.Staffs.Where(x => x.Id == staffInfor.Id).FirstOrDefaultAsync();
-           
-            if(staff!=null)
+
+            if (staff != null)
             {
                 staff.IsDelete = true;
                 _context.Staffs.Update(staff);
                 await _context.SaveChangesAsync();
                 return true;
-            }    
+            }
             else
             {
                 return false;
-            }    
+            }
         }
     }
 }

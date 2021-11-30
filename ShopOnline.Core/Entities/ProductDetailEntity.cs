@@ -1,6 +1,6 @@
 ﻿
-using static ShopOnline.Core.Models.Enum.AppEnum;
 using System.Collections.Generic;
+using static ShopOnline.Core.Models.Enum.AppEnum;
 
 namespace ShopOnline.Core.Entities
 {
