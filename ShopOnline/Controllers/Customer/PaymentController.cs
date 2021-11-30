@@ -6,14 +6,19 @@ using System.Threading.Tasks;
 
 namespace ShopOnline.Controllers.Customer
 {
-    public class CartController : Controller
+    public class PaymentController : Controller
     {
         public IActionResult Index()
         {
             return View();
         }
 
-        public IActionResult CheckOut()
+        public IActionResult MomoPayment()
+        {
+            return View();
+        }
+
+        public IActionResult ZaloPayment()
         {
             return View();
         }

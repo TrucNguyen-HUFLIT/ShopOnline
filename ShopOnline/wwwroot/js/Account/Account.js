@@ -1,4 +1,5 @@
-﻿let parameters = {
+﻿// #region Check streng password
+let parameters = {
     count: false,
     letters: false,
     numbers: false,
@@ -61,7 +62,6 @@ function strengthChecker() {
     }
 }
 
-
 function toggle() {
     let password = document.getElementById("password");
     let eye = document.getElementById("toggle");
@@ -90,6 +90,9 @@ function toggle1() {
     }
 }
 
+// #endregion
+
+// #region Check match password
 function checkPassword() {
     let password = document.getElementById("password").value;
     let confirmPassword = document.getElementById("confirm-password").value;
@@ -106,3 +109,4 @@ function checkPassword() {
         check.style.color = "#ff3e36"
     }
 }
+// #endregion

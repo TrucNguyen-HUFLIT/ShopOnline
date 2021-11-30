@@ -68,5 +68,10 @@ namespace ShopOnline.Controllers.Customer
 
             return View(productsBrandPageViewModel);
         }
+
+        public IActionResult PageNotFound()
+        {
+            return View();
+        }
     }
 }

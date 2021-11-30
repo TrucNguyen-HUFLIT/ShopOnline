@@ -53,3 +53,8 @@ html {
     display: flex;
     flex-wrap: wrap;
 }
+
+/* Update 25/11 */
+.main {
+    min-height: 400px;
+}

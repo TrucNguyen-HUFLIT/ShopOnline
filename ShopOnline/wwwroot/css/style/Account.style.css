@@ -225,7 +225,11 @@ form {
     width: 280px;
     position: relative;
     margin: auto;
+    margin-top: 20px;
 }
+    .main__register-check-password:first-child {
+        margin-top: 30px;
+    }
 
     .main__register-check-password > input {
         width: 100%;
@@ -237,7 +241,8 @@ form {
     }
 
 #toggle,
-#toggle1 {
+#toggle1,
+.red-star {
     position: absolute;
     top: 17px;
     right: 15px;
@@ -316,6 +321,12 @@ p {
 
 #email_msg, #password_msg {
     display: none
+}
+
+
+.red-star {
+    color: #ff1a1a;
+    font-size: 20px;
 }
 
 /*#endregion*/

@@ -6,9 +6,18 @@
     <h2>Welcome to</h2>
     <h1><a asp-controller="Client" asp-action="Home">DREAMS STORE</a></h1>
     <form action="">
-        <input type="text" class="input-decor" placeholder="Full name">
-        <input type="email" class="input-decor" placeholder="Email">
-        <input type="text" class="input-decor" placeholder="Phone number">
+        <div class="main__register-check-password">
+            <input type="text" class="input-decor" placeholder="Full name">
+            <span class="red-star">*</span>
+        </div>
+        <div class="main__register-check-password">
+            <input type="text" class="input-decor" placeholder="Phone number">
+            <span class="red-star">*</span>
+        </div>
+        <div class="main__register-check-password">
+            <input type="email" class="input-decor" placeholder="Email">
+            <span class="red-star">*</span>
+        </div>
         <div class="main__register-check-password">
             <input type="password" id="password" class="input-decor" oninput="strengthChecker()" placeholder="Password">
             <span id="toggle" onclick="toggle()">

@@ -22,7 +22,6 @@ namespace ShopOnline.Core.Models.Enum
 
         public enum ProductSize
         {
-            Size_34 = 34,
             Size_35 = 35,
             Size_36 = 36,
             Size_37 = 37,
@@ -35,7 +34,6 @@ namespace ShopOnline.Core.Models.Enum
             Size_44 = 44,
             Size_45 = 45,
             Size_46 = 46,
-            Size_47 = 47,
         }
 
         public enum ProductStatus

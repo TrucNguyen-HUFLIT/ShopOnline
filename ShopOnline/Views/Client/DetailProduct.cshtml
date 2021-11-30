@@ -26,6 +26,7 @@
             <h1>@Model.ProductDetail.Name</h1>
             <!-- Get price product -->
             <p>@string.Format("{0:N0}", ((Int64)Model.ProductDetail.Price))<span> VNĐ</span></p>
+            <p>This is description</p>
         </div>
         <div class="main__product-details-disc-select-size">
             <h2>Select Size</h2>
@@ -59,6 +60,8 @@
 <div class="main__product-details">
     <div class="main__product-details-img">
         <div class="main__product-reviews">
+            @*<h1>Description</h1>
+            <p>This is description</p>*@
             <h1>Reviews (@Model.ProductDetail.ReviewsDetail.Count()) <!--get count reviews--></h1>
             <div class="main__box-reviews">
                 @foreach (var reviewDetail in Model.ProductDetail.ReviewsDetail)
@@ -83,8 +86,6 @@
                 <textarea placeholder="Enter your review..." name="Content"></textarea>
                 <input name="IdCustomer" value="1" hidden>
                 <input name="IdProductDetail" value="@Model.ProductDetail.Id" hidden>
-
-                <input type="submit" value="Submit" onclick="CreateReviewDetail()">
                 <input type="submit" value="ADD" onclick="CreateReviewDetail()">
             </form>
         </div>
