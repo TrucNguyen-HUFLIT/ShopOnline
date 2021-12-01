@@ -1,6 +1,15 @@
-﻿namespace ShopOnline.Business.Customer
+﻿using ShopOnline.Core.Models.Client;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+namespace ShopOnline.Business.Customer
 {
-    interface ICartBusiness
+    public interface ICartBusiness
     {
+        Task AddProductToCartAsync(int id, int quantity);
+        List<ProductCartModel> GetProductsCart();
+        Task ReduceProductFromCartAsync(int id, int? quantity);
+        Task RemoveAllProductFromCartAsync();
+        Task RemoveProductFromCartAsync(int idProduct);
     }
 }

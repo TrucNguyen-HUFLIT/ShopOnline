@@ -52,5 +52,17 @@ namespace ShopOnline.Core.Models.Enum
 
         #endregion
 
+        #region Cart = ErrorCode + 2000
+        Cart = ErrorCode + 2000,
+
+        [Display(GroupName = "Cart")]
+        [Description("Out of stock. We have reduced your cart.")]
+        OutOfStock = Cart + 1,
+
+        [Display(GroupName = "Cart")]
+        [Description("Not found this product in your cart")]
+        NotFoundInCart = Cart + 2,
+
+        #endregion
     }
 }
