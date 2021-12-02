@@ -54,7 +54,7 @@ namespace ShopOnline.Controllers.Staff
         public async Task<IActionResult> CreateStaff([FromForm] StaffCreate staffCreate)
         {
             await _staffBusiness.CreateAsync(staffCreate);
-            return RedirectToAction("Index");
+            return Ok();
         }
 
         [HttpGet]
@@ -72,7 +72,7 @@ namespace ShopOnline.Controllers.Staff
         public async Task<IActionResult> UpdateStaff(StaffEdit staffEdit)
         {
             await _staffBusiness.EditAsync(staffEdit);
-            return RedirectToAction("Edit", new { id = staffEdit.Id });
+            return RedirectToAction("UpdateStaff", new { id = staffEdit.Id });
         }
 
         public async Task<IActionResult> DeleteStaff(StaffInfor staffInfor)

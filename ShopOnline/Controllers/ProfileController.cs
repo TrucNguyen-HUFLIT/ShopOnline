@@ -35,7 +35,7 @@ namespace ShopOnline.Controllers
         public async Task<IActionResult> UpdateDetailAsync(UserInfor userInfor)
         {
             await _userBusiness.UpdateProfileAsync(userInfor);
-            return RedirectToAction("Profile");
+            return RedirectToAction("UpdateDetail");
         }
     }
 }

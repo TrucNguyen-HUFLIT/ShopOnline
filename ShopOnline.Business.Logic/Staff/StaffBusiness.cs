@@ -52,8 +52,8 @@ namespace ShopOnline.Business.Logic.Staff
                     string wwwRootPath = hostEnvironment.WebRootPath;
                     string fileName = Path.GetFileNameWithoutExtension(staffCreate.UploadAvt.FileName);
                     string extension = Path.GetExtension(staffCreate.UploadAvt.FileName);
-                    staff.Avatar = fileName += extension;
-                    string path1 = Path.Combine(wwwRootPath + "/img/Avatar/", fileName);
+                    staff.Avatar = "/img/Avatar/" + fileName + extension;
+                    string path1 = Path.Combine(wwwRootPath + "/img/Avatar/", fileName + extension);
                     using (var fileStream = new FileStream(path1, FileMode.Create))
                     {
                         await staffCreate.UploadAvt.CopyToAsync(fileStream);

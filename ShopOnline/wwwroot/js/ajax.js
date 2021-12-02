@@ -75,8 +75,8 @@ $("#edit-staff-form").submit(function (e) {
         enctype: 'multipart/form-data',
         processData: false,
         data: formData,
-        success: function () {
-            window.location.replace("/staff/updatestaff");
+        success: function (data) {
+            window.location.replace(`/staff/updatestaff/${data}`);
         },
         error: function (data) {
             console.log(data)
@@ -158,8 +158,8 @@ $("#edit-brand-form").submit(function (e) {
         enctype: 'multipart/form-data',
         processData: false,
         data: formData,
-        success: function () {
-            window.location.replace("/product/updatebrand");
+        success: function (data) {
+            window.location.replace(`/product/updatebrand/${data}`);
         },
         error: function (data) {
             console.log(data)
@@ -240,8 +240,8 @@ $("#update-product-type-form").submit(function (e) {
         enctype: 'multipart/form-data',
         processData: false,
         data: formData,
-        success: function () {
-            window.location.replace("/product/updateproducttype");
+        success: function (data) {
+            window.location.replace(`/product/updateproducttype/${data}`);
         },
         error: function (data) {
             console.log(data)
@@ -304,6 +304,110 @@ $("#profile-form").submit(function (e) {
             catch {
                 document.getElementById("Err_FullName").innerHTML = "";
                 document.getElementById("Err_PhoneNumber").innerHTML = "";
+            }
+        },
+    });
+});
+
+$("#create-product-detail-form").submit(function (e) {
+    e.preventDefault();
+
+    let formData = new FormData($(this)[0]);
+    $.ajax({
+        url: '/product/createProductDetail',
+        type: "post",
+        async: false,
+        cache: false,
+        contentType: false,
+        enctype: 'multipart/form-data',
+        processData: false,
+        data: formData,
+        success: function () {
+            window.location.replace("/product/listProductDetail");
+        },
+        error: function (data) {
+            console.log(data)
+            var errors = data.responseText;
+            if (errors == " Product Detail is already ") {
+                document.getElementById("productDetailAlready").innerHTML = data.responseText;
+
+            }
+            try {
+
+                var objectValid = data.responseJSON;
+
+                if (objectValid["productDetailCreate.Name"] != undefined)
+                    document.getElementById("Err_Name").innerHTML = objectValid["productDetailCreate.Name"];
+                else
+                    document.getElementById("Err_Name").innerHTML = "";
+
+                if (objectValid["productDetailCreate.Price"] != undefined)
+                    document.getElementById("Err_Price").innerHTML = objectValid["productDetailCreate.Price"];
+                else
+                    document.getElementById("Err_Price").innerHTML = "";
+
+                if (objectValid["productDetailCreate.UploadPic1"] != undefined)
+                    document.getElementById("Err_UploadPic1").innerHTML = objectValid["productDetailCreate.UploadPic1"];
+                else
+                    document.getElementById("Err_UploadPic1").innerHTML = "";
+
+            }
+            catch {
+                document.getElementById("Err_Name").innerHTML = "";
+                document.getElementById("Err_Price").innerHTML = "";
+                document.getElementById("Err_UploadPic1").innerHTML = "";
+            }
+        },
+    });
+});
+
+$("#update-product-detail-form").submit(function (e) {
+    e.preventDefault();
+
+    let formData = new FormData($(this)[0]);
+    $.ajax({
+        url: '/product/updateProductDetail',
+        type: "post",
+        async: false,
+        cache: false,
+        contentType: false,
+        enctype: 'multipart/form-data',
+        processData: false,
+        data: formData,
+        success: function (data) {
+            window.location.replace(`/product/updateProductDetail/${data}`);
+        },
+        error: function (data) {
+            console.log(data)
+            var errors = data.responseText;
+            if (errors == " Product Detail is already ") {
+                document.getElementById("productDetailAlready").innerHTML = data.responseText;
+
+            }
+            try {
+
+                var objectValid = data.responseJSON;
+
+                if (objectValid["productDetailCreate.Name"] != undefined)
+                    document.getElementById("Err_Name").innerHTML = objectValid["productDetailCreate.Name"];
+                else
+                    document.getElementById("Err_Name").innerHTML = "";
+
+                if (objectValid["productDetailCreate.Price"] != undefined)
+                    document.getElementById("Err_Price").innerHTML = objectValid["productDetailCreate.Price"];
+                else
+                    document.getElementById("Err_Price").innerHTML = "";
+
+                if (objectValid["productDetailCreate.UploadPic1"] != undefined)
+                    document.getElementById("Err_UploadPic1").innerHTML = objectValid["productDetailCreate.UploadPic1"];
+                else
+                    document.getElementById("Err_UploadPic1").innerHTML = "";
+
+            }
+            catch {
+                document.getElementById("Err_Name").innerHTML = "";
+                document.getElementById("Err_Price").innerHTML = "";
+                document.getElementById("Err_UploadPic1").innerHTML = "";
             }
         },
     });

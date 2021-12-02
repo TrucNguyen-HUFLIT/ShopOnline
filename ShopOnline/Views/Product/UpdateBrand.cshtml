@@ -26,6 +26,13 @@
             <form asp-action="EditBrand" enctype="multipart/form-data" id="edit-brand-form">
                 <div class="row">
                     <div class="col-md-6 mb-3">
+                        <div class="col-md-6 mb-3" hidden>
+                            <div>
+                                <label>Id Staff</label>
+                                <input asp-for="brandInfor.Id" class="form-control" type="text">
+                                <span asp-validation-for="brandInfor.Id" class="text-danger"></span>
+                            </div>
+                        </div>
                         <div>
                             <label>Brand Name</label>
                             <input asp-for="brandInfor.BrandName" class="form-control" type="text" placeholder="Enter brand name">

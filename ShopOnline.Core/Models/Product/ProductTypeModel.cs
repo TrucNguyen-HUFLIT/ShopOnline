@@ -17,4 +17,10 @@ namespace ShopOnline.Core.Models.Product
         [Display(Name = "Brand")]
         public int IdBrand { get; set; }
     }
+
+    public class ProductTypeViewModel
+    {
+        public ProductTypeInfor productType { get; set; }
+        public List<BrandInfor> ListBrand { get; set; }
+    }
 }
