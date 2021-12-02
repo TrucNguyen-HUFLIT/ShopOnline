@@ -64,5 +64,15 @@ namespace ShopOnline.Core.Models.Enum
         NotFoundInCart = Cart + 2,
 
         #endregion
+
+        #region User = ErrorCode + 3000
+        User = ErrorCode + 3000,
+
+        [Display(GroupName = "User")]
+        [Description("Not found user")]
+        NotFoundUser = Cart + 1,
+
+        #endregion
+
     }
 }

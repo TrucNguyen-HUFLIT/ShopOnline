@@ -170,63 +170,6 @@ namespace ShopOnline.Business.Logic.Staff
             return staff;
         }
 
-        public StaffEdit GetDataByClaim(ClaimsPrincipal claimsPrincipal)
-        {
-            string email = claimsPrincipal.FindFirst(ClaimTypes.Email).Value;
-
-            if (email != null)
-            {
-                var staffEdit = new StaffEdit();
-
-                var staff = GetStaffByEmail(email);
-                staffEdit.Id = staff.Id;
-                staffEdit.PhoneNumber = staff.PhoneNumber;
-                staffEdit.TypeAcc = staff.TypeAcc;
-                staffEdit.FullName = staff.FullName;
-                staffEdit.Address = staff.Address;
-                staffEdit.Avatar = staff.Avatar;
-                staffEdit.Email = staff.Email;
-
-                //StaticAcc.Avatar = model.Avt;
-                //StaticAcc.Name = model.FirstName + " " + model.LastName;
-                //StaticAcc.IdRole = model.IdRole;
-
-                return staffEdit;
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        public async Task<bool> UpdateProfileAsync(StaffEdit staffEdit)
-        {
-            var staff = await _context.Staffs.Where(x => x.Id == staffEdit.Id && !x.IsDeleted).FirstOrDefaultAsync();
-
-            staff.FullName = staffEdit.FullName;
-            staff.Address = staffEdit.Address;
-            staff.PhoneNumber = staffEdit.PhoneNumber;
-            if (staffEdit.UploadAvt != null)
-            {
-                string wwwRootPath = hostEnvironment.WebRootPath;
-                string fileName1;
-                string extension1;
-
-                fileName1 = Path.GetFileNameWithoutExtension(staffEdit.UploadAvt.FileName);
-                extension1 = Path.GetExtension(staffEdit.UploadAvt.FileName);
-                staff.Avatar = fileName1 += extension1;
-                string path1 = Path.Combine(wwwRootPath + "/img/Avatar/", fileName1);
-                using (var fileStream = new FileStream(path1, FileMode.Create))
-                {
-                    await staffEdit.UploadAvt.CopyToAsync(fileStream);
-                }
-            }
-
-            _context.Staffs.Update(staff);
-            await _context.SaveChangesAsync();
-            return true;
-        }
-
         public async Task<bool> DeleteStaffAsync(StaffInfor staffInfor)
         {
             var staff = await _context.Staffs.Where(x => x.Id == staffInfor.Id && !x.IsDeleted).FirstOrDefaultAsync();

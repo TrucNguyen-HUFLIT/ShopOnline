@@ -11,9 +11,6 @@ namespace ShopOnline.Business.Staff
         Task CreateAsync(StaffCreate staffCreate);
         StaffEdit GetStaffById(int id);
         Task<bool> EditAsync(StaffEdit staffEdit);
-
-        StaffEdit GetDataByClaim(ClaimsPrincipal claimsPrincipal);
-        Task<bool> UpdateProfileAsync(StaffEdit staffEdit);
         Task<bool> DeleteStaffAsync(StaffInfor staffInfor);
     }
 }

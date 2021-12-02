@@ -1,15 +1,17 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ShopOnline.Business.Staff;
 using ShopOnline.Core.Filters;
+using ShopOnline.Core.Models;
 using ShopOnline.Core.Models.Product;
 using System;
 using System.Threading.Tasks;
 
 namespace ShopOnline.Controllers.Staff
 {
+    [Authorize(Roles = ROLE.STAFF)]
     public class ProductController : Controller
     {
-
         private readonly IProductBusiness _productBusiness;
         public ProductController(IProductBusiness productBusiness)
         {

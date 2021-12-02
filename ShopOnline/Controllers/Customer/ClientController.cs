@@ -2,15 +2,14 @@
 using Microsoft.AspNetCore.Mvc;
 using ShopOnline.Business.Customer;
 using ShopOnline.Core.Helpers;
+using ShopOnline.Core.Models;
 using ShopOnline.Core.Models.Client;
 using System.Threading.Tasks;
 
 namespace ShopOnline.Controllers.Customer
 {
-    [Authorize(Roles = CUSTOMER)]
     public class ClientController : Controller
     {
-        const string CUSTOMER = "customer";
         private readonly IClientBusiness _clientBusiness;
 
         public ClientController(IClientBusiness clientBusiness)
@@ -44,6 +43,7 @@ namespace ShopOnline.Controllers.Customer
             return View(productDetailPageViewModel);
         }
 
+        [Authorize(Roles = ROLE.CUSTOMER)]
         [HttpPost]
         public async Task<IActionResult> CreateReviewDetailAsync(ReviewDetailModel reviewDetail)
         {
