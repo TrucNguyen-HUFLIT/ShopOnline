@@ -259,6 +259,5 @@ namespace ShopOnline.Business.Logic.Staff
             {
                 return false;
             }
-        }
     }
 }
