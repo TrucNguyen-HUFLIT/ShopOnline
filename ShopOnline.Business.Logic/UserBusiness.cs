@@ -1,11 +1,13 @@
 ﻿using MailKit.Net.Smtp;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using MimeKit;
 using ShopOnline.Core;
 using ShopOnline.Core.Entities;
 using ShopOnline.Core.Exceptions;
 using ShopOnline.Core.Helpers;
+using ShopOnline.Core.Models;
 using ShopOnline.Core.Models.Account;
 using ShopOnline.Core.Models.Enum;
 using System;
@@ -21,10 +23,14 @@ namespace ShopOnline.Business.Logic
     public class UserBusiness : IUserBusiness
     {
         private readonly MyDbContext _context;
+        private readonly IWebHostEnvironment _hostEnvironment;
 
-        public UserBusiness(MyDbContext context)
+
+        public UserBusiness(MyDbContext context,
+                            IWebHostEnvironment hostEnvironment)
         {
             _context = context;
+            _hostEnvironment = hostEnvironment;
         }
 
         public async Task<ClaimsPrincipal> LoginAsync(AccountLoginModel accountLogin)
@@ -130,7 +136,7 @@ namespace ShopOnline.Business.Logic
                 throw new UserFriendlyException(ErrorCode.PhoneNotMatch);
             }
 
-            string newPassword = AccountHelper.GetNewRandomPassword();
+            string newPassword = UserHelper.GetNewRandomPassword();
 
             HashPasswordHelper.HashPasswordStrategy = new HashMD5Strategy();
             accountReset.Password = HashPasswordHelper.DoHash(newPassword);
@@ -170,6 +176,148 @@ namespace ShopOnline.Business.Logic
 
             _context.Customers.Update(accountReset);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<UserInfor> GetUserInforByClaimAsync(ClaimsPrincipal user)
+        {
+            string email = user.FindFirst(ClaimTypes.Email).Value;
+            var userInfor = new UserInfor();
+            if (email == null)
+                return userInfor;
+
+            string role = user.FindFirst(ClaimTypes.Role).Value;
+            role =  char.ToUpper(role[0]) + role.Substring(1);
+            Enum.TryParse(role, out TypeAcc enumRole);
+
+            switch (enumRole)
+            {
+                case TypeAcc.Customer:
+                    userInfor = await _context.Customers
+                                        .Where(x => x.Email == email && !x.IsDeleted)
+                                        .Select(x => new UserInfor
+                                        {
+                                            Id = x.Id,
+                                            FullName = x.FullName,
+                                            Email = x.Email,
+                                            PhoneNumber = x.PhoneNumber,
+                                            Address = x.Address,
+                                            Avatar = x.Avatar,
+                                            TypeAcc = x.TypeAcc
+                                        })
+                                        .FirstOrDefaultAsync();
+                    break;
+                case TypeAcc.Shipper:
+                    userInfor = await _context.Shippers
+                                        .Where(x => x.Email == email && !x.IsDeleted)
+                                        .Select(x => new UserInfor
+                                        {
+                                            Id = x.Id,
+                                            FullName = x.FullName,
+                                            Email = x.Email,
+                                            PhoneNumber = x.PhoneNumber,
+                                            Address = x.Address,
+                                            Avatar = x.Avatar,
+                                            TypeAcc = x.TypeAcc
+                                        })
+                                        .FirstOrDefaultAsync();
+                    break;
+                case TypeAcc.Staff:
+                    userInfor = await _context.Staffs
+                                        .Where(x => x.Email == email && !x.IsDeleted && x.TypeAcc == TypeAcc.Staff)
+                                        .Select(x => new UserInfor
+                                        {
+                                            Id = x.Id,
+                                            FullName = x.FullName,
+                                            Email = x.Email,
+                                            PhoneNumber = x.PhoneNumber,
+                                            Address = x.Address,
+                                            Avatar = x.Avatar,
+                                            TypeAcc = x.TypeAcc
+                                        })
+                                        .FirstOrDefaultAsync();
+                    break;
+                default: // Admin
+                    userInfor = await _context.Customers
+                                        .Where(x => x.Email == email && !x.IsDeleted && x.TypeAcc == TypeAcc.Admin)
+                                        .Select(x => new UserInfor
+                                        {
+                                            Id = x.Id,
+                                            FullName = x.FullName,
+                                            Email = x.Email,
+                                            PhoneNumber = x.PhoneNumber,
+                                            Address = x.Address,
+                                            Avatar = x.Avatar,
+                                            TypeAcc = x.TypeAcc
+                                        })
+                                        .FirstOrDefaultAsync();
+                    break;
+            }
+
+            return userInfor;
+        }
+
+        public async Task<bool> UpdateProfileAsync(UserInfor userInfor)
+        {
+            switch (userInfor.TypeAcc)
+            {
+                case TypeAcc.Customer:
+                    var customerProfile = await _context.Customers.Where(x => x.Id == userInfor.Id && !x.IsDeleted)
+                                        .FirstOrDefaultAsync();
+
+                    if (customerProfile == null)
+                        throw new UserFriendlyException(ErrorCode.NotFoundUser);
+
+                    customerProfile.FullName = userInfor.FullName;
+                    customerProfile.Address = userInfor.Address;
+                    customerProfile.PhoneNumber = userInfor.PhoneNumber;
+
+                    if (userInfor.UploadAvt != null)
+                    {
+                        customerProfile.Avatar = await UserHelper.UploadImageAvatarHanlderAsync(userInfor.UploadAvt, _hostEnvironment);
+                    }
+                    _context.Customers.Update(customerProfile);
+
+                    break;
+                case TypeAcc.Shipper:
+                    var shipperProfile = await _context.Shippers.Where(x => x.Id == userInfor.Id && !x.IsDeleted)
+                                        .FirstOrDefaultAsync();
+
+                    if (shipperProfile == null)
+                        throw new UserFriendlyException(ErrorCode.NotFoundUser);
+
+                    shipperProfile.FullName = userInfor.FullName;
+                    shipperProfile.Address = userInfor.Address;
+                    shipperProfile.PhoneNumber = userInfor.PhoneNumber;
+
+                    if (userInfor.UploadAvt != null)
+                    {
+                        shipperProfile.Avatar = await UserHelper.UploadImageAvatarHanlderAsync(userInfor.UploadAvt, _hostEnvironment);
+                    }
+                    _context.Shippers.Update(shipperProfile);
+
+                    break;
+                default: // Admin
+                    var staffProfile = await _context.Staffs.Where(x => x.Id == userInfor.Id && !x.IsDeleted && x.TypeAcc == userInfor.TypeAcc)
+                                        .FirstOrDefaultAsync();
+
+                    if (staffProfile == null)
+                        throw new UserFriendlyException(ErrorCode.NotFoundUser);
+
+                    staffProfile.FullName = userInfor.FullName;
+                    staffProfile.Address = userInfor.Address;
+                    staffProfile.PhoneNumber = userInfor.PhoneNumber;
+
+                    if (userInfor.UploadAvt != null)
+                    {
+                        staffProfile.Avatar = await UserHelper.UploadImageAvatarHanlderAsync(userInfor.UploadAvt, _hostEnvironment);
+                    }
+                    _context.Staffs.Update(staffProfile);
+
+                    break;
+            }
+
+            await _context.SaveChangesAsync();
+            return true;
         }
     }
 }

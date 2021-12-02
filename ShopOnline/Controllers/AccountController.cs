@@ -3,8 +3,6 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using ShopOnline.Business;
 using ShopOnline.Core.Models.Account;
-using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace ShopOnline.Controllers
@@ -31,8 +29,7 @@ namespace ShopOnline.Controllers
             if (claimsPrincipal != null)
             {
                 await HttpContext.SignInAsync(claimsPrincipal);
-                var role = claimsPrincipal.Claims.Where(x => x.Type == ClaimTypes.Role).FirstOrDefault().Value;
-                return Ok(role);
+                return Ok();
             }
             else
             {

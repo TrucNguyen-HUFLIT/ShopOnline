@@ -1,12 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ShopOnline.Business.Staff;
 using ShopOnline.Core.Filters;
+using ShopOnline.Core.Models;
 using ShopOnline.Core.Models.Staff;
 using System;
 using System.Threading.Tasks;
 
 namespace ShopOnline.Controllers.Staff
 {
+    [Authorize(Roles = ROLE.ADMIN)]
     public class StaffController : Controller
     {
         private readonly IStaffBusiness _staffBusiness;
@@ -76,30 +79,6 @@ namespace ShopOnline.Controllers.Staff
         {
             await _staffBusiness.DeleteStaffAsync(staffInfor);
             return Ok();
-        }
-
-        [HttpGet]
-        public IActionResult Profile()
-        {
-            var model = new StaffViewModel
-            {
-                staffEdit = _staffBusiness.GetDataByClaim(User)
-            };
-            if (model == null)
-            {
-                return View(model);
-            }
-            else
-            {
-                return NotFound();
-            }
-
-        }
-
-        public async Task<IActionResult> Profile(StaffEdit staffEdit)
-        {
-            await _staffBusiness.UpdateProfileAsync(staffEdit);
-            return RedirectToAction("Profile");
         }
     }
 }

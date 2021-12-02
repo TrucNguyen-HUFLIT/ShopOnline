@@ -4,15 +4,7 @@
         REGISTER: '/account/register',
         RESET_PASSWORD: '/account/resetpassword',
     },
-    CLIENT: {
-        HOME: '/client/home',
-    },
-    SHIPPER: {
-        HOME: '/shipper/home',
-    },
-    STAFF: {
-        INDEX: '/staff/index',
-    },
+    PROFILE: '/profile/updatedetail',
 }
 
 const FORM_ID = {
@@ -56,27 +48,8 @@ function login() {
         type: 'post',
         contentType: "application/x-www-form-urlencoded",
         data: formData,
-        success: function (data) {
-            const ROLE =
-            {
-                CUSTOMER: 'customer',
-                SHIPPER: 'shipper',
-                ADMIN: 'admin',
-                STAFF: 'staff',
-            };
-            const role = data.toLowerCase();
-
-            switch (role) {
-                case ROLE.CUSTOMER:
-                    window.location.replace(ROUTE.CLIENT.HOME);
-                    break;
-                case ROLE.SHIPPER:
-                    window.location.replace(ROUTE.SHIPPER.HOME);
-                    break;
-                default:
-                    window.location.replace(ROUTE.STAFF.INDEX);
-                    break;
-            }
+        success: function () {
+            window.location.replace(ROUTE.PROFILE);
         },
         error: function (XMLHttpRequest) {
             const EleErrorMsgLogin = {

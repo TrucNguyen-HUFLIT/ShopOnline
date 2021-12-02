@@ -282,7 +282,7 @@ $("#profile-form").submit(function (e) {
         processData: false,
         data: formData,
         success: function () {
-            window.location.replace("/staff/profile");
+            window.location.replace("/profile/updatedetail");
         },
         error: function (data) {
             console.log(data)
