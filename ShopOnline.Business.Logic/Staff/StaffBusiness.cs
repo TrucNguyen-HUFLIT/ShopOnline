@@ -243,5 +243,22 @@ namespace ShopOnline.Business.Logic.Staff
                 return false;
             }
         }
+
+        public async Task<bool> TestActionWorkFlow(StaffInfor staffInfor)
+        {
+            var staff = await _context.Staffs.Where(x => x.Id == staffInfor.Id && !x.IsDeleted).FirstOrDefaultAsync();
+
+            if (staff != null)
+            {
+                staff.IsDeleted = true;
+                _context.Staffs.Update(staff);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }
