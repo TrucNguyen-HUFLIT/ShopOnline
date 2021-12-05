@@ -6,12 +6,12 @@ using ShopOnline.Core;
 using ShopOnline.Core.Entities;
 using ShopOnline.Core.Exceptions;
 using ShopOnline.Core.Helpers;
+using ShopOnline.Core.Models.Enum;
 using ShopOnline.Core.Models.Staff;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using X.PagedList;
 
@@ -64,7 +64,7 @@ namespace ShopOnline.Business.Logic.Staff
             }
             else
             {
-                throw new EmailException(email);
+                throw new UserFriendlyException(ErrorCode.EmailExisted);
             }
 
         }

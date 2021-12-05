@@ -22,6 +22,7 @@ namespace ShopOnline.Core.Models.Product
         public string Pic2 { get; set; }
         public string Pic3 { get; set; }
         public int Price { get; set; }
+        public int BasePrice { get; set; }
         public ProductStatus Status { get; set; }
         [Display(Name = "Type")]
         public int IdProductType { get; set; }
@@ -39,15 +40,20 @@ namespace ShopOnline.Core.Models.Product
         public IFormFile UploadPic3 { get; set; }
 
     }
-    public class ProductDetailUpdate: ProductDetailCreate
+    public class ProductDetailUpdate : ProductDetailCreate
     {
 
     }
-    public class ProductDetailViewModel 
+
+    public class ProductDetailCreateViewModel
     {
-        public ProductDetailUpdate productDetailUpdate { get; set; }
-        public ProductDetailCreate productDetailCreate { get; set; }
-        public ProductDetailInfor productDetail { get; set; }
+        public ProductDetailCreate ProductDetailCreate { get; set; }
+        public List<ProductTypeInfor> ListProductType { get; set; }
+    }
+
+    public class ProductDetailUpdateViewModel
+    {
+        public ProductDetailUpdate ProductDetailUpdate { get; set; }
         public List<ProductTypeInfor> ListProductType { get; set; }
     }
 }

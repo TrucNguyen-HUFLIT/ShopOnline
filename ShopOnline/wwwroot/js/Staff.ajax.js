@@ -17,7 +17,7 @@
         error: function (data) {
             console.log(data)
             var errors = data.responseText;
-            if (errors == " Email is already ") {
+            if (errors == "Email already exists") {
                 document.getElementById("emailAlready").innerHTML = data.responseText;
 
             }
@@ -25,28 +25,28 @@
 
                 var objectValid = data.responseJSON;
 
-                if (objectValid["staffCreate.FullName"] != undefined)
-                    document.getElementById("Err_FullName").innerHTML = objectValid["staffCreate.FullName"];
+                if (objectValid["StaffCreate.FullName"] != undefined)
+                    document.getElementById("Err_FullName").innerHTML = objectValid["StaffCreate.FullName"];
                 else
                     document.getElementById("Err_FullName").innerHTML = "";
 
-                if (objectValid["staffCreate.PhoneNumber"] != undefined)
-                    document.getElementById("Err_PhoneNumber").innerHTML = objectValid["staffCreate.PhoneNumber"];
+                if (objectValid["StaffCreate.PhoneNumber"] != undefined)
+                    document.getElementById("Err_PhoneNumber").innerHTML = objectValid["StaffCreate.PhoneNumber"];
                 else
                     document.getElementById("Err_PhoneNumber").innerHTML = "";
 
-                if (objectValid["staffCreate.Email"] != undefined)
-                    document.getElementById("Err_Email").innerHTML = objectValid["staffCreate.Email"];
+                if (objectValid["StaffCreate.Email"] != undefined)
+                    document.getElementById("Err_Email").innerHTML = objectValid["StaffCreate.Email"];
                 else
                     document.getElementById("Err_Email").innerHTML = "";
 
-                if (objectValid["staffCreate.Password"] != undefined)
-                    document.getElementById("Err_Password").innerHTML = objectValid["staffCreate.Password"];
+                if (objectValid["StaffCreate.Password"] != undefined)
+                    document.getElementById("Err_Password").innerHTML = objectValid["StaffCreate.Password"];
                 else
                     document.getElementById("Err_Password").innerHTML = "";
 
-                if (objectValid["staffCreate.ConfirmPassword"] != undefined)
-                    document.getElementById("Err_ConfirmPassword").innerHTML = objectValid["staffCreate.ConfirmPassword"];
+                if (objectValid["StaffCreate.ConfirmPassword"] != undefined)
+                    document.getElementById("Err_ConfirmPassword").innerHTML = objectValid["StaffCreate.ConfirmPassword"];
                 else
                     document.getElementById("Err_ConfirmPassword").innerHTML = "";
 
@@ -84,13 +84,13 @@ $("#edit-staff-form").submit(function (e) {
 
                 var objectValid = data.responseJSON;
 
-                if (objectValid["staffEdit.FullName"] != undefined)
-                    document.getElementById("Err_FullName").innerHTML = objectValid["staffEdit.FullName"];
+                if (objectValid["StaffEdit.FullName"] != undefined)
+                    document.getElementById("Err_FullName").innerHTML = objectValid["StaffEdit.FullName"];
                 else
                     document.getElementById("Err_FullName").innerHTML = "";
 
-                if (objectValid["staffEdit.PhoneNumber"] != undefined)
-                    document.getElementById("Err_PhoneNumber").innerHTML = objectValid["staffEdit.PhoneNumber"];
+                if (objectValid["StaffEdit.PhoneNumber"] != undefined)
+                    document.getElementById("Err_PhoneNumber").innerHTML = objectValid["StaffEdit.PhoneNumber"];
                 else
                     document.getElementById("Err_PhoneNumber").innerHTML = "";
 
@@ -123,7 +123,7 @@ $("#create-brand-form").submit(function (e) {
         error: function (data) {
             console.log(data)
             var errors = data.responseText;
-            if (errors == " Brand is already ") {
+            if (errors == "Brand already exists") {
                 document.getElementById("brandAlready").innerHTML = data.responseText;
 
             }
@@ -164,7 +164,7 @@ $("#edit-brand-form").submit(function (e) {
         error: function (data) {
             console.log(data)
             var errors = data.responseText;
-            if (errors == " Brand is already ") {
+            if (errors == "Brand already exists") {
                 document.getElementById("brandAlready").innerHTML = data.responseText;
 
             }
@@ -172,8 +172,8 @@ $("#edit-brand-form").submit(function (e) {
 
                 var objectValid = data.responseJSON;
 
-                if (objectValid["brandCreate.BrandName"] != undefined)
-                    document.getElementById("Err_BrandName").innerHTML = objectValid["brandCreate.BrandName"];
+                if (objectValid["BrandInfor.BrandName"] != undefined)
+                    document.getElementById("Err_BrandName").innerHTML = objectValid["BrandInfor.BrandName"];
                 else
                     document.getElementById("Err_BrandName").innerHTML = "";
 
@@ -205,7 +205,7 @@ $("#create-product-type-form").submit(function (e) {
         error: function (data) {
             console.log(data)
             var errors = data.responseText;
-            if (errors == " Product Type is already ") {
+            if (errors == "Product Type already exists") {
                 document.getElementById("productTypeAlready").innerHTML = data.responseText;
 
             }
@@ -246,7 +246,7 @@ $("#update-product-type-form").submit(function (e) {
         error: function (data) {
             console.log(data)
             var errors = data.responseText;
-            if (errors == " Product Type is already ") {
+            if (errors == "Product Type already exists") {
                 document.getElementById("productTypeAlready").innerHTML = data.responseText;
 
             }
@@ -328,7 +328,7 @@ $("#create-product-detail-form").submit(function (e) {
         error: function (data) {
             console.log(data)
             var errors = data.responseText;
-            if (errors == " Product Detail is already ") {
+            if (errors == "Product Detail already exists") {
                 document.getElementById("productDetailAlready").innerHTML = data.responseText;
 
             }
@@ -336,18 +336,18 @@ $("#create-product-detail-form").submit(function (e) {
 
                 var objectValid = data.responseJSON;
 
-                if (objectValid["productDetailCreate.Name"] != undefined)
-                    document.getElementById("Err_Name").innerHTML = objectValid["productDetailCreate.Name"];
+                if (objectValid["ProductDetailCreate.Name"] != undefined)
+                    document.getElementById("Err_Name").innerHTML = objectValid["ProductDetailCreate.Name"];
                 else
                     document.getElementById("Err_Name").innerHTML = "";
 
-                if (objectValid["productDetailCreate.Price"] != undefined)
-                    document.getElementById("Err_Price").innerHTML = objectValid["productDetailCreate.Price"];
+                if (objectValid["ProductDetailCreate.Price"] != undefined)
+                    document.getElementById("Err_Price").innerHTML = objectValid["ProductDetailCreate.Price"];
                 else
                     document.getElementById("Err_Price").innerHTML = "";
 
-                if (objectValid["productDetailCreate.UploadPic1"] != undefined)
-                    document.getElementById("Err_UploadPic1").innerHTML = objectValid["productDetailCreate.UploadPic1"];
+                if (objectValid["ProductDetailCreate.UploadPic1"] != undefined)
+                    document.getElementById("Err_UploadPic1").innerHTML = objectValid["ProductDetailCreate.UploadPic1"];
                 else
                     document.getElementById("Err_UploadPic1").innerHTML = "";
 
@@ -380,7 +380,7 @@ $("#update-product-detail-form").submit(function (e) {
         error: function (data) {
             console.log(data)
             var errors = data.responseText;
-            if (errors == " Product Detail is already ") {
+            if (errors == "Product Detail already exists") {
                 document.getElementById("productDetailAlready").innerHTML = data.responseText;
 
             }
@@ -388,18 +388,23 @@ $("#update-product-detail-form").submit(function (e) {
 
                 var objectValid = data.responseJSON;
 
-                if (objectValid["productDetailCreate.Name"] != undefined)
-                    document.getElementById("Err_Name").innerHTML = objectValid["productDetailCreate.Name"];
+                if (objectValid["ProductDetailUpdate.Name"] != undefined)
+                    document.getElementById("Err_Name").innerHTML = objectValid["ProductDetailUpdate.Name"];
                 else
                     document.getElementById("Err_Name").innerHTML = "";
 
-                if (objectValid["productDetailCreate.Price"] != undefined)
-                    document.getElementById("Err_Price").innerHTML = objectValid["productDetailCreate.Price"];
+                if (objectValid["ProductDetailUpdate.Price"] != undefined)
+                    document.getElementById("Err_Price").innerHTML = objectValid["ProductDetailUpdate.Price"];
                 else
                     document.getElementById("Err_Price").innerHTML = "";
 
-                if (objectValid["productDetailCreate.UploadPic1"] != undefined)
-                    document.getElementById("Err_UploadPic1").innerHTML = objectValid["productDetailCreate.UploadPic1"];
+                if (objectValid["ProductDetailUpdate.BasePrice"] != undefined)
+                    document.getElementById("Err_BasePrice").innerHTML = objectValid["ProductDetailUpdate.BasePrice"];
+                else
+                    document.getElementById("Err_BasePrice").innerHTML = "";
+
+                if (objectValid["ProductDetailUpdate.UploadPic1"] != undefined)
+                    document.getElementById("Err_UploadPic1").innerHTML = objectValid["ProductDetailUpdate.UploadPic1"];
                 else
                     document.getElementById("Err_UploadPic1").innerHTML = "";
 

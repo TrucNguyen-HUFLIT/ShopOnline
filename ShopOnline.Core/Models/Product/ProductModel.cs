@@ -6,8 +6,6 @@ namespace ShopOnline.Core.Models.Product
 {
     public class ProductModel
     {
-        public ProductUpdate productUpdate { get; set; }
-        public ProductCreate productCreate { get; set; }
         public ProductInfor productInfor { get; set; }
         public List<ProductDetailInfor> ListProductDetail { get; set; }
         public IPagedList<ProductInfor> ListProduct { get; set; }
@@ -25,7 +23,7 @@ namespace ShopOnline.Core.Models.Product
         public string Pic3 { get; set; }
     }
 
-    public class ProductCreate: ProductInfor
+    public class ProductCreate : ProductInfor
     {
     }
     public class ProductUpdate : ProductInfor
@@ -33,11 +31,15 @@ namespace ShopOnline.Core.Models.Product
 
     }
 
-    public class ProductViewModel
+    public class ProductCreateViewModel
     {
-        public ProductUpdate productUpdate { get; set; }
-        public ProductCreate productCreate { get; set; }
-        public ProductInfor productInfor { get; set; }
+        public ProductCreate ProductCreate { get; set; }
+        public List<ProductDetailInfor> ListProductDetail { get; set; }
+    }
+
+    public class ProductUpdateViewModel
+    {
+        public ProductUpdate ProductUpdate { get; set; }
         public List<ProductDetailInfor> ListProductDetail { get; set; }
     }
 }

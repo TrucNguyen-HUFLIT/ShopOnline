@@ -41,9 +41,9 @@ namespace ShopOnline.Controllers.Staff
         [HttpGet]
         public IActionResult CreateBrand()
         {
-            var model = new BrandViewModel
+            var model = new BrandCreateViewModel
             {
-                brandCreate = new BrandCreate(),
+                BrandCreate = new BrandCreate(),
             };
             return View(model);
         }
@@ -60,9 +60,9 @@ namespace ShopOnline.Controllers.Staff
         [HttpGet]
         public IActionResult UpdateBrand(int id)
         {
-            var model = new BrandViewModel
+            var model = new BrandInforViewModel
             {
-                brandInfor = _productBusiness.GetBrandByIdAsync(id),
+                BrandInfor = _productBusiness.GetBrandByIdAsync(id),
             };
             return View(model);
         }
@@ -72,7 +72,7 @@ namespace ShopOnline.Controllers.Staff
         public async Task<IActionResult> UpdateBrand(BrandInfor brandInfor)
         {
             await _productBusiness.EditBrandAsync(brandInfor);
-            return RedirectToAction("UpdateBrand", new { id = brandInfor.Id });
+            return Ok(brandInfor.Id);
         }
 
         public async Task<IActionResult> ListProductType(string sortOrder, string currentFilter, string searchString, int? page)
@@ -133,15 +133,15 @@ namespace ShopOnline.Controllers.Staff
         public async Task<IActionResult> UpdateProductType(ProductTypeInfor productType)
         {
             await _productBusiness.EditProductTypeAsync(productType);
-            return RedirectToAction("Edit", new { id = productType.Id });
+            return Ok(productType.Id);
         }
 
         [HttpGet]
         public async Task<IActionResult> CreateProductDetail()
         {
-            var model = new ProductDetailViewModel
+            var model = new ProductDetailCreateViewModel
             {
-                productDetailCreate = new ProductDetailCreate(),
+                ProductDetailCreate = new ProductDetailCreate(),
                 ListProductType = await _productBusiness.GetListProductType(),
             };
             return View(model);
@@ -159,9 +159,9 @@ namespace ShopOnline.Controllers.Staff
         [HttpGet]
         public async Task<IActionResult> UpdateProductDetail(int id)
         {
-            var model = new ProductDetailViewModel
+            var model = new ProductDetailUpdateViewModel
             {
-                productDetailUpdate = _productBusiness.GetProductDetailByIdAsync(id),
+                ProductDetailUpdate = _productBusiness.GetProductDetailByIdAsync(id),
                 ListProductType = await _productBusiness.GetListProductType(),
             };
             return View(model);
@@ -172,7 +172,7 @@ namespace ShopOnline.Controllers.Staff
         public async Task<IActionResult> UpdateProductDetail(ProductDetailUpdate productDetailUpdate)
         {
             await _productBusiness.UpdateProductDetailAsync(productDetailUpdate);
-            return RedirectToAction("UpdateProductDetail", new { id = productDetailUpdate.Id });
+            return Ok(productDetailUpdate.Id);
         }
 
         public async Task<IActionResult> ListProductDetail(string sortOrder, string currentFilter, string searchString, int? page)
@@ -200,9 +200,9 @@ namespace ShopOnline.Controllers.Staff
         [HttpGet]
         public async Task<IActionResult> CreateProduct()
         {
-            var model = new ProductViewModel
+            var model = new ProductCreateViewModel
             {
-                productInfor = new ProductInfor(),
+                ProductCreate = new ProductCreate(),
                 ListProductDetail = await _productBusiness.GetListProductDetail(),
             };
             return View(model);
@@ -220,9 +220,9 @@ namespace ShopOnline.Controllers.Staff
         [HttpGet]
         public async Task<IActionResult> UpdateProduct(int id)
         {
-            var model = new ProductViewModel
+            var model = new ProductUpdateViewModel
             {
-                productUpdate = _productBusiness.GetProductByIdAsync(id),
+                ProductUpdate = _productBusiness.GetProductByIdAsync(id),
                 ListProductDetail = await _productBusiness.GetListProductDetail(),
             };
             return View(model);
@@ -233,7 +233,7 @@ namespace ShopOnline.Controllers.Staff
         public async Task<IActionResult> UpdateProduct(ProductUpdate productUpdate)
         {
             await _productBusiness.UpdateProductAsync(productUpdate);
-            return RedirectToAction("UpdateProduct", new { id = productUpdate.Id });
+            return Ok(productUpdate.Id);
         }
 
         public async Task<IActionResult> ListProduct(string sortOrder, string currentFilter, string searchString, int? page)

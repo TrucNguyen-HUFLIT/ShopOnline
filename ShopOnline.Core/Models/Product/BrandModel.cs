@@ -15,9 +15,14 @@ namespace ShopOnline.Core.Models.Product
     {
         public string BrandName { get; set; }
     }
-    public class BrandViewModel
+
+    public class BrandInforViewModel
     {
-        public BrandInfor brandInfor;
-        public BrandCreate brandCreate;
+        public BrandInfor BrandInfor;
+    }
+    public class BrandCreateViewModel
+    {
+
+        public BrandCreate BrandCreate;
     }
 }

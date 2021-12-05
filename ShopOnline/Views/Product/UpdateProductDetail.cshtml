@@ -1,4 +1,4 @@
-﻿@model ShopOnline.Core.Models.Product.ProductDetailViewModel
+﻿@model ShopOnline.Core.Models.Product.ProductDetailUpdateViewModel
 @{
     ViewData["Title"] = "Update Product Detail";
     Layout = "~/Views/Shared/_LayoutManager.cshtml";
@@ -23,20 +23,20 @@
     <div class="col-12 col-xl-12">
         <div class="card card-body border-0 shadow mb-4">
             <h2 class="h5 mb-4">General information</h2>
-            <form asp-action="UpdateProductDetail" enctype="multipart/form-data" id="update-product-detail-form">
+            <form enctype="multipart/form-data" id="update-product-detail-form">
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <div class="col-md-6 mb-3" hidden>
                             <div>
                                 <label>Id Staff</label>
-                                <input asp-for="productDetailUpdate.Id" class="form-control" type="text">
-                                <span asp-validation-for="productDetailUpdate.Id" class="text-danger"></span>
+                                <input asp-for="ProductDetailUpdate.Id" class="form-control" type="text">
+                                <span asp-validation-for="ProductDetailUpdate.Id" class="text-danger"></span>
                             </div>
                         </div>
                         <div>
-                            <label asp-for="productDetailUpdate.Name"></label>
-                            <input asp-for="productDetailUpdate.Name" class="form-control" type="text" placeholder="Enter product detail name">
-                            <span asp-validation-for="productDetailUpdate.Name" class="text-danger" id="Err_Name"></span>
+                            <label asp-for="ProductDetailUpdate.Name"></label>
+                            <input asp-for="ProductDetailUpdate.Name" class="form-control" type="text" placeholder="Enter product detail name">
+                            <span asp-validation-for="ProductDetailUpdate.Name" class="text-danger" id="Err_Name"></span>
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="form-group">
@@ -48,17 +48,17 @@
                     </div>
                     <div class="col-md-6 mb-3">
                         <label>Status</label>
-                        <select class="form-select w-100 mb-0" asp-for="productDetailUpdate.Status">
+                        <select class="form-select w-100 mb-0" asp-for="ProductDetailUpdate.Status">
                             <option value="1">Availble</option>
                             <option value="2">Unavailble</option>
                         </select>
-                        <input asp-for="productDetailUpdate.Status" hidden />
+                        <input asp-for="ProductDetailUpdate.Status" hidden />
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label>ProductType</label>
-                        <select class="form-select mb-0" asp-for="productDetailUpdate.IdProductType">
+                        <select class="form-select mb-0" asp-for="ProductDetailUpdate.IdProductType">
                             @foreach (var item in Model.ListProductType)
                             {
                                 <option value="@item.Id">@item.Name </option>
@@ -67,17 +67,17 @@
                     </div>
                     <div class="col-md-6 mb-3">
                         <div class="form-group">
-                            <label asp-for="productDetailUpdate.Price"></label>
-                            <input asp-for="productDetailUpdate.Price" class="form-control" id="number" type="number" placeholder="No.">
-                            <span asp-validation-for="productDetailUpdate.Price" class="text-danger" id="Err_Price"></span>
+                            <label asp-for="ProductDetailUpdate.Price"></label>
+                            <input asp-for="ProductDetailUpdate.Price" class="form-control" id="number" type="number" placeholder="No.">
+                            <span asp-validation-for="ProductDetailUpdate.Price" class="text-danger" id="Err_Price"></span>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <div>
-                            <label asp-for="productDetailUpdate.Description">Description</label>
-                            <textarea class="form-control" asp-for="productDetailUpdate.Description" placeholder="Description..." id="textarea" rows="4"></textarea>
+                            <label asp-for="ProductDetailUpdate.Description">Description</label>
+                            <textarea class="form-control" asp-for="ProductDetailUpdate.Description" placeholder="Description..." id="textarea" rows="4"></textarea>
                         </div>
                     </div>
                 </div>
@@ -85,13 +85,13 @@
                     <div class="col-sm-4 mb-3">
                         <div class="form-group">
                             <label>Choose Picture 1</label>
-                            <input asp-for="productDetailUpdate.UploadPic1" type="file" accept="image/*" class="form-control" onchange="document.getElementById('output').src = window.URL.createObjectURL(this.files[0])" />
-                            <span asp-validation-for="productDetailUpdate.UploadPic1" class="text-danger" id="Err_UploadPic1"></span>
+                            <input asp-for="ProductDetailUpdate.UploadPic1" type="file" accept="image/*" class="form-control" onchange="document.getElementById('output').src = window.URL.createObjectURL(this.files[0])" />
+                            <span asp-validation-for="ProductDetailUpdate.UploadPic1" class="text-danger" id="Err_UploadPic1"></span>
                         </div>
                     </div>
                     <div class="col-sm-4 mb-3">
                         <div class="form-group">
-                            <img class="rounded avatar-xl" src="@(Model.productDetailUpdate.Pic1 != null? Url.Content(Model.productDetailUpdate.Pic1) :"")" id="output" />
+                            <img class="rounded avatar-xl" src="@(Model.ProductDetailUpdate.Pic1 != null? Url.Content(Model.ProductDetailUpdate.Pic1) :"")" id="output" />
                         </div>
                     </div>
                 </div>
@@ -99,12 +99,12 @@
                     <div class="col-sm-4 mb-3">
                         <div class="form-group">
                             <label for="address">Choose Picture 2</label>
-                            <input asp-for="productDetailUpdate.UploadPic2" type="file" accept="image/*" class="form-control" onchange="document.getElementById('output').src = window.URL.createObjectURL(this.files[0])" />
+                            <input asp-for="ProductDetailUpdate.UploadPic2" type="file" accept="image/*" class="form-control" onchange="document.getElementById('output').src = window.URL.createObjectURL(this.files[0])" />
                         </div>
                     </div>
                     <div class="col-sm-4 mb-3">
                         <div class="form-group">
-                            <img class="rounded avatar-xl" src="@(Model.productDetailUpdate.Pic2 != null? Url.Content(Model.productDetailUpdate.Pic2) :"")" id="output" />
+                            <img class="rounded avatar-xl" src="@(Model.ProductDetailUpdate.Pic2 != null? Url.Content(Model.ProductDetailUpdate.Pic2) :"")" id="output" />
                         </div>
                     </div>
                 </div>
@@ -112,12 +112,12 @@
                     <div class="col-sm-4 mb-3">
                         <div class="form-group">
                             <label for="address">Choose Picture 3</label>
-                            <input asp-for="productDetailUpdate.UploadPic3" type="file" accept="image/*" class="form-control" onchange="document.getElementById('output').src = window.URL.createObjectURL(this.files[0])" />
+                            <input asp-for="ProductDetailUpdate.UploadPic3" type="file" accept="image/*" class="form-control" onchange="document.getElementById('output').src = window.URL.createObjectURL(this.files[0])" />
                         </div>
                     </div>
                     <div class="col-sm-4 mb-3">
                         <div class="form-group">
-                            <img class="rounded avatar-xl" src="@(Model.productDetailUpdate.Pic3 != null? Url.Content(Model.productDetailUpdate.Pic3) :"")" id="output" />
+                            <img class="rounded avatar-xl" src="@(Model.ProductDetailUpdate.Pic3 != null? Url.Content(Model.ProductDetailUpdate.Pic3) :"")" id="output" />
                         </div>
                     </div>
                 </div>

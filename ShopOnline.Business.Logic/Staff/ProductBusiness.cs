@@ -4,6 +4,7 @@ using ShopOnline.Business.Staff;
 using ShopOnline.Core;
 using ShopOnline.Core.Entities;
 using ShopOnline.Core.Exceptions;
+using ShopOnline.Core.Models.Enum;
 using ShopOnline.Core.Models.Product;
 using System;
 using System.Collections.Generic;
@@ -38,19 +39,23 @@ namespace ShopOnline.Business.Logic.Staff
             }
             else
             {
-                throw new BrandExistedException(brandCreate.BrandName);
+                throw new UserFriendlyException(ErrorCode.BrandExisted);
             }
         }
 
         public async Task<bool> EditBrandAsync(BrandInfor brandInfor)
         {
             var brandEntity = await _context.Brands.Where(x => x.Id == brandInfor.Id && !x.IsDeleted).FirstOrDefaultAsync();
-            var brandName = brandInfor.BrandName.ToLower().Trim();
+            if (brandEntity == null)
+            {
+                throw new UserFriendlyException(ErrorCode.BrandNotExisted);
+            }
 
+            var brandName = brandInfor.BrandName.ToLower().Trim();
             if (brandEntity.Name.ToLower().Trim() != brandName)
             {
                 bool isExistedBrandName = await _context.Brands.AnyAsync(x => x.Name.ToLower().Trim() == brandName && !x.IsDeleted);
-                if (isExistedBrandName) throw new BrandExistedException(brandInfor.BrandName);
+                if (isExistedBrandName) throw new UserFriendlyException(ErrorCode.BrandExisted);
 
                 brandEntity.Name = brandInfor.BrandName;
 
@@ -163,7 +168,7 @@ namespace ShopOnline.Business.Logic.Staff
             if (productTypeEntity.Name.ToLower().Trim() != productTypeName)
             {
                 bool isExistedProductTypeName = await _context.ProductTypes.AnyAsync(x => x.Name.ToLower().Trim() == productTypeName && !x.IsDeleted);
-                if(isExistedProductTypeName) throw new ProductTypeExistedException(productType.Name);
+                if (isExistedProductTypeName) throw new UserFriendlyException(ErrorCode.ProductTypeExisted);
                 productTypeEntity.Name = productType.Name;
                 productTypeEntity.IdBrand = productType.IdBrand;
                 _context.ProductTypes.Update(productTypeEntity);
@@ -198,7 +203,7 @@ namespace ShopOnline.Business.Logic.Staff
             }
             else
             {
-                throw new ProductTypeExistedException(productTypeInfor.Name);
+                throw new UserFriendlyException(ErrorCode.ProductTypeExisted);
             }
         }
 
@@ -321,6 +326,7 @@ namespace ShopOnline.Business.Logic.Staff
                     Description = productDetailCreate.Description,
                     Status = productDetailCreate.Status,
                     Price = productDetailCreate.Price,
+                    BasePrice = productDetailCreate.BasePrice,
                     IdProductType = productDetailCreate.IdProductType,
                 };
 
@@ -346,9 +352,9 @@ namespace ShopOnline.Business.Logic.Staff
                     {
                         await productDetailCreate.UploadPic2.CopyToAsync(fileStream);
                     }
-                }    
+                }
 
-                if(productDetailCreate.UploadPic3 != null)
+                if (productDetailCreate.UploadPic3 != null)
                 {
                     string fileName3 = Path.GetFileNameWithoutExtension(productDetailCreate.UploadPic3.FileName);
                     string extension3 = Path.GetExtension(productDetailCreate.UploadPic3.FileName);
@@ -358,7 +364,7 @@ namespace ShopOnline.Business.Logic.Staff
                     {
                         await productDetailCreate.UploadPic3.CopyToAsync(fileStream);
                     }
-                }        
+                }
                 #endregion
 
                 _context.ProductDetails.Add(productDetailEntity);
@@ -366,7 +372,7 @@ namespace ShopOnline.Business.Logic.Staff
             }
             else
             {
-                throw new ProductDetailExistedException(productDetailCreate.Name);
+                throw new UserFriendlyException(ErrorCode.ProductDetailExisted);
             }
 
         }
@@ -378,11 +384,12 @@ namespace ShopOnline.Business.Logic.Staff
 
             if (productDetailEntity.Name.ToLower().Trim() != productDetailName)
             {
-                bool isExistedProductTypeName = await _context.ProductDetails.AnyAsync(x => x.Name.ToLower().Trim() == productDetailName && !x.IsDeleted);
-                if(isExistedProductTypeName) throw new ProductDetailExistedException(productDetailUpdate.Name);
+                bool isExistedProductDetailName = await _context.ProductDetails.AnyAsync(x => x.Name.ToLower().Trim() == productDetailName && !x.IsDeleted);
+                if (isExistedProductDetailName) throw new UserFriendlyException(ErrorCode.ProductDetailExisted);
                 productDetailEntity.Name = productDetailUpdate.Name;
                 productDetailEntity.Description = productDetailUpdate.Description;
                 productDetailEntity.Price = productDetailUpdate.Price;
+                productDetailEntity.BasePrice = productDetailUpdate.BasePrice;
                 productDetailEntity.Status = productDetailUpdate.Status;
                 productDetailEntity.IdProductType = productDetailUpdate.IdProductType;
 
@@ -432,7 +439,7 @@ namespace ShopOnline.Business.Logic.Staff
                 await _context.SaveChangesAsync();
                 return true;
             }
-            return false;  
+            return false;
         }
 
         public ProductDetailUpdate GetProductDetailByIdAsync(int id)
@@ -488,26 +495,30 @@ namespace ShopOnline.Business.Logic.Staff
             }
             else
             {
-                throw new ProductDetailExistedException(productCreate.Name);
+                throw new UserFriendlyException(ErrorCode.ProductExisted);
             }
         }
 
         public async Task<bool> UpdateProductAsync(ProductUpdate productUpdate)
         {
             var productEntity = await _context.Products.Where(x => x.Id == productUpdate.Id && !x.IsDeleted).FirstOrDefaultAsync();
-            if (productEntity.Name == productUpdate.Name)
+            var productName = productUpdate.Name.ToLower().Trim();
+
+            if (productEntity.Name.ToLower().Trim() != productName)
             {
-                throw new ProductDetailExistedException(productUpdate.Name);
+                bool isExistedProductName = await _context.ProductDetails.AnyAsync(x => x.Name.ToLower().Trim() == productName && !x.IsDeleted);
+                if (isExistedProductName) throw new UserFriendlyException(ErrorCode.ProductExisted);
+                productEntity.Name = productUpdate.Name;
+                productEntity.Size = productUpdate.Size;
+                productEntity.IdProductDetail = productUpdate.IdProductDetail;
+                productEntity.Quantity = productUpdate.Quantity;
+
+                _context.Products.Update(productEntity);
+                await _context.SaveChangesAsync();
+                return true;
             }
 
-            productEntity.Name = productUpdate.Name;
-            productEntity.Size=productUpdate.Size;
-            productEntity.IdProductDetail = productUpdate.IdProductDetail;
-            productEntity.Quantity = productUpdate.Quantity;
-
-            _context.Products.Update(productEntity);
-            await _context.SaveChangesAsync();
-            return true;
+            return false;
         }
     }
 }

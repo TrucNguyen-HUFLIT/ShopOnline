@@ -1,14 +1,9 @@
 ﻿using FluentValidation;
 using ShopOnline.Core.Models.Product;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ShopOnline.Core.Validators.Product
 {
-    public class ProductDetailValidator: AbstractValidator<ProductDetailInfor>
+    public class ProductDetailValidator : AbstractValidator<ProductDetailInfor>
     {
         public ProductDetailValidator()
         {
@@ -20,6 +15,17 @@ namespace ShopOnline.Core.Validators.Product
         {
             RuleFor(x => x.Name).NotEmpty();
             RuleFor(x => x.Price).NotEmpty();
+            RuleFor(x => x.BasePrice).NotEmpty();
+            RuleFor(x => x.UploadPic1).NotEmpty();
+        }
+    }
+    public class ProductDetailUpdateValidator : AbstractValidator<ProductDetailUpdate>
+    {
+        public ProductDetailUpdateValidator()
+        {
+            RuleFor(x => x.Name).NotEmpty();
+            RuleFor(x => x.Price).NotEmpty();
+            RuleFor(x => x.BasePrice).NotEmpty();
             RuleFor(x => x.UploadPic1).NotEmpty();
         }
     }
