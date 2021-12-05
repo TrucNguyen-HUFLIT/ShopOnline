@@ -1,0 +1,87 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Check out";
+    Layout = "~/Views/Shared/_LayoutClient.cshtml";
+}
+<div class="main__check-out">
+    <h1>CHECK OUT</h1>
+    <div class="main__check-out-box">
+        <div class="main__check-out-box-location">
+            <img src="~/img/icon/icon-location.png" alt=""><span>ADDRESS</span>
+            <div class="main__check-out-box-location-content">
+                <p>This is address</p>
+                <a id="btn-change-address" onclick="showChangeAddress()">Change</a>
+            </div>
+            <div id="change-address" class="main__check-out-box-change-location">
+                <p>New address</p>
+                <input type="text" name="" id="" placeholder="Enter your new address">
+                <input type="submit" value="Change">
+            </div>
+        </div>
+        <div class="main__check-out-box-name">
+            <div class="box-2items">
+                <img src="~/img/icon/icon-user.png" alt=""> <span></span>
+                <h1>Name</h1>
+            </div>
+            <p>Nguyen Minh Tam</p>
+        </div>
+        <div class="main__check-out-box-phone">
+            <div class="box-2items">
+                <img src="~/img/icon/icon-call.png" alt="">
+                <h1>Phone number</h1>
+            </div>
+            <p>0933090455</p>
+        </div>
+        <div class="main__check-out-box-products">
+            <h1>Products (2)</h1>
+            <table>
+                <tr>
+                    <th>Name</th>
+                    <th>Quantity</th>
+                    <th>Single Price</th>
+                </tr>
+                <tr>
+                    <td>Air Force 1</td>
+                    <td>2</td>
+                    <td>1.800.00000 <span>VND ~ </span></td>
+                    <td><span>&nbsp;$</span>79</td>
+                </tr>
+                <tr>
+                    <td>Jordan 1</td>
+                    <td>1</td>
+                    <td>3.600.000 <span>VND ~ </span></td>
+                    <td><span>&nbsp;$</span>159</td>
+                </tr>
+            </table>
+            <div id="delivery" class="main__check-out-box-products-ship">
+                <h2>Transport fee</h2>
+                <p id="transport-fee">40.000 <span>VND</span> ~ <span>$</span>2</p>
+            </div>
+            <div class="main__check-out-box-total-price">
+                <h1>Total</h1>
+                <h1>7.240.000 <span>VND</span> ~ <span>$</span>238 </h1>
+            </div>
+            <p>Please choose a payment method</p>
+            <div class="main__payment-choose-method">
+                <div class="main__payment-choose-method-item">
+                    <input type="radio" id="pay-delivery" checked="checked" name="choose-payment-method">
+                    <label for="pay-delivery">Payment on delivery</label><br>
+                </div>
+                <div class="main__payment-choose-method-item">
+                    <input type="radio" id="pay-paypal" name="choose-payment-method">
+                    <label for="pay-paypal">PayPal</label><br>
+                </div>
+                <div class="main__payment-choose-method-item">
+                    <input type="radio" id="pay-momo" name="choose-payment-method">
+                    <label for="pay-momo">MoMo, ZaloPay</label><br>
+                </div>
+            </div>
+            <div class="main__check-out-box-btn">
+                <input type="submit" value="BACK TO CART">
+                <input type="submit" value="ORDERS">
+            </div>
+        </div>
+    </div>
+</div>

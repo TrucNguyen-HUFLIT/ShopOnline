@@ -47,5 +47,15 @@ namespace ShopOnline.Controllers.Customer
             await _cartBusiness.RemoveAllProductFromCartAsync();
             return Ok();
         }
+
+        public IActionResult CheckOut()
+        {
+            return View();
+        }
+
+        public IActionResult DigitalPayment()
+        {
+            return View();
+        }
     }
 }

@@ -19,9 +19,12 @@
         <div class="header__info">
             <p class="header__info-hotline">Hotline - 0933090455</p>
             <ul class="header__info-list">
-                <li><a asp-controller="Account" asp-action="Login">Sign in</a></li>
-                <li><a asp-controller="Account" asp-action="Register" class="header__info-list-special">Sign up</a></li>
-                <li><a href="#footer">Help</a></li>
+                <a asp-controller="Account" asp-action="Login">Sign in</a>
+                <a asp-controller="Account" asp-action="Register" class="header__info-list-special">Sign up</a>
+                <a href="#footer">Help</a>
+            </ul>
+            <ul id="header__info-list-logined">
+                <span>Hi</span><a asp-controller="Account" asp-action="Login">Nguyen Minh Tam</a>
             </ul>
         </div>
         <div class="header__navbar">
@@ -32,9 +35,11 @@
                 <ul id="nav">
                     @foreach (var brandInfor in BrandSingleton.Instance.BrandInfors)
                     {
-                        <a asp-action="Products" asp-route-brandid="@brandInfor.Id"><li>@brandInfor.Name</li></a>
+                        <a asp-action="Products" asp-route-brandid="@brandInfor.Id">
+                        <li>@brandInfor.Name</li></a>
                     }
-                    <a href="#footer"><li>About Us</li></a>
+                    <a href="#footer">
+                    <li>About Us</li></a>
                 </ul>
             </div>
             <div class="header__navbar-btn">
@@ -43,7 +48,7 @@
                 </div>
                 <div class="header__navbar-btn-cart">
                     <img src="~/img/icon/favorite.png" alt="" />
-                    <img src="~/img/icon/shopping-cart.png" alt="">
+                    <a asp-controller="Cart" asp-action="CheckOut"><img src="~/img/icon/shopping-cart.png" alt="" /></a>
                     <span class="header__navbar-btn-cart-count">(0)</span>
                 </div>
             </div>
@@ -75,6 +80,12 @@
             </div>
         </div>
         @RenderBody()
+        <div id="error__page" class="error__page">
+            <h1>SORRY</h1>
+            <h2>This page cannot be found</h2>
+            <p>This product has not been imported or may have been deleted!</p>
+            <p>Please see similar products!</p>
+        </div>
     </div>
     <div id="btn-scroll-to-top">
         <img onclick="topFunction()" src="~/img/icon/icon-arrow-top.png" alt="">
@@ -130,9 +141,8 @@
             </div>
         </div>
     </div>
-
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/js/Customer/Client.js"></script>
     <script src="~/js/Customer/Client.ajax.js"></script>
+    <script src="~/js/Customer/Client.js"></script>
 </body>
 </html>

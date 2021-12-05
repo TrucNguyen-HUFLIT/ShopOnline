@@ -1,0 +1,43 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Momo Payment";
+    Layout = "~/Views/Shared/_LayoutClient.cshtml";
+}
+<div class="main__payment">
+    <h1>PAYMENT METHODS</h1>
+    <p>Please check your orders</p>
+    <div class="main__payment-review">
+        <table>
+            <tr>
+                <th>Address</th>
+                <th>This is address</th>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <th>Nguyen Minh Tam</th>
+            </tr>
+            <tr>
+                <th>Number phone</th>
+                <th>0933090455</th>
+            </tr>
+            <tr>
+                <th>Code orders (Note)</th>
+                <th>#123</th>
+            </tr>
+            <tr>
+                <th>Total</th>
+                <th>7.200.000 <span>VND</span></th>
+            </tr>
+        </table>
+        <img src="~/img/icon/momopay.jpg" alt="">
+    </div>
+    <div class="main__payment-img">
+        <img src="~/img/icon/instruct.png" alt="Alternate Text" />
+    </div>
+    <div class="main__payment-selected-btn">
+        <input type="submit" value="Back to payment">
+        <input type="submit" value="Accept">
+    </div>
+</div>

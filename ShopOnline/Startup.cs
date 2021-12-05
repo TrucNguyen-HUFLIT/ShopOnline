@@ -73,6 +73,7 @@ namespace ShopOnline
             services.AddScoped<IUserBusiness, UserBusiness>();
             services.AddScoped<IClientBusiness, ClientBusiness>();
             services.AddScoped<IStaffBusiness, StaffBusiness>();
+            services.AddScoped<ICartBusiness, CartBusiness>();
             services.AddScoped<IProductBusiness, ProductBusiness>();
 
         }
