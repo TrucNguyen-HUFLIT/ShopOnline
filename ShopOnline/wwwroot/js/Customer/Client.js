@@ -1,4 +1,4 @@
-﻿// Automatic Slider
+﻿//#region Slide show
 var counter = 1;
 setInterval(function () {
     document.getElementById('radio' + counter).checked = true;
@@ -7,9 +7,9 @@ setInterval(function () {
         counter = 1;
     }
 }, 5000);
+//#endregion
 
-
-// Scroll to top btn
+//#region Scroll to top btn
 const btnScrollToTop = document.querySelector("#btn-scroll-to-top");
 window.onscroll = function () { scrollFunction() };
 
@@ -20,33 +20,18 @@ function scrollFunction() {
         btnScrollToTop.style.display = "none";
     }
 }
+
 // When the user clicks on the button, scroll to the top of the document
 function topFunction() {
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
 }
+// #endregion
 
-
-// Update Quantity
-const resultOfQuantity = document.querySelector('#resultOfQuantity');
-var defaultQuan = 1;
-function upDateQuantity(button) {
-    if (button == downQuantity) {
-        if (defaultQuan > 1) {
-            defaultQuan -= 1;
-        }
-    }
-    else if (button == upQuantity) {
-        defaultQuan += 1;
-    }
-    resultOfQuantity.innerHTML = defaultQuan;
-}
-
-// Slide show details product
+//#region Show detail divs
 function currentDiv(n) {
     showDivs(slideIndex = n);
 }
-
 function showDivs(n) {
     var i;
     var x = document.getElementsByClassName("main__slides-products");
@@ -62,9 +47,9 @@ function showDivs(n) {
     x[slideIndex - 1].style.display = "block";
     dots[slideIndex - 1].className += " demo-off";
 }
+//#endregion
 
-
-// Mobile menu button
+//#region Mobile Menu Btn
 function mobileMenuBtn() {
     var x = document.getElementById("header__navbar-items");
     if (x.style.display === "block") {
@@ -73,8 +58,9 @@ function mobileMenuBtn() {
         x.style.display = "block";
     }
 }
+// #endregion
 
-// Show more category
+//#region Show more category
 function showMoreCateBtn() {
     var x = document.getElementById("main__products-filters");
     if (x.style.display === "block") {
@@ -83,3 +69,53 @@ function showMoreCateBtn() {
         x.style.display = "block";
     }
 }
+// #endregion
+
+//#region Bolder for current sort Price Products
+
+$('#sortDecrease').ready(function () {
+    let currentSort = document.getElementById('currentSort').value;
+    currentSort = currentSort.split('+');
+    if (currentSort !== "") {
+        addClassToSortProductsPrice(currentSort[0]);
+    }
+});
+
+function addClassToSortProductsPrice(sortIncrease) {
+    if (sortIncrease === "True") {
+        document.getElementById('sortIncrease').className = "checked-bold";
+        document.getElementById('sortDecrease').className = "";
+    } else {
+        document.getElementById('sortDecrease').className = "checked-bold";
+        document.getElementById('sortIncrease').className = "";
+    }
+}
+
+//#endregion
+
+// #region Show change address
+function showChangeAddress() {
+    let change = document.getElementById("btn-change-address")
+    var x = document.getElementById("change-address");
+    if (x.style.display === "flex") {
+        x.style.display = "none";
+        change.textContent = "Change"
+    } else {
+        x.style.display = "flex";
+        change.textContent = "Cancel"
+    }
+}
+
+// #endregion
+
+//#region Auto hide paging
+let paging = document.getElementById("products-paging");
+let errorpage = document.getElementById("error__page");
+if ($("#main__products-items").children().length == 0) {
+    paging.style.display = "none";
+    errorpage.style.display = "block";
+} else {
+    paging.style.display = "block";
+    errorpage.style.display = "none";
+}
+//#endregion

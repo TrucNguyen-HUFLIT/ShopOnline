@@ -10,24 +10,29 @@
     <!-- Get brands -->
     <h1>
         @Model.TypeOfBrand.BrandInfor.Name (@Model.AmountProduct)   <!--789 are all product items of brand--> <span>
-            <img id="show-more-btn" class="main__selection-img" src="./assets/img/icon/icon-arrow-down.png" alt="" onclick="showMoreCateBtn()">
+            <img id="show-more-btn" class="main__selection-img" src="~/img/icon/icon-arrow-down.png" alt="" onclick="showMoreCateBtn()" />
         </span>
     </h1>
+    <input type="text" id="currentSort" hidden value="@ViewBag.CurrentSort+" />
     <div class="main__selection-btn">
         <div class="main__selection-btn-sort">
-            <span>Price: High-Low</span>
-            @Html.ActionLink("Price: High-Low", "Products", new { brandId = Model.TypeOfBrand.BrandInfor.Id, typeId = ViewBag.CurrentType, sortIncrease = false })
-            <img src="./assets/img/icon/icon-down-arrow.png" alt="">
+            <span>
+                @Html.ActionLink("Price: High-Low", "Products",
+          new { brandId = Model.TypeOfBrand.BrandInfor.Id, typeId = ViewBag.CurrentType, sortIncrease = false },
+          new { id = "sortDecrease" })
+            </span>
+            <img src="~/img/icon/icon-down-arrow.png" alt="" />
         </div>
         <div class="main__selection-btn-sort">
-            <span>Price: Low-High</span>
-            @Html.ActionLink("Price: Low-High", "Products", new { brandId = Model.TypeOfBrand.BrandInfor.Id, typeId = ViewBag.CurrentType, sortIncrease = true })
-
-            <img src="./assets/img/icon/icon-up-arrow.png" alt="">
+            <span>
+                @Html.ActionLink("Price: Low-High", "Products",
+           new { brandId = Model.TypeOfBrand.BrandInfor.Id, typeId = ViewBag.CurrentType, sortIncrease = true },
+           new { id = "sortIncrease" })
+            </span>
+            <img src="~/img/icon/icon-up-arrow.png" alt="">
         </div>
     </div>
-</div>
-<div class="main__producst">
+</div><div class="main__producst">
     <div id="main__products-filters" class="main__products-filters">
         <div class="main__products-filters-title">
             <ul>
@@ -39,32 +44,35 @@
                         TypeId = type.Id
                     };
 
-                    <li><a asp-action="Products"
+                    <li>
+                        <a asp-action="Products"
                            asp-route-brandId="@param.BrandId"
-                           asp-route-typeId="@param.TypeId">@type.Name</a></li>
+                           asp-route-typeId="@param.TypeId">@type.Name</a>
+                    </li>
                 }
             </ul>
         </div>
     </div>
-    <div class="main__products-items">
+    <div id="main__products-items" class="main__products-items">
         @foreach (var productInforDetail in Model.ProductsInfor)
         {
-            <div class="main__products-item">
+            <div id="main__products-item" class="main__products-item">
                 <a asp-action="DetailProduct" asp-route-id="@productInforDetail.Id"><img src="@productInforDetail.Pic" alt=""></a>
                 <div class="main__box-disc special">
                     <div>
                         <h2>@productInforDetail.Name</h2>
-                        <p>@string.Format("{0:N0}", ((Int64)productInforDetail.PriceVND)) VND</p>
-                        <p>@string.Format("{0:N0}", ((Int64)productInforDetail.PriceUSD)) USD</p>
+                        <p>@string.Format("{0:N0}", ((Int64)productInforDetail.PriceVND))đ</p>
+                        <p>$@string.Format("{0:N0}", ((Int64)productInforDetail.PriceUSD))</p>
                     </div>
-                    <input type="submit" value="ADD TO CART">
+                    <input type="submit" value="DETAILS">
                 </div>
             </div>
         }
-        Page @(Model.ProductsInfor.PageCount < Model.ProductsInfor.PageNumber
-                ? 0 : Model.ProductsInfor.PageNumber) of @Model.ProductsInfor.PageCount
-
-                @Html.PagedListPager(Model.ProductsInfor, page => Url.Action("Products",
-                    new { brandId = Model.TypeOfBrand.BrandInfor.Id, typeId = ViewBag.CurrentType, sortIncrease = ViewBag.CurrentSort, page }))
-            </div>
-        </div>
+        @*Page @(Model.ProductsInfor.PageCount < Model.ProductsInfor.PageNumber
+            ? 0 : Model.ProductsInfor.PageNumber) of @Model.ProductsInfor.PageCount*@
+    </div>
+</div>
+<div id="products-paging" class="main__products-paging">
+    @Html.PagedListPager(Model.ProductsInfor, page => Url.Action("Products",
+        new { brandId = Model.TypeOfBrand.BrandInfor.Id, typeId = ViewBag.CurrentType, sortIncrease = ViewBag.CurrentSort, page }))
+</div>

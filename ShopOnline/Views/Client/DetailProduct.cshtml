@@ -25,8 +25,8 @@
             <!-- Get name product -->
             <h1>@Model.ProductDetail.Name</h1>
             <!-- Get price product -->
-            <p>@string.Format("{0:N0}", ((Int64)Model.ProductDetail.PriceVND))<span> VND</span></p>
-            <p>@string.Format("{0:N0}", ((Int64)Model.ProductDetail.PriceUSD))<span> USD</span></p>
+            <p>@string.Format("{0:N0}", ((Int64)Model.ProductDetail.PriceVND))<span>đ ~ </span> <span class="color-orange">$@string.Format("{0:N0}", ((Int64)Model.ProductDetail.PriceUSD))</span></p>
+            <p>This is description</p>
         </div>
         <div class="main__product-details-disc-select-size">
             <h2>Select Size</h2>
@@ -53,7 +53,7 @@
             </div>
         </div>
         <div class="main__product-details-disc-submit">
-            <input type="submit" value="Add to Cart">
+            <input type="submit" value="DETAILS">
         </div>
     </div>
 </div>
@@ -84,8 +84,6 @@
                 <textarea placeholder="Enter your review..." name="Content"></textarea>
                 <input name="IdCustomer" value="1" hidden>
                 <input name="IdProductDetail" value="@Model.ProductDetail.Id" hidden>
-
-                <input type="submit" value="Submit" onclick="CreateReviewDetail()">
                 <input type="submit" value="ADD" onclick="CreateReviewDetail()">
             </form>
         </div>
@@ -94,18 +92,19 @@
 <div class="main__product-random">
     <h1>YOU MIGHT ALSO LIKE</h1>
     <div class="main__product-random-items">
-            @foreach (var productInforDetail in Model.ProductInfors)
-            {
-                <div class="main__product-random-item">
-                    <a asp-action="DetailProduct" asp-route-id="@productInforDetail.Id"><img src="@productInforDetail.Pic" alt=""></a>
-                    <div class="main__product-ramdon-item-box">
-                        <div class="main__ramdon-box-item">
-                            <h1></h1>
-                            <p>@string.Format("{0:N0}", ((Int64)productInforDetail.PriceVND)) VNĐ</p>
-                        </div>
-                        <input type="submit" value="ADD TO CART">
+        @foreach (var productInforDetail in Model.ProductInfors)
+        {
+            <div class="main__product-random-item">
+                <a asp-action="DetailProduct" asp-route-id="@productInforDetail.Id"><img src="@productInforDetail.Pic" alt=""></a>
+                <div class="main__product-ramdon-item-box">
+                    <div class="main__ramdon-box-item">
+                        <h1></h1>
+                        <p>@string.Format("{0:N0}", ((Int64)productInforDetail.PriceVND))đ</p>
+                        <p>$@string.Format("{0:N0}", ((Int64)productInforDetail.PriceUSD))</p>
                     </div>
+                    <input type="submit" value="DETAILS">
                 </div>
-            }
+            </div>
+        }
     </div>
 </div>

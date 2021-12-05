@@ -35,7 +35,7 @@ namespace ShopOnline
         {
             services.AddControllersWithViews();
 
-            services.AddDbContext<MyDbContext>(option => option.UseSqlServer(_configuration.GetConnectionString("TrucConnectionString")));
+            services.AddDbContext<MyDbContext>(option => option.UseSqlServer(_configuration.GetConnectionString("TamConnectionString")));
 
             // Use AppSetting by DI
             var appSetting = _configuration.GetSection("AppSetting");
@@ -73,6 +73,7 @@ namespace ShopOnline
             services.AddScoped<IUserBusiness, UserBusiness>();
             services.AddScoped<IClientBusiness, ClientBusiness>();
             services.AddScoped<IStaffBusiness, StaffBusiness>();
+            services.AddScoped<ICartBusiness, CartBusiness>();
             services.AddScoped<IProductBusiness, ProductBusiness>();
 
         }
