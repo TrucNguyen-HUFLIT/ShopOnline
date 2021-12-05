@@ -6,12 +6,12 @@ using ShopOnline.Core;
 using ShopOnline.Core.Entities;
 using ShopOnline.Core.Exceptions;
 using ShopOnline.Core.Helpers;
+using ShopOnline.Core.Models.Enum;
 using ShopOnline.Core.Models.Staff;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using X.PagedList;
 
@@ -52,8 +52,8 @@ namespace ShopOnline.Business.Logic.Staff
                     string wwwRootPath = hostEnvironment.WebRootPath;
                     string fileName = Path.GetFileNameWithoutExtension(staffCreate.UploadAvt.FileName);
                     string extension = Path.GetExtension(staffCreate.UploadAvt.FileName);
-                    staff.Avatar = fileName += extension;
-                    string path1 = Path.Combine(wwwRootPath + "/img/Avatar/", fileName);
+                    staff.Avatar = "/img/Avatar/" + fileName + extension;
+                    string path1 = Path.Combine(wwwRootPath + "/img/Avatar/", fileName + extension);
                     using (var fileStream = new FileStream(path1, FileMode.Create))
                     {
                         await staffCreate.UploadAvt.CopyToAsync(fileStream);
@@ -64,7 +64,7 @@ namespace ShopOnline.Business.Logic.Staff
             }
             else
             {
-                throw new EmailException(email);
+                throw new UserFriendlyException(ErrorCode.EmailExisted);
             }
 
         }

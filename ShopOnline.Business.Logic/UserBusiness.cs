@@ -186,7 +186,7 @@ namespace ShopOnline.Business.Logic
                 return userInfor;
 
             string role = user.FindFirst(ClaimTypes.Role).Value;
-            role =  char.ToUpper(role[0]) + role.Substring(1);
+            role = char.ToUpper(role[0]) + role.Substring(1);
             Enum.TryParse(role, out TypeAcc enumRole);
 
             switch (enumRole)

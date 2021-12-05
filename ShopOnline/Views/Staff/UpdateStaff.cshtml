@@ -1,4 +1,4 @@
-﻿@model ShopOnline.Core.Models.Staff.StaffViewModel
+﻿@model ShopOnline.Core.Models.Staff.StaffEditViewModel
 @{
     ViewData["Title"] = "Edit Staff";
     Layout = "~/Views/Shared/_LayoutManager.cshtml";
@@ -24,11 +24,11 @@
     <div class="col-12 col-xl-12">
         <div class="card card-body border-0 shadow mb-4">
             <h2 class="h5 mb-4">General information</h2>
-            <form asp-action="Edit" enctype="multipart/form-data" id="edit-staff-form">
+            <form enctype="multipart/form-data" id="edit-staff-form">
                 <div class="form-group" style="display:flex ; justify-content:center">
                     <div class="card-img" style="position:relative;">
                         @*<img src="@(Model.staffCreate.Avatar != null? Url.Content("/img"+Model.staffCreate.Avatar) :"/img/Avatar/avatar-icon-images-4.jpg")" height="200" width="200" id="previewImg" style="margin-left: auto; width:*@
-                        <img src="@(Model.staffEdit?.Avatar != null? Url.Content(Model.staffEdit.Avatar) :"/img/Avatar/avatar-icon-images-4.jpg")" id="output" height="200" width="200" style="margin-left: auto; width: 100%; margin-right: auto; max-width: 240px; display: block;" />
+                        <img src="@(Model.StaffEdit?.Avatar != null? Url.Content(Model.StaffEdit.Avatar) :"/img/Avatar/avatar-icon-images-4.jpg")" id="output" height="200" width="200" style="margin-left: auto; width: 100%; margin-right: auto; max-width: 240px; display: block;" />
                         <br />
                      
                     </div>
@@ -37,22 +37,22 @@
                     <div class="col-md-6 mb-3" hidden>
                         <div>
                             <label>Id Staff</label>
-                            <input asp-for="staffEdit.Id" class="form-control" type="text">
-                            <span asp-validation-for="staffEdit.Id" class="text-danger"></span>
+                            <input asp-for="StaffEdit.Id" class="form-control" type="text">
+                            <span asp-validation-for="StaffEdit.Id" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="col-md-6 mb-3">
                         <div>
                             <label>Full Name</label>
-                            <input asp-for="staffEdit.FullName" class="form-control" type="text" placeholder="Enter your full name">
-                            <span asp-validation-for="staffEdit.FullName" class="text-danger" id="Err_FullName"></span>
+                            <input asp-for="StaffEdit.FullName" class="form-control" type="text" placeholder="Enter your full name">
+                            <span asp-validation-for="StaffEdit.FullName" class="text-danger" id="Err_FullName"></span>
                         </div>
                     </div>
                     <div class="col-md-6 mb-3">
                         <div>
                             <label for="last_name">Phone Number</label>
-                            <input asp-for="staffEdit.PhoneNumber" class="form-control" type="text" placeholder="+84 345 678 910">
-                            <span asp-validation-for="staffEdit.PhoneNumber" class="text-danger" id="Err_PhoneNumber"></span>
+                            <input asp-for="StaffEdit.PhoneNumber" class="form-control" type="text" placeholder="+84 345 678 910">
+                            <span asp-validation-for="StaffEdit.PhoneNumber" class="text-danger" id="Err_PhoneNumber"></span>
                         </div>
                     </div>
                 </div>
@@ -60,25 +60,25 @@
                     <div class="col-md-6 mb-3">
                         <div class="form-group">
                             <label for="email">Email</label>
-                            <input asp-for="staffEdit.Email" class="form-control" type="email" placeholder="name@company.com" readonly>
-                            <span asp-validation-for="staffEdit.Email" class="text-danger"></span>
+                            <input asp-for="StaffEdit.Email" class="form-control" type="email" placeholder="name@company.com" readonly>
+                            <span asp-validation-for="StaffEdit.Email" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="col-sm-4 mb-3">
                         <label>Role</label>
-                        <select class="form-select w-100 mb-0" asp-for="staffEdit.TypeAcc">
+                        <select class="form-select w-100 mb-0" asp-for="StaffEdit.TypeAcc">
                             <option value="1">Admin</option>
                             <option value="2">Staff</option>
                             <option value="4">Shipper</option>
                         </select>
-                        <input asp-for="staffEdit.TypeAcc" hidden />
+                        <input asp-for="StaffEdit.TypeAcc" hidden />
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-4 mb-3">
                         <div class="form-group">
                             <label for="address">Choose Avatar</label>
-                            <input asp-for="staffEdit.UploadAvt" type="file" accept="image/*" class="form-control" onchange="document.getElementById('output').src = window.URL.createObjectURL(this.files[0])" />
+                            <input asp-for="StaffEdit.UploadAvt" type="file" accept="image/*" class="form-control" onchange="document.getElementById('output').src = window.URL.createObjectURL(this.files[0])" />
                         </div>
                     </div>
                 </div>
@@ -87,7 +87,7 @@
                     <div class="col-sm-9 mb-3">
                         <div class="form-group">
                             <label for="address">Address</label>
-                            <input class="form-control" asp-for="staffEdit.Address" id="address" type="text" placeholder="Enter your home address">
+                            <input class="form-control" asp-for="StaffEdit.Address" id="address" type="text" placeholder="Enter your home address">
                         </div>
                     </div>
                 </div>

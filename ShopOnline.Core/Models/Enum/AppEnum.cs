@@ -48,5 +48,12 @@ namespace ShopOnline.Core.Models.Enum
             Approved = 2,
             Rejected = 3,
         }
+
+        public enum PaymentMethod
+        {
+            ShipCod = 1,
+            EWallet = 2,
+            BankTransfer = 3,
+        }
     }
 }

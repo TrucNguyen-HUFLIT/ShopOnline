@@ -1,4 +1,4 @@
-﻿@model ShopOnline.Core.Models.Staff.StaffViewModel
+﻿@model ShopOnline.Core.Models.Staff.StaffCreateViewModel
 @{
     ViewData["Title"] = "Create Staff";
     Layout = "~/Views/Shared/_LayoutManager.cshtml";
@@ -25,11 +25,11 @@
     <div class="col-12 col-xl-12">
         <div class="card card-body border-0 shadow mb-4">
             <h2 class="h5 mb-4">General information</h2>
-            <form asp-action="Create" enctype="multipart/form-data" id="create-staff-form">
+            <form enctype="multipart/form-data" id="create-staff-form">
                 <div class="form-group" style="display:flex ; justify-content:center">
                     <div class="card-img" style="position:relative;">
                         @*<img src="@(Model.staffCreate.Avatar != null? Url.Content("/img"+Model.staffCreate.Avatar) :"/img/Avatar/avatar-icon-images-4.jpg")" height="200" width="200" id="previewImg" style="margin-left: auto; width:*@
-                        <img src="@(Model.staffCreate.Avatar != null? Url.Content(Model.staffCreate.Avatar) :"/img/Avatar/avatar-icon-images-4.jpg")" id="output" height="200" width="200" style="margin-left: auto; width: 100%; margin-right: auto; max-width: 240px; display: block;" />
+                        <img src="@(Model.StaffCreate.Avatar != null? Url.Content(Model.StaffCreate.Avatar) :"/img/Avatar/avatar-icon-images-4.jpg")" id="output" height="200" width="200" style="margin-left: auto; width: 100%; margin-right: auto; max-width: 240px; display: block;" />
                         <br />
                     </div>
                 </div>
@@ -37,15 +37,15 @@
                     <div class="col-md-6 mb-3">
                         <div>
                             <label>Full Name</label>
-                            <input asp-for="staffCreate.FullName" class="form-control" type="text" placeholder="Enter your full name">
-                            <span asp-validation-for="staffCreate.FullName" class="text-danger" id="Err_FullName"></span>
+                            <input asp-for="StaffCreate.FullName" class="form-control" type="text" placeholder="Enter your full name">
+                            <span asp-validation-for="StaffCreate.FullName" class="text-danger" id="Err_FullName"></span>
                         </div>
                     </div>
                     <div class="col-md-6 mb-3">
                         <div>
                             <label for="last_name">Phone Number</label>
-                            <input asp-for="staffCreate.PhoneNumber" class="form-control" type="text" placeholder="+84 345 678 910">
-                            <span asp-validation-for="staffCreate.PhoneNumber" class="text-danger" id="Err_PhoneNumber"></span>
+                            <input asp-for="StaffCreate.PhoneNumber" class="form-control" type="text" placeholder="+84 345 678 910">
+                            <span asp-validation-for="StaffCreate.PhoneNumber" class="text-danger" id="Err_PhoneNumber"></span>
                         </div>
                     </div>
                 </div>
@@ -53,8 +53,8 @@
                     <div class="col-md-6 mb-3">
                         <div class="form-group">
                             <label for="email">Email</label>
-                            <input asp-for="staffCreate.Email" class="form-control" type="email" placeholder="name@company.com">
-                            <span asp-validation-for="staffCreate.Email" class="text-danger" id="Err_Email"></span>
+                            <input asp-for="StaffCreate.Email" class="form-control" type="email" placeholder="name@company.com">
+                            <span asp-validation-for="StaffCreate.Email" class="text-danger" id="Err_Email"></span>
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="form-group">
@@ -66,19 +66,19 @@
                     </div>
                     <div class="col-md-6 mb-3">
                         <label>Role</label>
-                        <select class="form-select mb-0" asp-for="staffCreate.TypeAcc">
+                        <select class="form-select mb-0" asp-for="StaffCreate.TypeAcc">
                             <option value="1">Admin</option>
                             <option value="2">Staff</option>
                             <option value="4">Shipper</option>
                         </select>
-                        <input asp-for="staffCreate.TypeAcc" hidden />
+                        <input asp-for="StaffCreate.TypeAcc" hidden />
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-4 mb-3">
                         <div class="form-group">
                             <label for="address">Choose Avatar</label>
-                            <input asp-for="staffEdit.UploadAvt" type="file" accept="image/*" class="form-control" onchange="document.getElementById('output').src = window.URL.createObjectURL(this.files[0])" />
+                            <input asp-for="StaffCreate.UploadAvt" type="file" accept="image/*" class="form-control" onchange="document.getElementById('output').src = window.URL.createObjectURL(this.files[0])" />
                         </div>
                     </div>
                 </div>
@@ -87,7 +87,7 @@
                     <div class="col-sm-9 mb-3">
                         <div class="form-group">
                             <label for="address">Address</label>
-                            <input class="form-control" asp-for="staffCreate.Address" id="address" type="text" placeholder="Enter your home address">
+                            <input class="form-control" asp-for="StaffCreate.Address" id="address" type="text" placeholder="Enter your home address">
                         </div>
                     </div>
                 </div>
@@ -96,15 +96,15 @@
                     <div class="col-md-6 mb-3">
                         <div>
                             <label>Password</label>
-                            <input asp-for="staffCreate.Password" class="form-control" type="password" placeholder="Enter password">
-                            <span asp-validation-for="staffCreate.Password" class="text-danger" id="Err_Password"></span>
+                            <input asp-for="StaffCreate.Password" class="form-control" type="password" placeholder="Enter password">
+                            <span asp-validation-for="StaffCreate.Password" class="text-danger" id="Err_Password"></span>
                         </div>
                     </div>
                     <div class="col-md-6 mb-3">
                         <div>
                             <label>Confirm Password</label>
-                            <input asp-for="staffCreate.ConfirmPassword" class="form-control" type="password" placeholder="Confirm pasword">
-                            <span asp-validation-for="staffCreate.ConfirmPassword" class="text-danger" id="Err_ConfirmPassword"></span>
+                            <input asp-for="StaffCreate.ConfirmPassword" class="form-control" type="password" placeholder="Confirm pasword">
+                            <span asp-validation-for="StaffCreate.ConfirmPassword" class="text-danger" id="Err_ConfirmPassword"></span>
                         </div>
                     </div>
                 </div>

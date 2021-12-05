@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using ShopOnline.Business;
 using ShopOnline.Core.Models;
-using System;
 using System.Threading.Tasks;
 
 namespace ShopOnline.Controllers
@@ -35,7 +34,7 @@ namespace ShopOnline.Controllers
         public async Task<IActionResult> UpdateDetailAsync(UserInfor userInfor)
         {
             await _userBusiness.UpdateProfileAsync(userInfor);
-            return RedirectToAction("Profile");
+            return RedirectToAction("UpdateDetail");
         }
     }
 }

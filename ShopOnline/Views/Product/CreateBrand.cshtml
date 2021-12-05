@@ -1,4 +1,4 @@
-﻿@model ShopOnline.Core.Models.Product.BrandViewModel
+﻿@model ShopOnline.Core.Models.Product.BrandCreateViewModel
 @{
     ViewData["Title"] = "Create Brand";
     Layout = "~/Views/Shared/_LayoutManager.cshtml";
@@ -23,13 +23,13 @@
     <div class="col-12 col-xl-12">
         <div class="card card-body border-0 shadow mb-4">
             <h2 class="h5 mb-4">General information</h2>
-            <form asp-action="CreateBrand" enctype="multipart/form-data" id="create-brand-form">
+            <form enctype="multipart/form-data" id="create-brand-form">
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <div>
-                            <label asp-for="brandCreate.BrandName">Brand Name</label>
-                            <input asp-for="brandCreate.BrandName" class="form-control" type="text" placeholder="Enter brand name">
-                            <span asp-validation-for="brandCreate.BrandName" class="text-danger" id="Err_BrandName"></span>
+                            <label asp-for="BrandCreate.BrandName">Brand Name</label>
+                            <input asp-for="BrandCreate.BrandName" class="form-control" type="text" placeholder="Enter brand name">
+                            <span asp-validation-for="BrandCreate.BrandName" class="text-danger" id="Err_BrandName"></span>
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="form-group">
