@@ -22,48 +22,40 @@ h2 a {
 }
 
 .header__info-list {
-    margin-right: -10px;
-    display: none;
+    display: block;
 }
 
-    .header__info-list a {
+.header__info-list {
+    margin-right: -10px;
+}
+
+    .header__info-list a{
         float: left;
         list-style: none;
         line-height: 32px;
         text-align: right;
     }
 
-.header__info-list-special {
+.header__info-list-border {
     border-left: 1px solid #ccc;
-    border-right: 1px solid #ccc;
 }
 
-.header__info-list a {
+.header__info-list a{
     text-decoration: none;
     color: #000;
-    font-family: Arial, Helvetica, sans-serif;
     font-weight: 100;
     font-size: 12px;
     padding: 0 10px;
 }
 
-#header__info-list-logined {
-    display: block;
+#ul-logged {
+    display: none;
 }
 
-#header__info-list-logined a {
-    text-decoration: none;
-    color: #000;
-    font-family: Arial, Helvetica, sans-serif;
+#ul-logged a:first-child {
     font-weight: bold;
-    font-size: 16px;
-    line-height: 32px;
+    font-size: 14px;
 }
-
-    #header__info-list-logined a:hover {
-        cursor: pointer;
-        opacity: 0.7;
-    }
 
 /* Navbar start */
 .header__navbar {

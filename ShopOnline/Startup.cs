@@ -35,7 +35,7 @@ namespace ShopOnline
         {
             services.AddControllersWithViews();
 
-            services.AddDbContext<MyDbContext>(option => option.UseSqlServer(_configuration.GetConnectionString("TrucConnectionString")));
+            services.AddDbContext<MyDbContext>(option => option.UseSqlServer(_configuration.GetConnectionString("TamConnectionString")));
 
             // Use AppSetting by DI
             var appSetting = _configuration.GetSection("AppSetting");

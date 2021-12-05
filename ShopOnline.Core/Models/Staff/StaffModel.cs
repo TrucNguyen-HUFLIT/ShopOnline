@@ -12,10 +12,13 @@ namespace ShopOnline.Core.Models.Staff
         public IPagedList<StaffInfor> ListStaff { get; set; }
     }
 
-    public class StaffViewModel
+    public class StaffCreateViewModel
     {
-        public StaffEdit staffEdit { get; set; }
-        public StaffCreate staffCreate { get; set; }
+        public StaffCreate StaffCreate { get; set; }
+    }
+    public class StaffEditViewModel
+    {
+        public StaffEdit StaffEdit { get; set; }
     }
 
     public class StaffInfor

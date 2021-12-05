@@ -12,6 +12,7 @@ namespace ShopOnline.Core.Entities
         public string Pic3 { get; set; }
         public string Description { get; set; }
         public int Price { get; set; }
+        public int BasePrice { get; set; }
         public ProductStatus Status { get; set; }
 
         public int IdProductType { get; set; }

@@ -41,9 +41,9 @@ namespace ShopOnline.Controllers.Staff
         [HttpGet]
         public IActionResult CreateStaff()
         {
-            var model = new StaffViewModel
+            var model = new StaffCreateViewModel
             {
-                staffCreate = new StaffCreate(),
+                StaffCreate = new StaffCreate(),
             };
             return View(model);
         }
@@ -54,15 +54,15 @@ namespace ShopOnline.Controllers.Staff
         public async Task<IActionResult> CreateStaff([FromForm] StaffCreate staffCreate)
         {
             await _staffBusiness.CreateAsync(staffCreate);
-            return RedirectToAction("Index");
+            return Ok();
         }
 
         [HttpGet]
         public IActionResult UpdateStaff(int id)
         {
-            var model = new StaffViewModel
+            var model = new StaffEditViewModel
             {
-                staffEdit = _staffBusiness.GetStaffById(id),
+                StaffEdit = _staffBusiness.GetStaffById(id),
             };
             return View(model);
         }
@@ -72,7 +72,7 @@ namespace ShopOnline.Controllers.Staff
         public async Task<IActionResult> UpdateStaff(StaffEdit staffEdit)
         {
             await _staffBusiness.EditAsync(staffEdit);
-            return RedirectToAction("Edit", new { id = staffEdit.Id });
+            return Ok(staffEdit.Id);
         }
 
         public async Task<IActionResult> DeleteStaff(StaffInfor staffInfor)

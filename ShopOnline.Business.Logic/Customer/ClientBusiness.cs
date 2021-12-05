@@ -353,18 +353,18 @@ namespace ShopOnline.Business.Logic.Customer
             };
         }
 
-        #region init data to demo
-        private static ProductInforModel CreateDemoProduct(ProductInforModel old)
-        {
-            return new ProductInforModel
-            {
-                Id = old.Id,
-                Name = old.Name,
-                PriceVND = old.PriceVND,
-                PriceUSD = old.PriceUSD,
-                Pic = old.Pic
-            };
-        }
-        #endregion
+        //#region init data to demo
+        //private static ProductInforModel CreateDemoProduct(ProductInforModel old)
+        //{
+        //    return new ProductInforModel
+        //    {
+        //        Id = old.Id,
+        //        Name = old.Name,
+        //        PriceVND = old.PriceVND,
+        //        PriceUSD = old.PriceUSD,
+        //        Pic = old.Pic
+        //    };
+        //}
+        //#endregion
     }
 }

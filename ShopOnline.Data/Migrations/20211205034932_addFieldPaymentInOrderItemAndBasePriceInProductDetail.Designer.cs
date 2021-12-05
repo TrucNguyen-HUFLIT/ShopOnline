@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ShopOnline.Core;
 
 namespace ShopOnline.Data.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    partial class MyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211205034932_addFieldPaymentInOrderItemAndBasePriceInProductDetail")]
+    partial class addFieldPaymentInOrderItemAndBasePriceInProductDetail
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -111,13 +113,10 @@ namespace ShopOnline.Data.Migrations
                     b.Property<int>("IdProduct")
                         .HasColumnType("int");
 
-                    b.Property<int>("QuantityPurchased")
+                    b.Property<int>("Payment")
                         .HasColumnType("int");
 
-                    b.Property<int>("TotalBasePrice")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TotalPrice")
+                    b.Property<int>("Price")
                         .HasColumnType("int");
 
                     b.HasKey("IdOrder", "IdProduct");
@@ -154,9 +153,6 @@ namespace ShopOnline.Data.Migrations
 
                     b.Property<DateTime>("OrderDay")
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("Payment")
-                        .HasColumnType("int");
 
                     b.Property<int>("StatusOrder")
                         .HasColumnType("int");

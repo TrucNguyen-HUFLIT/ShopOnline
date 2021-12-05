@@ -74,5 +74,52 @@ namespace ShopOnline.Core.Models.Enum
 
         #endregion
 
+        #region Brand = ErrorCode + 4000
+        Brand = ErrorCode + 4000,
+        [Display(GroupName = "Brand")]
+        [Description("Brand already exists")]
+        BrandExisted = Brand + 1,
+
+        [Display(GroupName = "Brand")]
+        [Description("Brand doesn't exist")]
+        BrandNotExisted = Brand + 2,
+
+        #endregion
+
+        #region ProductType = ErrorCode + 5000
+        ProductType = ErrorCode + 5000,
+        [Display(GroupName = "ProductType")]
+        [Description("Product Type already exists")]
+        ProductTypeExisted = ProductType + 1,
+
+        [Display(GroupName = "ProductType")]
+        [Description("Product Type doesn't exist")]
+        ProductTypeNotExisted = ProductType + 2,
+
+        #endregion
+
+        #region ProductDetail = ErrorCode + 6000
+        ProductDetail = ErrorCode + 6000,
+        [Display(GroupName = "ProductDetail")]
+        [Description("Product Detail already exists")]
+        ProductDetailExisted = ProductDetail + 1,
+
+        [Display(GroupName = "ProductType")]
+        [Description("Product Detail doesn't exist")]
+        ProductDetailNotExisted = ProductDetail + 2,
+
+        #endregion
+
+        #region Product = ErrorCode + 6000
+        Product = ErrorCode + 6000,
+        [Display(GroupName = "Product")]
+        [Description("Product already exists")]
+        ProductExisted = Product + 1,
+
+        [Display(GroupName = "Product")]
+        [Description("Product doesn't exist")]
+        ProductNotExisted = Product + 2,
+
+        #endregion
     }
 }

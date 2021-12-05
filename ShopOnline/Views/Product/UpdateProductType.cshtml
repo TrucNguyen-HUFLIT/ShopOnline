@@ -1,4 +1,4 @@
-﻿@model ShopOnline.Core.Models.Product.ProductTypeModel
+﻿@model ShopOnline.Core.Models.Product.ProductTypeViewModel
 @{
     ViewData["Title"] = "Edit Product Type";
     Layout = "~/Views/Shared/_LayoutManager.cshtml";
@@ -25,6 +25,13 @@
             <h2 class="h5 mb-4">General information</h2>
             <form asp-action="UpdateProductType" enctype="multipart/form-data" id="update-product-type-form">
                 <div class="row">
+                    <div class="col-md-6 mb-3" hidden>
+                        <div>
+                            <label>Id Staff</label>
+                            <input asp-for="productType.Id" class="form-control" type="text">
+                            <span asp-validation-for="productType.Id" class="text-danger"></span>
+                        </div>
+                    </div>
                     <div class="col-md-6 mb-3">
                         <div>
                             <label>Product Type Name</label>
@@ -46,7 +53,7 @@
                         <select class="form-select mb-0" asp-for="productType.IdBrand">
                             @foreach (var item in Model.ListBrand)
                             {
-                            <option value="@item.Id">@item.BrandName </option>
+                                <option value="@item.Id">@item.BrandName </option>
                             }
                         </select>
                     </div>

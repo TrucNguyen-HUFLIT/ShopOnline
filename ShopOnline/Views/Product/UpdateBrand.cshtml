@@ -1,6 +1,6 @@
-﻿@model ShopOnline.Core.Models.Product.BrandViewModel
+﻿@model ShopOnline.Core.Models.Product.BrandInforViewModel
 @{
-    ViewData["Title"] = "Create Staff";
+    ViewData["Title"] = "Update Brand";
     Layout = "~/Views/Shared/_LayoutManager.cshtml";
 }
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
@@ -23,13 +23,20 @@
     <div class="col-12 col-xl-12">
         <div class="card card-body border-0 shadow mb-4">
             <h2 class="h5 mb-4">General information</h2>
-            <form asp-action="EditBrand" enctype="multipart/form-data" id="edit-brand-form">
+            <form enctype="multipart/form-data" id="edit-brand-form">
                 <div class="row">
                     <div class="col-md-6 mb-3">
+                        <div class="col-md-6 mb-3" hidden>
+                            <div>
+                                <label>Id Staff</label>
+                                <input asp-for="BrandInfor.Id" class="form-control" type="text">
+                                <span asp-validation-for="BrandInfor.Id" class="text-danger"></span>
+                            </div>
+                        </div>
                         <div>
                             <label>Brand Name</label>
-                            <input asp-for="brandInfor.BrandName" class="form-control" type="text" placeholder="Enter brand name">
-                            <span asp-validation-for="brandInfor.BrandName" class="text-danger" id="Err_BrandName"></span>
+                            <input asp-for="BrandInfor.BrandName" class="form-control" type="text" placeholder="Enter brand name">
+                            <span asp-validation-for="BrandInfor.BrandName" class="text-danger" id="Err_BrandName"></span>
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="form-group">

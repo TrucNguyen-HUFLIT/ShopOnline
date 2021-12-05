@@ -18,13 +18,13 @@
     <div class="header">
         <div class="header__info">
             <p class="header__info-hotline">Hotline - 0933090455</p>
-            <ul class="header__info-list">
+            <ul class="header__info-list" id="ul-not-logged">
                 <a asp-controller="Account" asp-action="Login">Sign in</a>
-                <a asp-controller="Account" asp-action="Register" class="header__info-list-special">Sign up</a>
-                <a href="#footer">Help</a>
+                <a asp-controller="Account" asp-action="Register" class="header__info-list-border">Sign up</a>
             </ul>
-            <ul id="header__info-list-logined">
-                <span>Hi</span><a asp-controller="Account" asp-action="Login">Nguyen Minh Tam</a>
+            <ul class="header__info-list" id="ul-logged">
+                <a asp-controller="Profile" asp-action="UpdateDetail" >Nguyen Minh Tam</a>
+                <a asp-controller="Account" asp-action="Logout" class="header__info-list-border">Logout</a>
             </ul>
         </div>
         <div class="header__navbar">

@@ -25,7 +25,7 @@
             <!-- Get name product -->
             <h1>@Model.ProductDetail.Name</h1>
             <!-- Get price product -->
-            <p>@string.Format("{0:N0}", ((Int64)Model.ProductDetail.PriceVND))<span> VND ~ </span> <span class="color-orange">$@string.Format("{0:N0}", ((Int64)Model.ProductDetail.PriceUSD))</span></p>
+            <p>@string.Format("{0:N0}", ((Int64)Model.ProductDetail.PriceVND))<span>đ ~ </span> <span class="color-orange">$@string.Format("{0:N0}", ((Int64)Model.ProductDetail.PriceUSD))</span></p>
             <p>This is description</p>
         </div>
         <div class="main__product-details-disc-select-size">
@@ -99,7 +99,8 @@
                 <div class="main__product-ramdon-item-box">
                     <div class="main__ramdon-box-item">
                         <h1></h1>
-                        <p>@string.Format("{0:N0}", ((Int64)productInforDetail.PriceVND)) VND</p>
+                        <p>@string.Format("{0:N0}", ((Int64)productInforDetail.PriceVND))đ</p>
+                        <p>$@string.Format("{0:N0}", ((Int64)productInforDetail.PriceUSD))</p>
                     </div>
                     <input type="submit" value="DETAILS">
                 </div>
