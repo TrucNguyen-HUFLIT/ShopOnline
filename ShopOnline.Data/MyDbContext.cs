@@ -73,8 +73,7 @@ namespace ShopOnline.Core
 
                 entity.Property(x => x.Content).IsRequired();
                 entity.Property(x => x.ReviewTime).IsRequired();
-                entity.Property(x => x.IdCustomer).IsRequired();
-                entity.Property(x => x.IdProductDetail).IsRequired();
+                entity.Property(x => x.ReviewStatus).IsRequired();
             });
 
             modelBuilder.Entity<FavoriteProductEntity>(entity =>
@@ -89,9 +88,6 @@ namespace ShopOnline.Core
                 entity.HasOne(x => x.ProductDetail)
                     .WithMany(x => x.FavoriteProducts)
                     .HasForeignKey(x => x.IdProductDetail);
-
-                entity.Property(x => x.IdCustomer).IsRequired();
-                entity.Property(x => x.IdProductDetail).IsRequired();
             });
 
             modelBuilder.Entity<CustomerEntity>(entity =>
@@ -132,10 +128,10 @@ namespace ShopOnline.Core
                     .WithMany(x => x.Orders)
                     .HasForeignKey(x => x.IdShipper);
 
+                entity.Property(x => x.IsPaid).IsRequired();
                 entity.Property(x => x.OrderDay).IsRequired();
                 entity.Property(x => x.StatusOrder).IsRequired();
-                entity.Property(x => x.IdCustomer).IsRequired();
-                entity.Property(x => x.IdShipper).IsRequired();
+                entity.Property(x => x.Payment).IsRequired();
             });
 
             modelBuilder.Entity<OrderDetailEntity>(entity =>
@@ -151,7 +147,9 @@ namespace ShopOnline.Core
                     .WithMany(x => x.OrderDetails)
                     .HasForeignKey(x => x.IdOrder);
 
-                entity.Property(x => x.Price).IsRequired();
+                entity.Property(x => x.TotalPrice).IsRequired();
+                entity.Property(x => x.TotalBasePrice).IsRequired();
+                entity.Property(x => x.QuantityPurchased).IsRequired();
             });
 
             modelBuilder.Entity<ProductEntity>(entity =>
@@ -165,7 +163,6 @@ namespace ShopOnline.Core
 
                 entity.Property(x => x.Name).IsRequired();
                 entity.Property(x => x.Size).IsRequired();
-                entity.Property(x => x.IdProductDetail).IsRequired();
             });
 
             modelBuilder.Entity<ProductDetailEntity>(entity =>
@@ -179,8 +176,8 @@ namespace ShopOnline.Core
 
                 entity.Property(x => x.Name).IsRequired();
                 entity.Property(x => x.Price).IsRequired();
+                entity.Property(x => x.BasePrice).IsRequired();
                 entity.Property(x => x.Status).IsRequired();
-                entity.Property(x => x.IdProductType).IsRequired();
             });
 
             modelBuilder.Entity<BrandEntity>(entity =>
@@ -199,8 +196,6 @@ namespace ShopOnline.Core
                 entity.HasOne(x => x.Brand)
                     .WithMany(x => x.ProductTypes)
                     .HasForeignKey(x => x.IdBrand);
-
-                entity.Property(x => x.IdBrand).IsRequired();
             });
         }
     }
