@@ -18,14 +18,20 @@
     <div class="header">
         <div class="header__info">
             <p class="header__info-hotline">Hotline - 0933090455</p>
-            <ul class="header__info-list" id="ul-not-logged">
-                <a asp-controller="Account" asp-action="Login">Sign in</a>
-                <a asp-controller="Account" asp-action="Register" class="header__info-list-border">Sign up</a>
-            </ul>
-            <ul class="header__info-list" id="ul-logged">
-                <a asp-controller="Profile" asp-action="UpdateDetail" >Nguyen Minh Tam</a>
-                <a asp-controller="Account" asp-action="Logout" class="header__info-list-border">Logout</a>
-            </ul>
+            @if (UserHelper.Name == null)
+            {
+                <ul class="header__info-list" id="ul-not-logged">
+                    <a asp-controller="Account" asp-action="Login">Sign in</a>
+                    <a asp-controller="Account" asp-action="Register" class="header__info-list-border">Sign up</a>
+                </ul>
+            }
+            else
+            {
+                <ul class="header__info-list" id="ul-logged">
+                    <a asp-controller="Profile" asp-action="UpdateDetail">@UserHelper.Name</a>
+                    <a asp-controller="Account" asp-action="Logout" class="header__info-list-border">Logout</a>
+                </ul>
+            }
         </div>
         <div class="header__navbar">
             <div class="header__navbar-logo">

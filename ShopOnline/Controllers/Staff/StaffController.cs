@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 
 namespace ShopOnline.Controllers.Staff
 {
-    [Authorize(Roles = ROLE.ADMIN)]
     public class StaffController : Controller
     {
         private readonly IStaffBusiness _staffBusiness;
@@ -18,6 +17,8 @@ namespace ShopOnline.Controllers.Staff
         {
             _staffBusiness = staffBusiness;
         }
+
+        [Authorize(Roles = ROLE.MANAGER)]
         public async Task<IActionResult> ListStaff(string sortOrder, string currentFilter, string searchString, int? page)
         {
             ViewBag.CurrentSort = sortOrder;
@@ -38,6 +39,7 @@ namespace ShopOnline.Controllers.Staff
             return View(model);
         }
 
+        [Authorize(Roles = ROLE.MANAGER)]
         [HttpGet]
         public IActionResult CreateStaff()
         {
@@ -48,6 +50,7 @@ namespace ShopOnline.Controllers.Staff
             return View(model);
         }
 
+        [Authorize(Roles = ROLE.MANAGER)]
         [HttpPost]
         [TypeFilter(typeof(ModelStateAjaxFilter))]
         [TypeFilter(typeof(ExceptionFilter))]
@@ -57,6 +60,7 @@ namespace ShopOnline.Controllers.Staff
             return Ok();
         }
 
+        [Authorize(Roles = ROLE.MANAGER)]
         [HttpGet]
         public IActionResult UpdateStaff(int id)
         {
@@ -67,6 +71,7 @@ namespace ShopOnline.Controllers.Staff
             return View(model);
         }
 
+        [Authorize(Roles = ROLE.MANAGER)]
         [HttpPost]
         [TypeFilter(typeof(ModelStateAjaxFilter))]
         public async Task<IActionResult> UpdateStaff(StaffEdit staffEdit)
@@ -75,6 +80,7 @@ namespace ShopOnline.Controllers.Staff
             return Ok(staffEdit.Id);
         }
 
+        [Authorize(Roles = ROLE.MANAGER)]
         public async Task<IActionResult> DeleteStaff(StaffInfor staffInfor)
         {
             await _staffBusiness.DeleteStaffAsync(staffInfor);
