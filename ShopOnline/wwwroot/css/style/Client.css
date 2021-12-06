@@ -48,10 +48,6 @@ h2 a {
     padding: 0 10px;
 }
 
-#ul-logged {
-    display: none;
-}
-
 #ul-logged a:first-child {
     font-weight: bold;
     font-size: 14px;

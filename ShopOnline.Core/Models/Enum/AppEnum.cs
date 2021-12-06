@@ -9,6 +9,7 @@ namespace ShopOnline.Core.Models.Enum
             Staff = 2,
             Customer = 3,
             Shipper = 4,
+            Manager = 5,
         }
 
         public enum StatusOrder

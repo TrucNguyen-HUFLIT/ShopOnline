@@ -1,10 +1,13 @@
-﻿<!DOCTYPE html>
+﻿@using ShopOnline.Core.Helpers;
+@using ShopOnline.Core.Models.Enum;
+
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <!-- Primary Meta Tags -->
-    <title>Volt - Free Bootstrap 5 Dashboard</title>
+    <title>Dreams Store | @ViewData["Title"]</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="title" content="Volt - Free Bootstrap 5 Dashboard">
     <link rel="canonical" href="https://themesberg.com/product/admin-dashboard/volt-premium-bootstrap-5-dashboard">
@@ -49,30 +52,86 @@
             </div>
             <ul class="nav flex-column pt-3 pt-md-0">
                 <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center">
-                        <span class="sidebar-icon">
-                            <img src="~/assets/img/brand/light.svg" height="20" width="20" alt="Dream Logo">
+                    @if (UserHelper.Role == AppEnum.TypeAcc.Customer)
+                    {
+                        <a class="nav-link d-flex align-items-center" asp-action="Home" asp-controller="Client">
+                            <span class="sidebar-icon">
+                                <img src="~/assets/img/brand/light.svg" height="20" width="20" alt="Dream Logo">
+                            </span>
+                            <span class="mt-1 ms-1 sidebar-text">Dreams Store</span>
+                        </a>
+                    }
+                    else
+                    {
+                        <a class="nav-link d-flex align-items-center">
+                            <span class="sidebar-icon">
+                                <img src="~/assets/img/brand/light.svg" height="20" width="20" alt="Dream Logo">
+                            </span>
+                            <span class="mt-1 ms-1 sidebar-text">Dreams Store</span>
+                        </a>
+                    }
+                </li>
+                @*@if (UserHelper.Role == AppEnum.TypeAcc.Admin)
+                    {*@
+                <li class="nav-item">
+                    <a asp-action="" asp-controller="" class="nav-link">
+                        <span class="sidebar-text">Manager (Admin)</span>
+                    </a>
+                </li>
+                @*}
+                    @if (UserHelper.Role == AppEnum.TypeAcc.Staff)
+                    {*@
+                <li class="nav-item">
+                    <span class="nav-link  collapsed  d-flex justify-content-between align-items-center"
+                          data-bs-toggle="collapse" data-bs-target="#submenu-components">
+                        <span class="sidebar-text">Sell (Staff)</span>
+                        <span class="link-arrow">
+                            <svg class="icon icon-sm" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
                         </span>
-                        <span class="mt-1 ms-1 sidebar-text">Dream Dashboard</span>
+                    </span>
+                    <div class="multi-level collapse " role="list"
+                         id="submenu-components" aria-expanded="false">
+                        <ul class="flex-column nav">
+                            <li class="nav-item ">
+                                <a class="nav-link" asp-action="ListProduct" asp-controller="Product">
+                                    <span class="sidebar-text">Product</span>
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link" asp-action="" asp-controller="">
+                                    <span class="sidebar-text">Order Process</span>
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link" asp-action="" asp-controller="">
+                                    <span class="sidebar-text">Order Paid</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a asp-action="" asp-controller="" class="nav-link">
+                        <span class="sidebar-text">Review (Staff)</span>
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a asp-action="" asp-controller="" class="nav-link">
+                        <span class="sidebar-text">Customer (Staff)</span>
+                    </a>
+                </li>
+                @*}
+                    @if (UserHelper.Role == AppEnum.TypeAcc.Manager)
+                    {*@
+                <li class="nav-item">
                     <a asp-action="ListStaff" asp-controller="Staff" class="nav-link">
-                        <span class="sidebar-icon">
-                            <svg class="icon icon-xs me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path><path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path></svg>
-                        </span>
-                        <span class="sidebar-text">Staff</span>
+                        <span class="sidebar-text">Staff (Manager)</span>
                     </a>
                 </li>
                 <li class="nav-item">
                     <span class="nav-link  collapsed  d-flex justify-content-between align-items-center"
                           data-bs-toggle="collapse" data-bs-target="#submenu-components">
-                        <span>
-                            <span class="sidebar-icon">
-                                <svg class="icon icon-xs me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M4 3a2 2 0 100 4h12a2 2 0 100-4H4z"></path><path fill-rule="evenodd" d="M3 8h14v7a2 2 0 01-2 2H5a2 2 0 01-2-2V8zm5 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z" clip-rule="evenodd"></path></svg>
-                            </span>
-                            <span class="sidebar-text">Product</span>
-                        </span>
+                        <span class="sidebar-text">Product (Manager)</span>
                         <span class="link-arrow">
                             <svg class="icon icon-sm" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
                         </span>
@@ -95,11 +154,53 @@
                                     <span class="sidebar-text">Product Detail</span>
                                 </a>
                             </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a asp-action="" asp-controller="" class="nav-link">
+                        <span class="sidebar-text">Report (Manager)</span>
+                    </a>
+                </li>
+                @*}*@
+                <li class="nav-item">
+                    <span class="nav-link  collapsed  d-flex justify-content-between align-items-center"
+                          data-bs-toggle="collapse" data-bs-target="#submenu-components">
+                        <span class="sidebar-text">Order</span>
+                        <span class="link-arrow">
+                            <svg class="icon icon-sm" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
+                        </span>
+                    </span>
+                    <div class="multi-level collapse " role="list"
+                         id="submenu-components" aria-expanded="false">
+                        <ul class="flex-column nav">
+                            @*@if (UserHelper.Role == AppEnum.TypeAcc.Shipper)
+                                {*@
                             <li class="nav-item ">
-                                <a class="nav-link" asp-action="ListProduct" asp-controller="Product">
-                                    <span class="sidebar-text">Product</span>
+                                <a class="nav-link" asp-action="" asp-controller="">
+                                    <span class="sidebar-text">Accepted (Shipper)</span>
                                 </a>
                             </li>
+                            <li class="nav-item ">
+                                <a class="nav-link" asp-action="" asp-controller="">
+                                    <span class="sidebar-text">History (Shipper)</span>
+                                </a>
+                            </li>
+                            @*}
+                                @if(UserHelper.Role == AppEnum.TypeAcc.Customer)
+                                        {
+                            *@
+                            <li class="nav-item ">
+                                <a class="nav-link" asp-action="" asp-controller="">
+                                    <span class="sidebar-text">Favorites (Customer)</span>
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link" asp-action="" asp-controller="">
+                                    <span class="sidebar-text">History (Customer)</span>
+                                </a>
+                            </li>
+                            @*}*@
                         </ul>
                     </div>
                 </li>
@@ -120,9 +221,9 @@
                         <li class="nav-item dropdown ms-lg-3">
                             <a class="nav-link dropdown-toggle pt-1 px-0" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <div class="media d-flex align-items-center">
-                                    <img class="avatar rounded-circle" alt="Image placeholder" src="../../assets/img/team/profile-picture-3.jpg">
+                                    <img class="avatar rounded-circle" alt="Image placeholder" src="@UserHelper.Avatar">
                                     <div class="media-body ms-2 text-dark align-items-center d-none d-lg-block">
-                                        <span class="mb-0 font-small fw-bold text-gray-900">Bonnie Green</span>
+                                        <span class="mb-0 font-small fw-bold text-gray-900">@UserHelper.Name</span>
                                     </div>
                                 </div>
                             </a>
@@ -130,18 +231,6 @@
                                 <a class="dropdown-item d-flex align-items-center" asp-action="UpdateDetail" asp-controller="Profile">
                                     <svg class="dropdown-icon text-gray-400 me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z" clip-rule="evenodd"></path></svg>
                                     My Profile
-                                </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <svg class="dropdown-icon text-gray-400 me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"></path></svg>
-                                    Settings
-                                </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <svg class="dropdown-icon text-gray-400 me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5 3a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2V5a2 2 0 00-2-2H5zm0 2h10v7h-2l-1 2H8l-1-2H5V5z" clip-rule="evenodd"></path></svg>
-                                    Messages
-                                </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <svg class="dropdown-icon text-gray-400 me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-2 0c0 .993-.241 1.929-.668 2.754l-1.524-1.525a3.997 3.997 0 00.078-2.183l1.562-1.562C15.802 8.249 16 9.1 16 10zm-5.165 3.913l1.58 1.58A5.98 5.98 0 0110 16a5.976 5.976 0 01-2.516-.552l1.562-1.562a4.006 4.006 0 001.789.027zm-4.677-2.796a4.002 4.002 0 01-.041-2.08l-.08.08-1.53-1.533A5.98 5.98 0 004 10c0 .954.223 1.856.619 2.657l1.54-1.54zm1.088-6.45A5.974 5.974 0 0110 4c.954 0 1.856.223 2.657.619l-1.54 1.54a4.002 4.002 0 00-2.346.033L7.246 4.668zM12 10a2 2 0 11-4 0 2 2 0 014 0z" clip-rule="evenodd"></path></svg>
-                                    Support
                                 </a>
                                 <div role="separator" class="dropdown-divider my-1"></div>
                                 <a class="dropdown-item d-flex align-items-center" asp-controller="Account" asp-action="Logout">

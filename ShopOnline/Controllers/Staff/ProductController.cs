@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 
 namespace ShopOnline.Controllers.Staff
 {
-    [Authorize(Roles = ROLE.STAFF)]
     public class ProductController : Controller
     {
         private readonly IProductBusiness _productBusiness;
@@ -18,6 +17,7 @@ namespace ShopOnline.Controllers.Staff
             _productBusiness = productBusiness;
         }
 
+        [Authorize(Roles = ROLE.MANAGER)]
         public async Task<IActionResult> ListBrand(string sortOrder, string currentFilter, string searchString, int? page)
         {
             ViewBag.CurrentSort = sortOrder;
@@ -38,6 +38,7 @@ namespace ShopOnline.Controllers.Staff
             return View(model);
         }
 
+        [Authorize(Roles = ROLE.MANAGER)]
         [HttpGet]
         public IActionResult CreateBrand()
         {
@@ -48,6 +49,7 @@ namespace ShopOnline.Controllers.Staff
             return View(model);
         }
 
+        [Authorize(Roles = ROLE.MANAGER)]
         [HttpPost]
         [TypeFilter(typeof(ModelStateAjaxFilter))]
         [TypeFilter(typeof(ExceptionFilter))]
@@ -57,6 +59,7 @@ namespace ShopOnline.Controllers.Staff
             return Ok();
         }
 
+        [Authorize(Roles = ROLE.MANAGER)]
         [HttpGet]
         public IActionResult UpdateBrand(int id)
         {
@@ -67,6 +70,7 @@ namespace ShopOnline.Controllers.Staff
             return View(model);
         }
 
+        [Authorize(Roles = ROLE.MANAGER)]
         [HttpPost]
         [TypeFilter(typeof(ModelStateAjaxFilter))]
         public async Task<IActionResult> UpdateBrand(BrandInfor brandInfor)
@@ -75,6 +79,7 @@ namespace ShopOnline.Controllers.Staff
             return Ok(brandInfor.Id);
         }
 
+        [Authorize(Roles = ROLE.MANAGER)]
         public async Task<IActionResult> ListProductType(string sortOrder, string currentFilter, string searchString, int? page)
         {
             ViewBag.CurrentSort = sortOrder;
@@ -96,6 +101,7 @@ namespace ShopOnline.Controllers.Staff
             return View(model);
         }
 
+        [Authorize(Roles = ROLE.MANAGER)]
         [HttpGet]
         public async Task<IActionResult> CreateProductType()
         {
@@ -107,6 +113,7 @@ namespace ShopOnline.Controllers.Staff
             return View(model);
         }
 
+        [Authorize(Roles = ROLE.MANAGER)]
         [HttpPost]
         [TypeFilter(typeof(ModelStateAjaxFilter))]
         [TypeFilter(typeof(ExceptionFilter))]
@@ -116,6 +123,7 @@ namespace ShopOnline.Controllers.Staff
             return Ok();
         }
 
+        [Authorize(Roles = ROLE.MANAGER)]
         [HttpGet]
         public async Task<IActionResult> UpdateProductTypeAsync(int id)
         {
@@ -127,6 +135,7 @@ namespace ShopOnline.Controllers.Staff
             return View(model);
         }
 
+        [Authorize(Roles = ROLE.MANAGER)]
         [HttpPost]
         [TypeFilter(typeof(ModelStateAjaxFilter))]
         [TypeFilter(typeof(ExceptionFilter))]
@@ -136,6 +145,7 @@ namespace ShopOnline.Controllers.Staff
             return Ok(productType.Id);
         }
 
+        [Authorize(Roles = ROLE.MANAGER)]
         [HttpGet]
         public async Task<IActionResult> CreateProductDetail()
         {
@@ -147,6 +157,7 @@ namespace ShopOnline.Controllers.Staff
             return View(model);
         }
 
+        [Authorize(Roles = ROLE.MANAGER)]
         [HttpPost]
         [TypeFilter(typeof(ModelStateAjaxFilter))]
         [TypeFilter(typeof(ExceptionFilter))]
@@ -156,6 +167,7 @@ namespace ShopOnline.Controllers.Staff
             return Ok();
         }
 
+        [Authorize(Roles = ROLE.MANAGER)]
         [HttpGet]
         public async Task<IActionResult> UpdateProductDetail(int id)
         {
@@ -167,6 +179,7 @@ namespace ShopOnline.Controllers.Staff
             return View(model);
         }
 
+        [Authorize(Roles = ROLE.MANAGER)]
         [HttpPost]
         [TypeFilter(typeof(ModelStateAjaxFilter))]
         public async Task<IActionResult> UpdateProductDetail(ProductDetailUpdate productDetailUpdate)
@@ -175,6 +188,7 @@ namespace ShopOnline.Controllers.Staff
             return Ok(productDetailUpdate.Id);
         }
 
+        [Authorize(Roles = ROLE.MANAGER)]
         public async Task<IActionResult> ListProductDetail(string sortOrder, string currentFilter, string searchString, int? page)
         {
             ViewBag.CurrentSort = sortOrder;
@@ -197,6 +211,7 @@ namespace ShopOnline.Controllers.Staff
             return View(model);
         }
 
+        [Authorize(Roles = ROLE.STAFF)]
         [HttpGet]
         public async Task<IActionResult> CreateProduct()
         {
@@ -208,6 +223,7 @@ namespace ShopOnline.Controllers.Staff
             return View(model);
         }
 
+        [Authorize(Roles = ROLE.STAFF)]
         [HttpPost]
         [TypeFilter(typeof(ModelStateAjaxFilter))]
         [TypeFilter(typeof(ExceptionFilter))]
@@ -217,6 +233,7 @@ namespace ShopOnline.Controllers.Staff
             return Ok();
         }
 
+        [Authorize(Roles = ROLE.STAFF)]
         [HttpGet]
         public async Task<IActionResult> UpdateProduct(int id)
         {
@@ -228,6 +245,7 @@ namespace ShopOnline.Controllers.Staff
             return View(model);
         }
 
+        [Authorize(Roles = ROLE.STAFF)]
         [HttpPost]
         [TypeFilter(typeof(ModelStateAjaxFilter))]
         public async Task<IActionResult> UpdateProduct(ProductUpdate productUpdate)
@@ -236,6 +254,7 @@ namespace ShopOnline.Controllers.Staff
             return Ok(productUpdate.Id);
         }
 
+        [Authorize(Roles = ROLE.STAFF)]
         public async Task<IActionResult> ListProduct(string sortOrder, string currentFilter, string searchString, int? page)
         {
             ViewBag.CurrentSort = sortOrder;
@@ -257,6 +276,5 @@ namespace ShopOnline.Controllers.Staff
 
             return View(model);
         }
-
     }
 }

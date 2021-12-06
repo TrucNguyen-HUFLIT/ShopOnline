@@ -74,7 +74,7 @@ namespace ShopOnline.Business.Logic
                     if (inforAccount.Password == password)
                         loginSuccess = true;
                     break;
-                default: // Admin || Staff
+                default: // Admin || Staff || Manager
                     HashPasswordHelper.HashPasswordStrategy = new HashSHA256Strategy();
                     password = HashPasswordHelper.DoHash(accountLogin.Password);
                     if (inforAccount.Password == password)
@@ -236,6 +236,21 @@ namespace ShopOnline.Business.Logic
                                         })
                                         .FirstOrDefaultAsync();
                     break;
+                case TypeAcc.Manager:
+                    userInfor = await _context.Staffs
+                                        .Where(x => x.Email == email && !x.IsDeleted && x.TypeAcc == TypeAcc.Manager)
+                                        .Select(x => new UserInfor
+                                        {
+                                            Id = x.Id,
+                                            FullName = x.FullName,
+                                            Email = x.Email,
+                                            PhoneNumber = x.PhoneNumber,
+                                            Address = x.Address,
+                                            Avatar = x.Avatar,
+                                            TypeAcc = x.TypeAcc
+                                        })
+                                        .FirstOrDefaultAsync();
+                    break;
                 default: // Admin
                     userInfor = await _context.Customers
                                         .Where(x => x.Email == email && !x.IsDeleted && x.TypeAcc == TypeAcc.Admin)
@@ -252,6 +267,11 @@ namespace ShopOnline.Business.Logic
                                         .FirstOrDefaultAsync();
                     break;
             }
+
+            UserHelper.Name = userInfor.FullName;
+            UserHelper.Avatar = userInfor.Avatar;
+            UserHelper.Email = userInfor.Email;
+            UserHelper.Role = userInfor.TypeAcc;
 
             return userInfor;
         }
@@ -296,7 +316,7 @@ namespace ShopOnline.Business.Logic
                     _context.Shippers.Update(shipperProfile);
 
                     break;
-                default: // Admin
+                default: // Admin || Staff || Manager
                     var staffProfile = await _context.Staffs.Where(x => x.Id == userInfor.Id && !x.IsDeleted && x.TypeAcc == userInfor.TypeAcc)
                                         .FirstOrDefaultAsync();
 
