@@ -26,35 +26,44 @@
             <h1>@Model.ProductDetail.Name</h1>
             <!-- Get price product -->
             <p>@string.Format("{0:N0}", ((Int64)Model.ProductDetail.PriceVND))<span>đ ~ </span> <span class="color-orange">$@string.Format("{0:N0}", ((Int64)Model.ProductDetail.PriceUSD))</span></p>
-            <p>This is description</p>
+            <p>@Model.ProductDetail.Description</p>
         </div>
-        <div class="main__product-details-disc-select-size">
-            <h2>Select Size</h2>
-            <div class="main__product-select-size">
-                @foreach (var productSize in Model.ProductDetail.ProductSizeInfors)
-                {
-                    if (productSize.IsAvailable)
+        <form id="add-to-cart-form">
+            <div class="main__product-details-disc-select-size">
+                <h2>Select Size</h2>
+                <div class="main__product-select-size">
+                    @foreach (var productInfor in Model.ProductDetail.BaseProductInfors)
                     {
-                        <input class="main__product-select-size-btn" type="submit" value="@((int)productSize.Size)">
+                        if (productInfor.IsAvailable)
+                        {
+                            <label>
+                                <input class="radio-btn-size" name="idProduct" type="radio" value="@productInfor.Id">
+                                <input hidden name="quantityInStock" value="@productInfor.Quantity" />
+                                <span class="size-value">@((int)productInfor.Size)</span>
+                            </label>
+                        }
+                        else
+                        {
+                            <label>
+                                <input class="radio-btn-size unable" name="idProduct" type="radio" disabled value="@productInfor.Id">
+                                <input hidden name="quantityInStock" value="@productInfor.Quantity" />
+
+                                <span class="size-value">@((int)productInfor.Size)</span>
+                            </label>
+                        }
                     }
-                    else
-                    {
-                        <input class="main__product-select-size-btn unable" type="submit" value="@((int)productSize.Size)">
-                    }
-                }
+                </div>
             </div>
-        </div>
-        <div class="main__product-details-select-quantity">
-            <h2>Quantity</h2>
-            <div class="main__product-quantity-box">
-                <button id="downQuantity" onclick="upDateQuantity (downQuantity)">-</button>
-                <p id="resultOfQuantity">1</p>
-                <button id="upQuantity" onclick="upDateQuantity (upQuantity)">+</button>
+            <div class="main__product-details-select-quantity">
+                <h2>Quantity</h2>
+                <div class="main__product-quantity-box">
+                    <input id="resultOfQuantity" name="quantity" oninput="this.value = quantityFormat(this.value)" value="1" min="1" max="50" type="number" />
+                </div>
             </div>
-        </div>
-        <div class="main__product-details-disc-submit">
-            <input type="submit" value="DETAILS">
-        </div>
+            <div class="main__product-details-disc-submit">
+                <input type="submit" onclick="addToCart()" value="Add to Cart">
+            </div>
+        </form>
     </div>
 </div>
 <div class="main__product-details">
@@ -100,9 +109,9 @@
                     <div class="main__ramdon-box-item">
                         <h1></h1>
                         <p>@string.Format("{0:N0}", ((Int64)productInforDetail.PriceVND))đ</p>
-                        <p>$@string.Format("{0:N0}", ((Int64)productInforDetail.PriceUSD))</p>
+                        <p class="color-orange">$@string.Format("{0:N0}", ((Int64)productInforDetail.PriceUSD))</p>
                     </div>
-                    <input type="submit" value="DETAILS">
+                    <input type="submit" onclick="location.href='@Url.Action("DetailProduct", "Client", new { id = productInforDetail.Id })'" value="Details">
                 </div>
             </div>
         }

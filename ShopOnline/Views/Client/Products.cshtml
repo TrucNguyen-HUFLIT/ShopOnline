@@ -64,7 +64,7 @@
                         <p>@string.Format("{0:N0}", ((Int64)productInforDetail.PriceVND))đ</p>
                         <p>$@string.Format("{0:N0}", ((Int64)productInforDetail.PriceUSD))</p>
                     </div>
-                    <input type="submit" value="DETAILS">
+                    <input type="submit" onclick="location.href='@Url.Action("DetailProduct", "Client", new { id = productInforDetail.Id })'" value="DETAILS">
                 </div>
             </div>
         }

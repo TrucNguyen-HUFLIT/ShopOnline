@@ -20,17 +20,10 @@ namespace ShopOnline.Core.Models.Client
         public int PriceVND { get; set; }
         public int PriceUSD { get; set; }
         public BrandInforModel BrandInfor { get; set; }
-        public List<ProductSizeInfor> ProductSizeInfors { get; set; }
         public ProductStatus Status { get; set; }
         public List<BaseProductInfor> BaseProductInfors { get; set; }
         public List<ReviewDetailViewModel> ReviewsDetail { get; set; }
 
-    }
-
-    public class ProductSizeInfor
-    {
-        public ProductSize Size { get; set; }
-        public bool IsAvailable { get; set; }
     }
 
     public class BaseProductInfor
@@ -38,5 +31,6 @@ namespace ShopOnline.Core.Models.Client
         public int Id { get; set; }
         public int Quantity { get; set; }
         public ProductSize Size { get; set; }
+        public bool IsAvailable { get; set; }
     }
 }

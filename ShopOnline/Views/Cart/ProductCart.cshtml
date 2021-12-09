@@ -1,0 +1,107 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Check out";
+    Layout = "~/Views/Shared/_LayoutClient.cshtml";
+}
+
+<div class="main">
+    <div class="main__shoppingcart">
+        <div class="main__shoppingcart-bag">
+            <div class="main__shoppingcart-bag-deliver">
+                <h1>FREE DELIVERY</h1>
+                <p>Applies to orders of 5.000.000₫ or more.</p>
+            </div>
+            <div class="main__shoppingcart-bag-items">
+                <h1>Bag</h1>
+                <div class="main__shoppingcart-bag-item">
+                    <img src="./assets/img/brand/nike.jfif" alt="">
+                    <div class="main__shopping-bag-item-dics">
+                        <h1>Nike Air Force 1</h1>
+                        <p>1.800.000đ</p>
+                        <div class="main__shopping-bag-item-dics-selec">
+                            <p>Size</p>
+                            <select name="sizes" id="select-size">
+                                <option>40</option>
+                                <option>41</option>
+                                <option>42</option>
+                                <option>43</option>
+                                <option>44</option>
+                                <option>45</option>
+                                <option>46</option>
+                            </select>
+                        </div>
+                        <div class="main__shopping-bag-item-dics-selec">
+                            <p>Quantity</p>
+                            <select name="sizes" id="select-size">
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                                <option>6</option>
+                                <option>7</option>
+                            </select>
+                        </div>
+                        <p><b>Total 1.800.000</b></p>
+                    </div>
+                    <div class="main__shoppingcart-bag-remove">
+                        <img src="./assets/img/icon/icon-remove.png" alt="">
+                    </div>
+                </div>
+                <div class="main__shoppingcart-bag-item">
+                    <img src="./assets/img/brand/nike.jfif" alt="">
+                    <div class="main__shopping-bag-item-dics">
+                        <h1>Nike Air Force 1</h1>
+                        <p>1.800.000đ</p>
+                        <div class="main__shopping-bag-item-dics-selec">
+                            <p>Size</p>
+                            <select name="sizes" id="select-size">
+                                <option>40</option>
+                                <option>41</option>
+                                <option>42</option>
+                                <option>43</option>
+                                <option>44</option>
+                                <option>45</option>
+                                <option>46</option>
+                            </select>
+                        </div>
+                        <div class="main__shopping-bag-item-dics-selec">
+                            <p>Quantity</p>
+                            <select name="sizes" id="select-size">
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                                <option>6</option>
+                                <option>7</option>
+                            </select>
+                        </div>
+                        <p><b>Total 1.800.000</b></p>
+                    </div>
+                    <div class="main__shoppingcart-bag-remove">
+                        <img src="./assets/img/icon/icon-remove.png" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="main__shoppingcart-checkout">
+            <h1>Summary</h1>
+            <div class="main__shoppingcart-checkout-items">
+                <h2>Subtotal</h2>
+                <h2>1.800.000đ</h2>
+            </div>
+            <div class="main__shoppingcart-checkout-items">
+                <h2>Estimated Delivery & Handling</h2>
+                <h2>50.000đ</h2>
+            </div>
+            <div class="main__shoppingcart-checkout-items total">
+                <h2>Total</h2>
+                <p><b>1.850.000đ</b></p>
+            </div>
+            <input type="submit" value="CHECK OUT" onclick="location.href='@Url.Action("CheckOut", "Cart")'">
+        </div>
+    </div>
+</div>

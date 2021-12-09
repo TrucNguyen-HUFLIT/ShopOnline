@@ -130,7 +130,8 @@ namespace ShopOnline.Business.Logic.Customer
                                                             {
                                                                 Id = y.Id,
                                                                 Quantity = y.Quantity,
-                                                                Size = y.Size
+                                                                Size = y.Size,
+                                                                IsAvailable = true
                                                             })
                                                             .ToList(),
                                             ReviewsDetail = x.ReviewDetails
@@ -153,22 +154,22 @@ namespace ShopOnline.Business.Logic.Customer
             var availableSize = productDetail.BaseProductInfors
                                         .Where(x => x.Quantity != 0)
                                         .Select(x => x.Size)
-                                        .ToList();
+                                        .ToArray();
             var productSizes = Enum.GetValues(typeof(ProductSize))
                            .Cast<ProductSize>()
                            .ToList();
 
-            var productSizeInfors = new List<ProductSizeInfor>();
-
             foreach (var productSize in productSizes)
             {
-                productSizeInfors.Add(new ProductSizeInfor
+                if (!availableSize.Contains(productSize))
                 {
-                    Size = productSize,
-                    IsAvailable = availableSize.Contains(productSize)
-                });
+                    productDetail.BaseProductInfors.Add(new BaseProductInfor
+                    {
+                        Size = productSize
+                    });
+                }
             }
-            productDetail.ProductSizeInfors = productSizeInfors;
+            productDetail.BaseProductInfors = productDetail.BaseProductInfors.OrderBy(x => (int)x.Size).ToList();
 
             return productDetail;
         }
