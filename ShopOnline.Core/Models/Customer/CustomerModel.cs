@@ -1,10 +1,13 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations.Schema;
+using X.PagedList;
 
 namespace ShopOnline.Core.Models.Customer
 {
     public class CustomerModel
     {
+        public CustomerInfor customerInfor { get; set; }
+        public IPagedList<CustomerInfor> ListCustomer { get; set; }
     }
     public class CustomerInfor
     {
