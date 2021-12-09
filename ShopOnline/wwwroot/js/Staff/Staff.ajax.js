@@ -1,4 +1,24 @@
-﻿$("#create-staff-form").submit(function (e) {
+﻿function toast(message, isSuccessfully) {
+    let toast;
+    let toastMessage;
+
+    if (isSuccessfully) {
+        toast = document.getElementById("toastSuccessfully");
+        toastMessage = document.getElementById("toastSuccessfully--message");
+    } else {
+        toast = document.getElementById("toastFailed");
+        toastMessage = document.getElementById("toastFailed--message");
+    }
+
+    toastMessage.innerHTML = message;
+    // Add the "show" class to DIV
+    toast.className = "show";
+
+    // After 3 seconds, remove the show class from DIV
+    setTimeout(function () { toast.className = toast.className.replace("show", ""); }, 4000);
+}
+
+$("#create-staff-form").submit(function (e) {
     e.preventDefault();
 
     let formData = new FormData($(this)[0]);
@@ -273,7 +293,7 @@ $("#profile-form").submit(function (e) {
 
     let formData = new FormData($(this)[0]);
     $.ajax({
-        url: '/staff/profile',
+        url: '/profile/updatedetail',
         type: "post",
         async: false,
         cache: false,
@@ -282,7 +302,8 @@ $("#profile-form").submit(function (e) {
         processData: false,
         data: formData,
         success: function () {
-            window.location.replace("/profile/updatedetail");
+            toast("Updated profile successfully", true);
+            setTimeout(() => window.location.replace("/profile/updatedetail"), 2000);
         },
         error: function (data) {
             console.log(data)
@@ -305,6 +326,8 @@ $("#profile-form").submit(function (e) {
                 document.getElementById("Err_FullName").innerHTML = "";
                 document.getElementById("Err_PhoneNumber").innerHTML = "";
             }
+            toast("Updated profile failed", false);
+            setTimeout(() => { }, 2000);
         },
     });
 });

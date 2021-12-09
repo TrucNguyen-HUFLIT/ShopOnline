@@ -24,6 +24,9 @@
     <!-- Volt CSS -->
     <link type="text/css" href="~/css/cssLayoutManager/volt.css" rel="stylesheet">
 
+    <!-- Customize CSS -->
+    <link type="text/css" href="~/css/cssLayoutManager/customize.style.css" rel="stylesheet">
+
 </head>
 
 <body>
@@ -136,8 +139,8 @@
                 <li class="nav-item">
                     <a asp-action="ListCustomer" asp-controller="Customer" class="nav-link">
                         @*<span class="sidebar-icon">
-                            <svg class="icon icon-xs me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path><path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path></svg>
-                        </span>*@
+                                <svg class="icon icon-xs me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path><path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path></svg>
+                            </span>*@
                         <span class="sidebar-text">Customer</span>
                     </a>
                 </li>
@@ -223,7 +226,6 @@
     </nav>
 
     <main class="content">
-
         <nav class="navbar navbar-top navbar-expand navbar-dashboard navbar-dark ps-0 pe-2 pb-0">
             <div class="container-fluid px-0">
                 <div class="d-flex justify-content-between w-100" id="navbarSupportedContent">
@@ -258,6 +260,14 @@
             </div>
         </nav>
         @RenderBody()
+        <div id="toastSuccessfully">
+            <div id="toastSuccessfully__title">Successfully</div>
+            <div id="toastSuccessfully--message">This is a message successfully</div>
+        </div>
+        <div id="toastFailed">
+            <div id="toastFailed__title">Failed</div>
+            <div id="toastFailed--message">This is a message failed</div>
+        </div>
     </main>
 
     <!-- Core -->
@@ -282,7 +292,8 @@
     <script src="~/js/volt.js"></script>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/js/Staff.ajax.js"></script>
+    <script src="~/js/Staff/Staff.ajax.js"></script>
+    <script src="~/js/Staff/Staff.js"></script>
 
 </body>
 
