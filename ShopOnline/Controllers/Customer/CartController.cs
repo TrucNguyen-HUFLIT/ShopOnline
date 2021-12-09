@@ -7,17 +7,34 @@ namespace ShopOnline.Controllers.Customer
     public class CartController : Controller
     {
         private readonly ICartBusiness _cartBusiness;
+        private readonly IClientBusiness _clientBusiness;
 
-        public CartController(ICartBusiness cartBusiness)
+        public CartController(ICartBusiness cartBusiness,
+                IClientBusiness clientBusiness)
         {
             _cartBusiness = cartBusiness;
+            _clientBusiness = clientBusiness;
         }
 
         [HttpGet]
-        public IActionResult GetProductCart()
+        public async Task<IActionResult> ProductCartAsync()
         {
+            await _clientBusiness.InitBrands();
+
             var productCart = _cartBusiness.GetProductsCart();
             return View(productCart);
+        }
+
+        public async Task<IActionResult> CheckOut()
+        {
+            await _clientBusiness.InitBrands();
+            return View();
+        }
+
+        public async Task<IActionResult> DigitalPayment()
+        {
+            await _clientBusiness.InitBrands();
+            return View();
         }
 
         [HttpPost]
@@ -46,16 +63,6 @@ namespace ShopOnline.Controllers.Customer
         {
             await _cartBusiness.RemoveAllProductFromCartAsync();
             return Ok();
-        }
-
-        public IActionResult CheckOut()
-        {
-            return View();
-        }
-
-        public IActionResult DigitalPayment()
-        {
-            return View();
         }
     }
 }

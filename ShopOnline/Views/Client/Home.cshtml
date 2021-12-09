@@ -30,9 +30,9 @@
                                 <div>
                                     <h2>@productInforDetail.Name</h2>
                                     <p>@string.Format("{0:N0}", ((Int64)productInforDetail.PriceVND))đ</p>
-                                    <p>$@string.Format("{0:N0}", ((Int64)productInforDetail.PriceUSD))</p>
+                                    <p class="color-orange">$@string.Format("{0:N0}", ((Int64)productInforDetail.PriceUSD))</p>
                                 </div>
-                                <input type="submit" value="ADD TO CART">
+                                <input type="submit" onclick="location.href='@Url.Action("DetailProduct", "Client", new { id = productInforDetail.Id })'" value="Details">
                             </div>
                         </div>
                     </div>

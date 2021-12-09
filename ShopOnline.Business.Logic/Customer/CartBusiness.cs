@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using ShopOnline.Business.Customer;
 using ShopOnline.Core;
 using ShopOnline.Core.Exceptions;
+using ShopOnline.Core.Helpers;
 using ShopOnline.Core.Models.Client;
 using ShopOnline.Core.Models.Enum;
 using System.Collections.Generic;
@@ -69,6 +70,7 @@ namespace ShopOnline.Business.Logic.Customer
                 throw new UserFriendlyException(ErrorCode.OutOfStock);
 
             SaveCartSession(cart);
+            SessionHelper.QuantityProductCart = QuantityProductCart();
         }
 
         public Task ReduceProductFromCartAsync(int idProduct, int? quantity)
@@ -87,6 +89,7 @@ namespace ShopOnline.Business.Logic.Customer
                 productInCart.SelectedQuantity = 0;
 
             SaveCartSession(cart);
+            SessionHelper.QuantityProductCart = QuantityProductCart();
             return Task.CompletedTask;
         }
 
@@ -101,6 +104,8 @@ namespace ShopOnline.Business.Logic.Customer
             cart.Remove(productInCart);
 
             SaveCartSession(cart);
+
+            SessionHelper.QuantityProductCart = QuantityProductCart();
             return Task.CompletedTask;
         }
 
@@ -116,6 +121,12 @@ namespace ShopOnline.Business.Logic.Customer
         {
             string jsonCart = JsonConvert.SerializeObject(products);
             _session.SetString(CART_KEY, jsonCart);
+        }
+
+        private int QuantityProductCart()
+        {
+
+            return GetProductsCart().Sum(x=>x.SelectedQuantity);
         }
     }
 }

@@ -252,7 +252,7 @@ namespace ShopOnline.Business.Logic
                                         .FirstOrDefaultAsync();
                     break;
                 default: // Admin
-                    userInfor = await _context.Customers
+                    userInfor = await _context.Staffs
                                         .Where(x => x.Email == email && !x.IsDeleted && x.TypeAcc == TypeAcc.Admin)
                                         .Select(x => new UserInfor
                                         {

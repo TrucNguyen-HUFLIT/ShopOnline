@@ -6,9 +6,9 @@ namespace ShopOnline.Business.Customer
 {
     public interface ICartBusiness
     {
-        Task AddProductToCartAsync(int id, int quantity);
+        Task AddProductToCartAsync(int idProduct, int quantity);
         List<ProductCartModel> GetProductsCart();
-        Task ReduceProductFromCartAsync(int id, int? quantity);
+        Task ReduceProductFromCartAsync(int idProduct, int? quantity);
         Task RemoveAllProductFromCartAsync();
         Task RemoveProductFromCartAsync(int idProduct);
     }

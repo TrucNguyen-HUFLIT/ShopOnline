@@ -13,8 +13,8 @@ namespace ShopOnline.Core.Helpers
             try
             {
                 HttpClient httpClient = new HttpClient();
-                const string API_KEY = "30f0f3c9a3-14328b43be-r38fyu";
-                string URL = $"https://api.fastforex.io/fetch-one?from=VND&to=USD&api_key={API_KEY}";
+                const string API_KEY = "8dbc9848003844ae0f70";
+                string URL = $"https://free.currconv.com/api/v7/convert?q=VND_USD&compact=ultra&apiKey={API_KEY}";
                 HttpResponseMessage httpResponse = await httpClient.GetAsync(URL);
                 var content = await httpResponse.Content.ReadAsStringAsync();
 
@@ -25,7 +25,7 @@ namespace ShopOnline.Core.Helpers
                 }
 
                 var convertCurrencyResponse = JsonConvert.DeserializeObject<ConvertCurrencyResponse>(content);
-                var exchangeRate = convertCurrencyResponse.Result.USD;
+                var exchangeRate = convertCurrencyResponse.VND_USD;
                 priceUSD = Math.Round(priceVND * exchangeRate);
             }
             catch (Exception e)
@@ -39,14 +39,6 @@ namespace ShopOnline.Core.Helpers
 
     class ConvertCurrencyResponse
     {
-        public string Base { get; set; }
-        public TypeExchangeRate Result { get; set; }
-        public DateTime Updated { get; set; }
-    }
-
-    class TypeExchangeRate
-    {
-        public double USD { get; set; }
-        public double VND { get; set; }
+        public double VND_USD { get; set; }
     }
 }

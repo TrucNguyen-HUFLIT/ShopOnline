@@ -119,3 +119,21 @@ if ($("#main__products-items").children().length == 0) {
     errorpage.style.display = "none";
 }
 //#endregion
+
+//#region
+function quantityFormat(input) {//returns (###) ###-####
+    input = input.replace(/\D/g, '').substring(0, 2); //Strip everything but 1st 10 digits
+    let size = input.length;
+    if (size > 2) { input = input.slice(0, 2) }
+
+    while (input > 50) {
+        input--;
+    }
+
+    while (input < 1) {
+        input++;
+    }
+
+    return input;
+}
+//#enregion

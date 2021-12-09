@@ -792,6 +792,10 @@ h2 a {
     font-size: 16px;
 }
 
+.main__product-details-disc-content p:last-child {
+    line-height: 25px;
+}
+
 .main__product-details-disc-select-size {
     padding-top: 40px;
 }
@@ -802,6 +806,38 @@ h2 a {
     justify-content: flex-start;
     flex-wrap: wrap;
     align-content: flex-start;
+}
+
+.radio-btn-size {
+    width: 113px;
+    height: 48px;
+    margin-top: 7px;
+    margin-left: -10px;
+    background-color: #fff;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    -webkit-appearance: none; /*to disable the default appearance of radio button*/
+    -moz-appearance: none;
+}
+
+.radio-btn-size:focus {
+    border: 1px solid #000;
+}
+
+.radio-btn-size:hover {
+    border: 1px solid #585656;
+    cursor: pointer;
+}
+
+label span:first-of-type {
+    position: relative;
+    left: -71px;
+    top: -18px;
+    font-size: 18px;
+}
+
+label span:first-of-type:hover {
+    cursor: pointer;
 }
 
 .main__product-select-size-btn {
