@@ -29,7 +29,7 @@ h2 a {
     margin-right: -10px;
 }
 
-    .header__info-list a{
+    .header__info-list a {
         float: left;
         list-style: none;
         line-height: 32px;
@@ -40,7 +40,7 @@ h2 a {
     border-left: 1px solid #ccc;
 }
 
-.header__info-list a{
+.header__info-list a {
     text-decoration: none;
     color: #000;
     font-weight: 100;
@@ -647,10 +647,10 @@ h2 a {
         height: 360px;
     }
 
-    .main__products-item > a > img:hover {
-        cursor: pointer;
-        opacity: 0.7;
-    }
+        .main__products-item > a > img:hover {
+            cursor: pointer;
+            opacity: 0.7;
+        }
 
 /*Paging start*/
 .main__products-paging {
@@ -792,9 +792,9 @@ h2 a {
     font-size: 16px;
 }
 
-.main__product-details-disc-content p:last-child {
-    line-height: 25px;
-}
+    .main__product-details-disc-content p:last-child {
+        line-height: 25px;
+    }
 
 .main__product-details-disc-select-size {
     padding-top: 40px;
@@ -820,14 +820,14 @@ h2 a {
     -moz-appearance: none;
 }
 
-.radio-btn-size:focus {
-    border: 1px solid #000;
-}
+    .radio-btn-size:checked {
+        border: 1px solid #000;
+    }
 
-.radio-btn-size:hover {
-    border: 1px solid #585656;
-    cursor: pointer;
-}
+    .radio-btn-size:hover {
+        border: 1px solid #585656;
+        cursor: pointer;
+    }
 
 label span:first-of-type {
     position: relative;
@@ -836,9 +836,9 @@ label span:first-of-type {
     font-size: 18px;
 }
 
-label span:first-of-type:hover {
-    cursor: pointer;
-}
+    label span:first-of-type:hover {
+        cursor: pointer;
+    }
 
 .main__product-select-size-btn {
     width: 110px;
@@ -1299,9 +1299,9 @@ label span:first-of-type:hover {
         padding-top: 30px;
     }
 
-    .error__page > p:last-child {
-        padding-top: 12px;
-    }
+        .error__page > p:last-child {
+            padding-top: 12px;
+        }
 /* Page not found end */
 
 /* Check out start */
@@ -1319,11 +1319,12 @@ label span:first-of-type:hover {
         padding-top: 30px;
     }
 
-    .main__payment-img{
-        display: flex;
-        justify-content: center;
-        margin: 0 auto;
-    }
+.main__payment-img {
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+}
+
     .main__payment-img img {
         width: 900px;
     }
@@ -1469,9 +1470,11 @@ label span:first-of-type:hover {
         .main__check-out-box-products table th:last-child {
             text-align: right
         }
+
         .main__check-out-box-products table td:nth-child(3) {
             text-align: right;
         }
+
         .main__check-out-box-products table td:last-child {
             text-align: left;
         }
@@ -1487,12 +1490,13 @@ label span:first-of-type:hover {
     .main__check-out-box-products-ship h2 {
         font-size: 20px;
     }
+
     .main__check-out-box-products-ship p {
         padding-right: 44px;
     }
 
-    #delivery {
-    }
+#delivery {
+}
 
 .main__check-out-box-total-price,
 .main__check-out-box-btn {
@@ -1553,11 +1557,11 @@ label span:first-of-type:hover {
         height: 300px;
     }
 
-    .main__payment-choose-method {
-        width: 100%;
-        margin: 20px auto;
-        font-size: 16px;
-    }
+.main__payment-choose-method {
+    width: 100%;
+    margin: 20px auto;
+    font-size: 16px;
+}
 
 .main__payment-choose-method-item {
     width: 100%;
@@ -1576,7 +1580,7 @@ label span:first-of-type:hover {
     width: 33.33333%;
 }
 
-/*    .main__payment-choose-method-special-box:nth-child(2) {
+    /*    .main__payment-choose-method-special-box:nth-child(2) {
         justify-content: center;
     }*/
 
@@ -1630,11 +1634,11 @@ label span:first-of-type:hover {
         }
 
             .main__payment-selected-btn input:first-child:hover {
-                background:#ccc;
+                background: #ccc;
             }
 
-            .main__payment-selected-btn input:hover {
-                cursor: pointer;
-                opacity: 0.7;
-            }
+        .main__payment-selected-btn input:hover {
+            cursor: pointer;
+            opacity: 0.7;
+        }
 /* Payment end */
