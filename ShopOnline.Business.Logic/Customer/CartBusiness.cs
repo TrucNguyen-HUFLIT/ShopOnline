@@ -51,6 +51,8 @@ namespace ShopOnline.Business.Logic.Customer
                                         Id = x.Id,
                                         Name = x.Name,
                                         Quantity = x.Quantity,
+                                        PriceVND = x.ProductDetail.Price,
+                                        Pic = x.ProductDetail.Pic1,
                                         Size = x.Size,
                                         IdProductDetail = x.IdProductDetail,
                                     })
@@ -59,6 +61,7 @@ namespace ShopOnline.Business.Logic.Customer
                 if (productInCart == null)
                     throw new UserFriendlyException(ErrorCode.NotFoundInCart);
 
+                productInCart.PriceUSD = await ConvertCurrencyHelper.ConvertVNDToUSD(productInCart.PriceVND);
                 cart.Add(productInCart);
             }
 
@@ -68,6 +71,9 @@ namespace ShopOnline.Business.Logic.Customer
 
             if (productInCart.SelectedQuantity > productInCart.Quantity)
                 throw new UserFriendlyException(ErrorCode.OutOfStock);
+
+            productInCart.TotalVND = productInCart.PriceVND * productInCart.SelectedQuantity;
+            productInCart.TotalUSD = productInCart.PriceUSD * productInCart.SelectedQuantity;
 
             SaveCartSession(cart);
             SessionHelper.QuantityProductCart = QuantityProductCart();
