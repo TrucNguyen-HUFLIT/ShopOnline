@@ -1,22 +1,23 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
     ViewData["Title"] = "Check out";
     Layout = "~/Views/Shared/_LayoutClient.cshtml";
 }
+
+@model IEnumerable<ShopOnline.Core.Models.Client.ProductCartModel>
+@using ShopOnline.Core.Helpers;
+
 <div class="main__check-out">
     <h1>CHECK OUT</h1>
     <div class="main__check-out-box">
         <div class="main__check-out-box-location">
             <img src="~/img/icon/icon-location.png" alt=""><span>ADDRESS</span>
             <div class="main__check-out-box-location-content">
-                <p>This is address</p>
+                <p>@UserHelper.Address</p>
                 <a id="btn-change-address" onclick="showChangeAddress()">Change</a>
             </div>
             <div id="change-address" class="main__check-out-box-change-location">
                 <p>New address</p>
-                <input type="text" name="" id="" placeholder="Enter your new address">
+                <input type="text" name="address" placeholder="Enter your new address">
                 <input type="submit" value="Change">
             </div>
         </div>
@@ -25,14 +26,14 @@
                 <img src="~/img/icon/icon-user.png" alt=""> <span></span>
                 <h1>Name</h1>
             </div>
-            <p>Nguyen Minh Tam</p>
+            <p>@UserHelper.Name</p>
         </div>
         <div class="main__check-out-box-phone">
             <div class="box-2items">
                 <img src="~/img/icon/icon-call.png" alt="">
                 <h1>Phone number</h1>
             </div>
-            <p>0933090455</p>
+            <p>@UserHelper.Phone</p>
         </div>
         <div class="main__check-out-box-products">
             <h1>Products (2)</h1>

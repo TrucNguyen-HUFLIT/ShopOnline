@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ShopOnline.Business.Customer;
+using ShopOnline.Core.Models;
 using System.Threading.Tasks;
 
 namespace ShopOnline.Controllers.Customer
@@ -22,15 +24,21 @@ namespace ShopOnline.Controllers.Customer
             await _clientBusiness.InitBrands();
 
             var productCart = _cartBusiness.GetProductsCart();
+
             return View(productCart);
         }
 
-        public async Task<IActionResult> CheckOut()
+        [Authorize(Roles = ROLE.CUSTOMER)]
+        public async Task<IActionResult> CheckOutAsync()
         {
             await _clientBusiness.InitBrands();
-            return View();
+
+            var productCart = _cartBusiness.GetProductsCart();
+
+            return View(productCart);
         }
 
+        [Authorize(Roles = ROLE.CUSTOMER)]
         public async Task<IActionResult> DigitalPayment()
         {
             await _clientBusiness.InitBrands();

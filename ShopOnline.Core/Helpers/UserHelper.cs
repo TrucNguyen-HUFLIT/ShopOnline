@@ -12,6 +12,9 @@ namespace ShopOnline.Core.Helpers
         public static string Name { get; set; }
         public static string Avatar { get; set; }
         public static string Email { get; set; }
+        public static string Phone { get; set; }
+        public static string Address { get; set; }
+
         public static TypeAcc Role { get; set; }
 
         public static string GetNewRandomPassword()
@@ -42,6 +45,16 @@ namespace ShopOnline.Core.Helpers
             }
 
             return avatarPath;
+        }
+
+        public static void SetDefaultUser()
+        {
+            Name = default;
+            Avatar = default;
+            Email = default;
+            Phone = default;
+            Address = default;
+            Role = default;
         }
     }
 }

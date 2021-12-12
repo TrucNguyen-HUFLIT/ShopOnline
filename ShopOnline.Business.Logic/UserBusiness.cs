@@ -271,6 +271,8 @@ namespace ShopOnline.Business.Logic
             UserHelper.Name = userInfor.FullName;
             UserHelper.Avatar = userInfor.Avatar;
             UserHelper.Email = userInfor.Email;
+            UserHelper.Phone = userInfor.PhoneNumber;
+            UserHelper.Address = userInfor.Address;
             UserHelper.Role = userInfor.TypeAcc;
 
             return userInfor;
