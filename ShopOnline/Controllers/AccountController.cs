@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using ShopOnline.Business;
+using ShopOnline.Core.Helpers;
 using ShopOnline.Core.Models.Account;
 using System.Threading.Tasks;
 
@@ -41,6 +42,7 @@ namespace ShopOnline.Controllers
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            UserHelper.SetDefaultUser();
 
             return View("Login");
         }
