@@ -1125,7 +1125,7 @@ label span:first-of-type {
 
 .main__shoppingcart-bag {
     width: 800px;
-    height: 500px;
+    height: auto;
 }
 
 .main__shoppingcart-bag-deliver {
