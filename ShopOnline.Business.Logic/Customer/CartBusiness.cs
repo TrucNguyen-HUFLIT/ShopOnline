@@ -94,6 +94,9 @@ namespace ShopOnline.Business.Logic.Customer
             if (productInCart.SelectedQuantity < 0)
                 productInCart.SelectedQuantity = 0;
 
+            productInCart.TotalVND = productInCart.PriceVND * productInCart.SelectedQuantity;
+            productInCart.TotalUSD = productInCart.PriceUSD * productInCart.SelectedQuantity;
+
             SaveCartSession(cart);
             SessionHelper.QuantityProductCart = QuantityProductCart();
             return Task.CompletedTask;
