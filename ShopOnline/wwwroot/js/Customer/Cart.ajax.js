@@ -4,6 +4,7 @@
         REDUCE: '/Cart/ReduceProductFromCart',
         REMOVE: '/Cart/RemoveProductFromCart',
         REMOVE_ALL: '/Cart/RemoveAllProductFromCart',
+        PRODUCT_CART: '/Cart/ProductCart'
     },
 }
 
@@ -20,25 +21,87 @@ const FORM_ID = {
 //#region Add to cart
 function addToCart() {
     let formData = $(FORM_ID.ADD_TO_CART).serializeArray();
-    let quantityProductCart = document.getElementById(ID_ELEMENT.QUANTITY_PRODUCT_CART);
 
     $.ajax({
         url: ROUTE.CART.ADD,
         type: 'post',
         contentType: "application/x-www-form-urlencoded",
         data: formData,
-        success: function (data) {
-            quantityProductCart.innerHTML = data;
+        success: function () {
+            window.location.reload();
         },
         error: function (XMLHttpRequest) {
-            const EleErrorMsgLogin = {
-                Email: 'email_msg',
-                Password: 'password_msg',
-            }
+            //const EleErrorMsgLogin = {
+            //    Email: 'email_msg',
+            //    Password: 'password_msg',
+            //}
 
-            let msg = XMLHttpRequest.responseJSON ? XMLHttpRequest.responseJSON : XMLHttpRequest.responseText;
+            //let msg = XMLHttpRequest.responseJSON ? XMLHttpRequest.responseJSON : XMLHttpRequest.responseText;
 
-            innerHTMLMsg(msg, EleErrorMsgLogin);
+            //innerHTMLMsg(msg, EleErrorMsgLogin);
+        },
+    });
+}
+
+function addMoreToCart(id) {
+    const formData = {
+        idProduct: id,
+        quantity: 1
+    }
+
+    $.ajax({
+        url: ROUTE.CART.ADD,
+        type: 'post',
+        contentType: "application/x-www-form-urlencoded",
+        data: formData,
+        success: function () {
+            window.location.reload();
+        },
+        error: function (XMLHttpRequest) {
+
+        },
+    });
+}
+//#endregion
+
+//#region Remove from cart
+function reduceFromCart(id) {
+    const formData = {
+        idProduct: id,
+        quantity: 1
+    }
+
+    $.ajax({
+        url: ROUTE.CART.REDUCE,
+        type: 'post',
+        contentType: "application/x-www-form-urlencoded",
+        data: formData,
+        success: function () {
+            window.location.reload();
+        },
+        error: function (XMLHttpRequest) {
+
+        },
+    });
+}
+//#endregion
+
+//#region Remove from cart
+function removeFromCart(id) {
+    const formData = {
+        idProduct: id
+    }
+
+    $.ajax({
+        url: ROUTE.CART.REMOVE,
+        type: 'post',
+        contentType: "application/x-www-form-urlencoded",
+        data: formData,
+        success: function () {
+            window.location.reload();
+        },
+        error: function (XMLHttpRequest) {
+
         },
     });
 }
