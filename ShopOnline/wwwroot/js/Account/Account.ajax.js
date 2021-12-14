@@ -1,4 +1,4 @@
-﻿const ROUTE = {
+﻿const ROUTE_CLIENT = {
     ACCOUNT: {
         LOGIN: '/account/login',
         REGISTER: '/account/register',
@@ -44,12 +44,12 @@ function login() {
     let formData = $(FORM_ID.LOGIN).serializeArray();
 
     $.ajax({
-        url: ROUTE.ACCOUNT.LOGIN,
+        url: ROUTE_CLIENT.ACCOUNT.LOGIN,
         type: 'post',
         contentType: "application/x-www-form-urlencoded",
         data: formData,
         success: function () {
-            window.location.replace(ROUTE.PROFILE);
+            window.location.replace(ROUTE_CLIENT.PROFILE);
         },
         error: function (XMLHttpRequest) {
             const EleErrorMsgLogin = {
@@ -78,7 +78,7 @@ function register() {
     let formData = $(FORM_ID.REGISTER).serializeArray();
 
     $.ajax({
-        url: ROUTE.ACCOUNT.REGISTER,
+        url: ROUTE_CLIENT.ACCOUNT.REGISTER,
         type: 'post',
         contentType: "application/x-www-form-urlencoded",
         data: formData,
@@ -109,7 +109,7 @@ function resetPassword() {
     let formData = $(FORM_ID.RESET_PASSWORD).serializeArray();
 
     $.ajax({
-        url: ROUTE.ACCOUNT.RESET_PASSWORD,
+        url: ROUTE_CLIENT.ACCOUNT.RESET_PASSWORD,
         type: 'post',
         contentType: "application/x-www-form-urlencoded",
         data: formData,

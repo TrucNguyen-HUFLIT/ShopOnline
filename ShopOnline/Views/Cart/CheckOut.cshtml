@@ -12,13 +12,13 @@
         <div class="main__check-out-box-location">
             <img src="~/img/icon/icon-location.png" alt=""><span>ADDRESS</span>
             <div class="main__check-out-box-location-content">
-                <p>@UserHelper.Address</p>
+                <p id="currentAddress">@UserHelper.Address</p>
                 <a id="btn-change-address" onclick="showChangeAddress()">Change</a>
             </div>
             <div id="change-address" class="main__check-out-box-change-location">
                 <p>New address</p>
-                <input type="text" name="address" placeholder="Enter your new address">
-                <input type="submit" value="Change">
+                <input type="text" id="newAddress" placeholder="Enter your new address">
+                <input type="submit" value="Change" onclick="changeAddress()">
             </div>
         </div>
         <div class="main__check-out-box-name">
@@ -36,52 +36,60 @@
             <p>@UserHelper.Phone</p>
         </div>
         <div class="main__check-out-box-products">
-            <h1>Products (2)</h1>
+            <h1>Products (@SessionHelper.QuantityProductCart)</h1>
             <table>
                 <tr>
                     <th>Name</th>
                     <th>Quantity</th>
                     <th>Single Price</th>
                 </tr>
-                <tr>
-                    <td>Air Force 1</td>
-                    <td>2</td>
-                    <td>5.000.000đ ~ </td>
-                    <td class="color-orange">&nbsp;$217</td>
-                </tr>
-                <tr>
-                    <td>Jordan 1</td>
-                    <td>1</td>
-                    <td>3.600.000<span>đ ~ </span></td>
-                    <td class="color-orange">&nbsp;$157</td>
-                </tr>
+                @foreach (var productCart in Model)
+                {
+                    <tr>
+                        <td>@productCart.Name</td>
+                        <td>@productCart.SelectedQuantity</td>
+                        <td>@string.Format("{0:N0}", ((Int64)productCart.PriceVND))đ ~ </td>
+                        <td class="color-orange">&nbsp;$@string.Format("{0:N0}", ((Int64)productCart.PriceUSD))</td>
+                    </tr>
+                }
             </table>
+            @{
+                Int64 totalExcludingFeeVND = (Int64)Model.Sum(x => x.TotalVND);
+                Int64 totalExcludingFeeUSD = (Int64)Model.Sum(x => x.TotalUSD);
+            }
             <div id="delivery" class="main__check-out-box-products-ship">
-                <h2>Transport fee</h2>
-                <p id="transport-fee">40.000đ ~ <span class="color-orange">$2</span></p>
+                <h2>Shipping fee</h2>
+                @if (totalExcludingFeeVND >= 5000000)
+                {
+                    <p>0đ ~ <span class="color-orange">$0</span></p>
+                }
+                else
+                {
+                    <p>50.000đ ~ <span class="color-orange">$2</span></p>
+                }
             </div>
             <div class="main__check-out-box-total-price">
                 <h1>Total</h1>
-                <h1>13.640.000đ ~ <span class="color-orange">$591</span> </h1>
+                <h1>@string.Format("{0:N0}", ((Int64)totalExcludingFeeVND))đ ~ <span class="color-orange">$@string.Format("{0:N0}", ((Int64)totalExcludingFeeUSD))</span> </h1>
             </div>
             <p>Please choose a payment method</p>
             <div class="main__payment-choose-method">
                 <div class="main__payment-choose-method-item">
-                    <input type="radio" id="pay-delivery" checked="checked" name="choose-payment-method">
+                    <input type="radio" id="payShipCod" checked="checked" name="choosePaymentMethod">
                     <label for="pay-delivery">Payment on delivery</label><br>
                 </div>
                 <div class="main__payment-choose-method-item">
-                    <input type="radio" id="pay-paypal" name="choose-payment-method">
+                    <input type="radio" id="payEWallet" name="choosePaymentMethod">
                     <label for="pay-paypal">PayPal</label><br>
                 </div>
                 <div class="main__payment-choose-method-item">
-                    <input type="radio" id="pay-momo" name="choose-payment-method">
-                    <label for="pay-momo">MoMo, ZaloPay</label><br>
+                    <input type="radio" id="payBankTransfer" name="choosePaymentMethod">
+                    <label for="pay-momo">MoMo</label><br>
                 </div>
             </div>
             <div class="main__check-out-box-btn">
                 <input type="submit" onclick="location.href='@Url.Action("ProductCart", "Cart")'" value="BACK TO CART">
-                <input type="submit" value="ORDERS" >
+                <input type="submit" value="ORDERS" onclick="order()">
             </div>
         </div>
     </div>

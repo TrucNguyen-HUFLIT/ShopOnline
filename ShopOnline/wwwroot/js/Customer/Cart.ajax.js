@@ -1,10 +1,12 @@
-﻿const ROUTE = {
+﻿const ROUTE_CART = {
     CART: {
         ADD: '/Cart/AddProductToCart',
         REDUCE: '/Cart/ReduceProductFromCart',
         REMOVE: '/Cart/RemoveProductFromCart',
         REMOVE_ALL: '/Cart/RemoveAllProductFromCart',
-        PRODUCT_CART: '/Cart/ProductCart'
+        PRODUCT_CART: '/Cart/ProductCart',
+        DIGITAL_PAYMENT: '/Cart/DigitalPayment',
+        E_WALLET: '/Cart/EWallet',
     },
 }
 
@@ -23,7 +25,7 @@ function addToCart() {
     let formData = $(FORM_ID.ADD_TO_CART).serializeArray();
 
     $.ajax({
-        url: ROUTE.CART.ADD,
+        url: ROUTE_CART.CART.ADD,
         type: 'post',
         contentType: "application/x-www-form-urlencoded",
         data: formData,
@@ -50,7 +52,7 @@ function addMoreToCart(id) {
     }
 
     $.ajax({
-        url: ROUTE.CART.ADD,
+        url: ROUTE_CART.CART.ADD,
         type: 'post',
         contentType: "application/x-www-form-urlencoded",
         data: formData,
@@ -72,7 +74,7 @@ function reduceFromCart(id) {
     }
 
     $.ajax({
-        url: ROUTE.CART.REDUCE,
+        url: ROUTE_CART.CART.REDUCE,
         type: 'post',
         contentType: "application/x-www-form-urlencoded",
         data: formData,
@@ -93,7 +95,7 @@ function removeFromCart(id) {
     }
 
     $.ajax({
-        url: ROUTE.CART.REMOVE,
+        url: ROUTE_CART.CART.REMOVE,
         type: 'post',
         contentType: "application/x-www-form-urlencoded",
         data: formData,
@@ -104,5 +106,41 @@ function removeFromCart(id) {
 
         },
     });
+}
+//#endregion
+
+//#region order
+function order() {
+    const PAYMENT_METHODS = {
+        SHIP_COD: 'payShipCod',
+        E_WALLET: 'payEWallet',
+        BANK_TRANSFER: 'payBankTransfer'
+    }
+    const paymentMethodSelected = document.querySelector('input[name="choosePaymentMethod"]:checked').getAttribute('id');
+
+    switch (paymentMethodSelected) {
+        case PAYMENT_METHODS.BANK_TRANSFER:
+            window.location.replace(ROUTE_CART.CART.DIGITAL_PAYMENT);
+            break;
+        case PAYMENT_METHODS.E_WALLET:
+            console.log(ROUTE_CART.CART.E_WALLET);
+            break;
+        default:
+            console.log(PAYMENT_METHODS.SHIP_COD);
+            break;
+    }
+
+    //$.ajax({
+    //    url: ROUTE.CART.REMOVE,
+    //    type: 'post',
+    //    contentType: "application/x-www-form-urlencoded",
+    //    data: formData,
+    //    success: function () {
+    //        window.location.reload();
+    //    },
+    //    error: function (XMLHttpRequest) {
+
+    //    },
+    //});
 }
 //#endregion
