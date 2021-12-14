@@ -120,7 +120,7 @@ if ($("#main__products-items").children().length == 0) {
 }
 //#endregion
 
-//#region
+//#region format Quantity
 function quantityFormat(input) {//returns (###) ###-####
     input = input.replace(/\D/g, '').substring(0, 2); //Strip everything but 1st 10 digits
     let size = input.length;
@@ -135,5 +135,14 @@ function quantityFormat(input) {//returns (###) ###-####
     }
 
     return input;
+}
+//#enregion
+
+//#region change Address
+function changeAddress() {//returns (###) ###-####
+    const newAddress = document.getElementById('newAddress').value.trim();
+    if (newAddress && newAddress !== null && newAddress !== "") {
+        document.getElementById('currentAddress').innerHTML = newAddress;
+    }
 }
 //#enregion

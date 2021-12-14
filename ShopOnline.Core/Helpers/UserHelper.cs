@@ -55,6 +55,7 @@ namespace ShopOnline.Core.Helpers
             Phone = default;
             Address = default;
             Role = default;
+            SessionHelper.QuantityProductCart = default;
         }
     }
 }
