@@ -23,14 +23,15 @@
                             <p>@string.Format("{0:N0}", ((Int64)productCart.PriceVND))đ ~ <span class="color-orange">$@string.Format("{0:N0}", ((Int64)productCart.PriceUSD))</span></p>
                             <div class="main__shopping-bag-item-dics-selec">
                                 <p>Size: @((int)productCart.Size)</p>
+                                <div class="main__product-quantity-box">
+                                    <button onclick="reduceFromCart(@productCart.Id)">-</button>
+                                    <p>@productCart.SelectedQuantity</p>
+                                    <button onclick="addMoreToCart(@productCart.Id)">+</button>
+                                </div>
                             </div>
-                            <div class="main__product-quantity-box">
-                                <button onclick="reduceFromCart(@productCart.Id)">-</button>
-                                <p>@productCart.SelectedQuantity</p>
-                                <button onclick="addMoreToCart(@productCart.Id)">+</button>
-                            </div>
+                            <p>Total @string.Format("{0:N0}", ((Int64)productCart.TotalVND))đ ~ <span class="color-orange">$@string.Format("{0:N0}", ((Int64)productCart.TotalUSD))</span></p>
                         </div>
-                        <p>Total @string.Format("{0:N0}", ((Int64)productCart.TotalVND))đ ~ <span class="color-orange">$@string.Format("{0:N0}", ((Int64)productCart.TotalUSD))</span></p>
+                        
                         <div class="main__shoppingcart-bag-remove">
                             <a onclick="removeFromCart(@productCart.Id)"><img src="~/img/icon/icon-remove.png" alt=""></a>
                         </div>
