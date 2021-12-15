@@ -29,6 +29,7 @@
             <table>
                 <tr>
                     <th>Products (@SessionHelper.QuantityProductCart)</th>
+                    <th>Simple price</th>
                     <th>Quantity</th>
                     <th>Total</th>
                 </tr>
@@ -36,8 +37,9 @@
                 {
                     <tr>
                         <td>@productCart.Name</td>
+                        <td>@string.Format("{0:N0}", ((Int64)@productCart.PriceVND))đ ~ <span class="color-orange">&nbsp;$@string.Format("{0:N0}", ((Int64)@productCart.PriceUSD))</span></td>
                         <td>@productCart.SelectedQuantity</td>
-                        <td>@string.Format("{0:N0}", ((Int64)productCart.PriceVND))đ ~ <span class="color-orange">&nbsp;$@string.Format("{0:N0}", ((Int64)productCart.PriceUSD))</span></td>
+                        <td>@string.Format("{0:N0}", ((Int64)productCart.TotalVND))đ ~ <span class="color-orange">&nbsp;$@string.Format("{0:N0}", ((Int64)productCart.TotalUSD))</span></td>
                     </tr>
                 }
             </table>
