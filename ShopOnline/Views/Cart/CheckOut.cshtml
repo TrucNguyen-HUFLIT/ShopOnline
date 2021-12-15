@@ -7,49 +7,37 @@
 @using ShopOnline.Core.Helpers;
 
 <div class="main__check-out">
-    <h1>CHECK OUT</h1>
     <div class="main__check-out-box">
-        <div class="main__check-out-box-location">
-            <img src="~/img/icon/icon-location.png" alt=""><span>ADDRESS</span>
-            <div class="main__check-out-box-location-content">
-                <p id="currentAddress">@UserHelper.Address</p>
-                <a id="btn-change-address" onclick="showChangeAddress()">Change</a>
+        <div class="main__check-out-box-title">
+            <div class="main__check-out-box-name">
+                <p>@UserHelper.Name</p>
+                <p>@UserHelper.Phone</p>
             </div>
-            <div id="change-address" class="main__check-out-box-change-location">
-                <p>New address</p>
-                <input type="text" id="newAddress" placeholder="Enter your new address">
-                <input type="submit" value="Change" onclick="changeAddress()">
+            <div class="main__check-out-box-location">
+                <div class="main__check-out-box-location-content">
+                    <p id="currentAddress">@UserHelper.Address</p>
+                    <a id="btn-change-address" onclick="showChangeAddress()">Change</a>
+                </div>
+                <div id="change-address" class="main__check-out-box-change-location">
+                    <p>New address</p>
+                    <input type="text" id="newAddress" placeholder="Enter your new address">
+                    <input type="submit" value="Change" onclick="changeAddress()">
+                </div>
             </div>
-        </div>
-        <div class="main__check-out-box-name">
-            <div class="box-2items">
-                <img src="~/img/icon/icon-user.png" alt=""> <span></span>
-                <h1>Name</h1>
-            </div>
-            <p>@UserHelper.Name</p>
-        </div>
-        <div class="main__check-out-box-phone">
-            <div class="box-2items">
-                <img src="~/img/icon/icon-call.png" alt="">
-                <h1>Phone number</h1>
-            </div>
-            <p>@UserHelper.Phone</p>
         </div>
         <div class="main__check-out-box-products">
-            <h1>Products (@SessionHelper.QuantityProductCart)</h1>
             <table>
                 <tr>
-                    <th>Name</th>
+                    <th>Products (@SessionHelper.QuantityProductCart)</th>
                     <th>Quantity</th>
-                    <th>Single Price</th>
+                    <th>Total</th>
                 </tr>
                 @foreach (var productCart in Model)
                 {
                     <tr>
                         <td>@productCart.Name</td>
                         <td>@productCart.SelectedQuantity</td>
-                        <td>@string.Format("{0:N0}", ((Int64)productCart.PriceVND))đ ~ </td>
-                        <td class="color-orange">&nbsp;$@string.Format("{0:N0}", ((Int64)productCart.PriceUSD))</td>
+                        <td>@string.Format("{0:N0}", ((Int64)productCart.PriceVND))đ ~ <span class="color-orange">&nbsp;$@string.Format("{0:N0}", ((Int64)productCart.PriceUSD))</span></td>
                     </tr>
                 }
             </table>
@@ -57,38 +45,40 @@
                 Int64 totalExcludingFeeVND = (Int64)Model.Sum(x => x.TotalVND);
                 Int64 totalExcludingFeeUSD = (Int64)Model.Sum(x => x.TotalUSD);
             }
-            <div id="delivery" class="main__check-out-box-products-ship">
-                <h2>Shipping fee</h2>
-                @if (totalExcludingFeeVND >= 5000000)
-                {
-                    <p>0đ ~ <span class="color-orange">$0</span></p>
-                }
-                else
-                {
-                    <p>50.000đ ~ <span class="color-orange">$2</span></p>
-                }
-            </div>
+        <div id="delivery" class="main__check-out-box-products-ship">
+            <h2>Transport fee</h2>
+            @if (totalExcludingFeeVND >= 5000000)
+            {
+                <p>0đ ~ <span class="color-orange">$0</span></p>
+            }
+            else
+            {
+                <p>50.000đ ~ <span class="color-orange">$2</span></p>
+            }
+        </div>
             <div class="main__check-out-box-total-price">
                 <h1>Total</h1>
-                <h1>@string.Format("{0:N0}", ((Int64)totalExcludingFeeVND))đ ~ <span class="color-orange">$@string.Format("{0:N0}", ((Int64)totalExcludingFeeUSD))</span> </h1>
+                <h1>@string.Format("{0:N0}", ((Int64)totalExcludingFeeVND))đ ~ <span class="color-orange">$@string.Format("{0:N0}", ((Int64)totalExcludingFeeUSD))</span></h1>
             </div>
+        </div>
+        <div class="main__check-out-box-products">
             <p>Please choose a payment method</p>
             <div class="main__payment-choose-method">
                 <div class="main__payment-choose-method-item">
-                    <input type="radio" id="payShipCod" checked="checked" name="choosePaymentMethod">
+                    <input type="radio" id="pay-delivery" checked="checked" name="choose-payment-method">
                     <label for="pay-delivery">Payment on delivery</label><br>
                 </div>
                 <div class="main__payment-choose-method-item">
-                    <input type="radio" id="payEWallet" name="choosePaymentMethod">
+                    <input type="radio" id="pay-paypal" checked="checked" name="choose-payment-method">
                     <label for="pay-paypal">PayPal</label><br>
                 </div>
                 <div class="main__payment-choose-method-item">
-                    <input type="radio" id="payBankTransfer" name="choosePaymentMethod">
+                    <input type="radio" id="pay-momo" checked="checked" name="choose-payment-method">
                     <label for="pay-momo">MoMo</label><br>
                 </div>
             </div>
             <div class="main__check-out-box-btn">
-                <input type="submit" onclick="location.href='@Url.Action("ProductCart", "Cart")'" value="BACK TO CART">
+                <p>If you confirm the order, please press order. Unless please press <a onclick="location.href='@Url.Action("ProductCart", "Cart")'">Back to Cart</a></p>
                 <input type="submit" value="ORDERS" onclick="order()">
             </div>
         </div>
