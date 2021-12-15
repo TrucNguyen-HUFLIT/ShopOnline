@@ -1,0 +1,17 @@
+﻿@model string 
+@*  Model is User's Name  *@
+
+@if (Model == null)
+{
+    <ul class="header__info-list" id="ul-not-logged">
+        <a asp-controller="Account" asp-action="Login">Sign in</a>
+        <a asp-controller="Account" asp-action="Register" class="header__info-list-border">Sign up</a>
+    </ul>
+}
+else
+{
+    <ul class="header__info-list" id="ul-logged">
+        <a asp-controller="Profile" asp-action="UpdateDetail">@Model</a>
+        <a asp-controller="Account" asp-action="Logout" class="header__info-list-border">Logout</a>
+    </ul>
+}

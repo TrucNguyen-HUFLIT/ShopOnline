@@ -31,10 +31,10 @@ namespace ShopOnline.Controllers.Staff
             else searchString = currentFilter;
             ViewBag.CurrentFilter = searchString;
 
-           var model = new OrderModel
-           {
-               ListOrder = await _orderBusiness.GetListOrderAsync(sortOrder, currentFilter, searchString, page)
-           };
+            var model = new OrderModel
+            {
+                ListOrder = await _orderBusiness.GetListOrderAsync(sortOrder, currentFilter, searchString, page)
+            };
 
 
             return View(model);

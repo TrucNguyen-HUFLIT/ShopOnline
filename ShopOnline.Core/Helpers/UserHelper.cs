@@ -3,20 +3,11 @@ using Microsoft.AspNetCore.Http;
 using System;
 using System.IO;
 using System.Threading.Tasks;
-using static ShopOnline.Core.Models.Enum.AppEnum;
 
 namespace ShopOnline.Core.Helpers
 {
     public static class UserHelper
     {
-        public static string Name { get; set; }
-        public static string Avatar { get; set; }
-        public static string Email { get; set; }
-        public static string Phone { get; set; }
-        public static string Address { get; set; }
-
-        public static TypeAcc Role { get; set; }
-
         public static string GetNewRandomPassword()
         {
             Random rnd = new();
@@ -45,17 +36,6 @@ namespace ShopOnline.Core.Helpers
             }
 
             return avatarPath;
-        }
-
-        public static void SetDefaultUser()
-        {
-            Name = default;
-            Avatar = default;
-            Email = default;
-            Phone = default;
-            Address = default;
-            Role = default;
-            SessionHelper.QuantityProductCart = default;
         }
     }
 }

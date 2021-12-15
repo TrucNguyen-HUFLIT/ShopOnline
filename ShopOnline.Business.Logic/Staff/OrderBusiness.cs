@@ -1,9 +1,6 @@
 ﻿using ShopOnline.Business.Order;
-using ShopOnline.Business.Staff;
 using ShopOnline.Core;
-using ShopOnline.Core.Models.Customer;
 using ShopOnline.Core.Models.Order;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,7 +8,7 @@ using X.PagedList;
 
 namespace ShopOnline.Business.Logic.Staff
 {
-    public class OrderBusiness: IOrderBusiness
+    public class OrderBusiness : IOrderBusiness
     {
         private readonly MyDbContext _context;
         public OrderBusiness(MyDbContext context)

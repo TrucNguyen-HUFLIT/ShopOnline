@@ -41,6 +41,9 @@ namespace ShopOnline.Business.Logic
                 Password = x.Password,
                 FullName = x.FullName,
                 TypeAcc = x.TypeAcc,
+                Phone = x.PhoneNumber,
+                Address = x.Address,
+                Avatar = x.Avatar
             };
 
             var inforAccount = await _context.Customers.Where(x => x.Email == accountLogin.Email && !x.IsDeleted)
@@ -90,6 +93,9 @@ namespace ShopOnline.Business.Logic
                     new Claim(ClaimTypes.Email, inforAccount.Email),
                     new Claim(ClaimTypes.Name, inforAccount.FullName),
                     new Claim(ClaimTypes.Role, inforAccount.TypeAcc.ToString().ToLower()),
+                    new Claim(ClaimTypes.MobilePhone, inforAccount.Phone),
+                    new Claim("avatar", inforAccount.Avatar ?? "/img/Avatar/avatar-icon-images-4.jpg"),
+                    new Claim(ClaimTypes.StreetAddress, inforAccount.Address ?? ""),
                 };
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
@@ -113,7 +119,9 @@ namespace ShopOnline.Business.Logic
                 Email = accountRegister.Email,
                 PhoneNumber = accountRegister.PhoneNumber,
                 Password = HashPasswordHelper.DoHash(accountRegister.Password),
-                TypeAcc = TypeAcc.Customer
+                TypeAcc = TypeAcc.Customer,
+                Avatar = "/img/Avatar/avatar-icon-images-4.jpg",
+                Address = ""
             };
 
             _context.Customers.Add(newAccountCustomer);
@@ -202,7 +210,7 @@ namespace ShopOnline.Business.Logic
                                             PhoneNumber = x.PhoneNumber,
                                             Address = x.Address,
                                             Avatar = x.Avatar,
-                                            TypeAcc = x.TypeAcc
+                                            Role = x.TypeAcc
                                         })
                                         .FirstOrDefaultAsync();
                     break;
@@ -217,7 +225,7 @@ namespace ShopOnline.Business.Logic
                                             PhoneNumber = x.PhoneNumber,
                                             Address = x.Address,
                                             Avatar = x.Avatar,
-                                            TypeAcc = x.TypeAcc
+                                            Role = x.TypeAcc
                                         })
                                         .FirstOrDefaultAsync();
                     break;
@@ -232,7 +240,7 @@ namespace ShopOnline.Business.Logic
                                             PhoneNumber = x.PhoneNumber,
                                             Address = x.Address,
                                             Avatar = x.Avatar,
-                                            TypeAcc = x.TypeAcc
+                                            Role = x.TypeAcc
                                         })
                                         .FirstOrDefaultAsync();
                     break;
@@ -247,7 +255,7 @@ namespace ShopOnline.Business.Logic
                                             PhoneNumber = x.PhoneNumber,
                                             Address = x.Address,
                                             Avatar = x.Avatar,
-                                            TypeAcc = x.TypeAcc
+                                            Role = x.TypeAcc
                                         })
                                         .FirstOrDefaultAsync();
                     break;
@@ -262,25 +270,39 @@ namespace ShopOnline.Business.Logic
                                             PhoneNumber = x.PhoneNumber,
                                             Address = x.Address,
                                             Avatar = x.Avatar,
-                                            TypeAcc = x.TypeAcc
+                                            Role = x.TypeAcc
                                         })
                                         .FirstOrDefaultAsync();
                     break;
             }
 
-            UserHelper.Name = userInfor.FullName;
-            UserHelper.Avatar = userInfor.Avatar;
-            UserHelper.Email = userInfor.Email;
-            UserHelper.Phone = userInfor.PhoneNumber;
-            UserHelper.Address = userInfor.Address;
-            UserHelper.Role = userInfor.TypeAcc;
+            return userInfor;
+        }
+
+        public UserInfor LoadInforUser(ClaimsPrincipal user)
+        {
+            var userInfor = new UserInfor();
+            string email = user.FindFirst(ClaimTypes.Email).Value;
+            if (email != null)
+            {
+                userInfor.FullName = user.FindFirst(ClaimTypes.Name).Value;
+                userInfor.Avatar = user.FindFirst("avatar").Value;
+                userInfor.Email = email;
+                userInfor.PhoneNumber = user.FindFirst(ClaimTypes.MobilePhone).Value;
+                userInfor.Address = user.FindFirst(ClaimTypes.StreetAddress).Value;
+
+                string role = user.FindFirst(ClaimTypes.Role).Value;
+                role = char.ToUpper(role[0]) + role.Substring(1);
+                Enum.TryParse(role, out TypeAcc enumRole);
+                userInfor.Role = enumRole;
+            }
 
             return userInfor;
         }
 
         public async Task<bool> UpdateProfileAsync(UserInfor userInfor)
         {
-            switch (userInfor.TypeAcc)
+            switch (userInfor.Role)
             {
                 case TypeAcc.Customer:
                     var customerProfile = await _context.Customers.Where(x => x.Id == userInfor.Id && !x.IsDeleted)
@@ -319,7 +341,7 @@ namespace ShopOnline.Business.Logic
 
                     break;
                 default: // Admin || Staff || Manager
-                    var staffProfile = await _context.Staffs.Where(x => x.Id == userInfor.Id && !x.IsDeleted && x.TypeAcc == userInfor.TypeAcc)
+                    var staffProfile = await _context.Staffs.Where(x => x.Id == userInfor.Id && !x.IsDeleted && x.TypeAcc == userInfor.Role)
                                         .FirstOrDefaultAsync();
 
                     if (staffProfile == null)

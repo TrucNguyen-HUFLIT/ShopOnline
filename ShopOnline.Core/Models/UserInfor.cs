@@ -12,7 +12,7 @@ namespace ShopOnline.Core.Models
         public string PhoneNumber { get; set; }
         public string Address { get; set; }
         public string Avatar { get; set; }
-        public TypeAcc TypeAcc { get; set; }
+        public TypeAcc Role { get; set; }
         [NotMapped]
         public IFormFile UploadAvt { get; set; }
     }

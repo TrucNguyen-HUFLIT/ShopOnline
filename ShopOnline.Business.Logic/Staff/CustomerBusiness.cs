@@ -1,5 +1,4 @@
-﻿using ShopOnline.Business.Customer;
-using ShopOnline.Business.Staff;
+﻿using ShopOnline.Business.Staff;
 using ShopOnline.Core;
 using ShopOnline.Core.Models.Customer;
 using System;
