@@ -30,5 +30,5 @@ namespace ShopOnline.Controllers.Staff
             };
             return View(model);*/
 
-        }
     }
+}

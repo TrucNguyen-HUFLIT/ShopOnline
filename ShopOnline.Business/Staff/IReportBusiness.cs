@@ -1,7 +1,4 @@
-﻿using System.Threading.Tasks;
-using X.PagedList;
-
-namespace ShopOnline.Business.Staff
+﻿namespace ShopOnline.Business.Staff
 {
     interface IReportBusiness
     {

@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ShopOnline.Business;
 using ShopOnline.Business.Customer;
 using ShopOnline.Core.Models;
+using ShopOnline.Core.Models.Client;
 using System.Threading.Tasks;
 
 namespace ShopOnline.Controllers.Customer
@@ -10,12 +12,15 @@ namespace ShopOnline.Controllers.Customer
     {
         private readonly ICartBusiness _cartBusiness;
         private readonly IClientBusiness _clientBusiness;
+        private readonly IUserBusiness _userBusiness;
 
         public CartController(ICartBusiness cartBusiness,
-                IClientBusiness clientBusiness)
+                IClientBusiness clientBusiness,
+                IUserBusiness userBusiness)
         {
             _cartBusiness = cartBusiness;
             _clientBusiness = clientBusiness;
+            _userBusiness = userBusiness;
         }
 
         [HttpGet]
@@ -34,8 +39,14 @@ namespace ShopOnline.Controllers.Customer
             await _clientBusiness.InitBrands();
 
             var productCart = _cartBusiness.GetProductsCart();
+            var userInfor = _userBusiness.LoadInforUser(User);
+            var response = new ProductCartViewModel
+            {
+                ProductCarts = productCart,
+                UserInfor = userInfor
+            };
 
-            return View(productCart);
+            return View(response);
         }
 
         [Authorize(Roles = ROLE.CUSTOMER)]

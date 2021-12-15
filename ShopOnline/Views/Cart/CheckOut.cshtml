@@ -3,19 +3,19 @@
     Layout = "~/Views/Shared/_LayoutClient.cshtml";
 }
 
-@model IEnumerable<ShopOnline.Core.Models.Client.ProductCartModel>
+@model ShopOnline.Core.Models.Client.ProductCartViewModel
 @using ShopOnline.Core.Helpers;
 
 <div class="main__check-out">
     <div class="main__check-out-box">
         <div class="main__check-out-box-title">
             <div class="main__check-out-box-name">
-                <p>@UserHelper.Name</p>
-                <p>@UserHelper.Phone</p>
+                <p>@Model.UserInfor.FullName</p>
+                <p>@Model.UserInfor.PhoneNumber</p>
             </div>
             <div class="main__check-out-box-location">
                 <div class="main__check-out-box-location-content">
-                    <p id="currentAddress">@UserHelper.Address</p>
+                    <p id="currentAddress">@Model.UserInfor.Address</p>
                     <a id="btn-change-address" onclick="showChangeAddress()">Change</a>
                 </div>
                 <div id="change-address" class="main__check-out-box-change-location">
@@ -28,12 +28,12 @@
         <div class="main__check-out-box-products">
             <table>
                 <tr>
-                    <th>Products (@SessionHelper.QuantityProductCart)</th>
+                    <th>Products (@Model.ProductCarts.Sum(x=>x.SelectedQuantity))</th>
                     <th>Simple price</th>
                     <th>Quantity</th>
                     <th>Total</th>
                 </tr>
-                @foreach (var productCart in Model)
+                @foreach (var productCart in Model.ProductCarts)
                 {
                     <tr>
                         <td>@productCart.Name</td>
@@ -44,11 +44,11 @@
                 }
             </table>
             @{
-                Int64 totalExcludingFeeVND = (Int64)Model.Sum(x => x.TotalVND);
-                Int64 totalExcludingFeeUSD = (Int64)Model.Sum(x => x.TotalUSD);
+                Int64 totalExcludingFeeVND = (Int64)Model.ProductCarts.Sum(x => x.TotalVND);
+                Int64 totalExcludingFeeUSD = (Int64)Model.ProductCarts.Sum(x => x.TotalUSD);
             }
         <div id="delivery" class="main__check-out-box-products-ship">
-            <h2>Transport fee</h2>
+            <h2>Shipping fee</h2>
             @if (totalExcludingFeeVND >= 5000000)
             {
                 <p>0đ ~ <span class="color-orange">$0</span></p>
@@ -67,15 +67,15 @@
             <p>Please choose a payment method</p>
             <div class="main__payment-choose-method">
                 <div class="main__payment-choose-method-item">
-                    <input type="radio" id="pay-delivery" checked="checked" name="choose-payment-method">
+                    <input type="radio" id="payShipCod" checked="checked" name="choosePaymentMethod">
                     <label for="pay-delivery">Payment on delivery</label><br>
                 </div>
                 <div class="main__payment-choose-method-item">
-                    <input type="radio" id="pay-paypal" checked="checked" name="choose-payment-method">
+                    <input type="radio" id="payEWallet" name="choosePaymentMethod">
                     <label for="pay-paypal">PayPal</label><br>
                 </div>
                 <div class="main__payment-choose-method-item">
-                    <input type="radio" id="pay-momo" checked="checked" name="choose-payment-method">
+                    <input type="radio" id="payBankTransfer" name="choosePaymentMethod">
                     <label for="pay-momo">MoMo</label><br>
                 </div>
             </div>

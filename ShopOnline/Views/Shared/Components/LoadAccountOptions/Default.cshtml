@@ -1,0 +1,28 @@
+﻿@model ShopOnline.Component.LoadAccountOptionsViewModel
+@*  Model.Name is User's Name  *@
+
+@if (Model.IsLayoutManager)
+{
+    <img class="avatar rounded-circle" alt="Image placeholder" src="@Model.Avatar">
+        <div class="media-body ms-2 text-dark align-items-center d-none d-lg-block">
+            <span class="mb-0 font-small fw-bold text-gray-900">@Model.Name</span>
+        </div>
+}
+else
+{
+    if (Model.Name == null)
+    {
+        <ul class="header__info-list" id="ul-not-logged">
+            <a asp-controller="Account" asp-action="Login">Sign in</a>
+            <a asp-controller="Account" asp-action="Register" class="header__info-list-border">Sign up</a>
+        </ul>
+    }
+    else
+    {
+        <ul class="header__info-list" id="ul-logged">
+            <a asp-controller="Profile" asp-action="UpdateDetail">@Model.Name</a>
+            <a asp-controller="Account" asp-action="Logout" class="header__info-list-border">Logout</a>
+        </ul>
+    }
+}
+

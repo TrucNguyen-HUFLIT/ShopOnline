@@ -16,8 +16,6 @@ namespace ShopOnline.Business.Logic.Customer
 {
     public class CartBusiness : ICartBusiness
     {
-        private const string CART_KEY = "cart";
-
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly MyDbContext _context;
         private ISession _session => _httpContextAccessor.HttpContext.Session;
@@ -30,7 +28,7 @@ namespace ShopOnline.Business.Logic.Customer
 
         public List<ProductCartModel> GetProductsCart()
         {
-            string jsonCart = _session.GetString(CART_KEY);
+            string jsonCart = _session.GetString(CART.CART_KEY);
             if (jsonCart != null)
             {
                 return JsonConvert.DeserializeObject<List<ProductCartModel>>(jsonCart);
@@ -76,7 +74,6 @@ namespace ShopOnline.Business.Logic.Customer
             productInCart.TotalUSD = productInCart.PriceUSD * productInCart.SelectedQuantity;
 
             SaveCartSession(cart);
-            SessionHelper.QuantityProductCart = QuantityProductCart();
         }
 
         public Task ReduceProductFromCartAsync(int idProduct, int? quantity)
@@ -98,7 +95,6 @@ namespace ShopOnline.Business.Logic.Customer
             productInCart.TotalUSD = productInCart.PriceUSD * productInCart.SelectedQuantity;
 
             SaveCartSession(cart);
-            SessionHelper.QuantityProductCart = QuantityProductCart();
             return Task.CompletedTask;
         }
 
@@ -113,8 +109,6 @@ namespace ShopOnline.Business.Logic.Customer
             cart.Remove(productInCart);
 
             SaveCartSession(cart);
-
-            SessionHelper.QuantityProductCart = QuantityProductCart();
             return Task.CompletedTask;
         }
 
@@ -124,18 +118,18 @@ namespace ShopOnline.Business.Logic.Customer
             return Task.CompletedTask;
         }
 
-        private void ClearCart() => _session.Remove(CART_KEY);
+        private void ClearCart() => _session.Remove(CART.CART_KEY);
 
         private void SaveCartSession(List<ProductCartModel> products)
         {
             string jsonCart = JsonConvert.SerializeObject(products);
-            _session.SetString(CART_KEY, jsonCart);
+            _session.SetString(CART.CART_KEY, jsonCart);
         }
 
         private int QuantityProductCart()
         {
 
-            return GetProductsCart().Sum(x=>x.SelectedQuantity);
+            return GetProductsCart().Sum(x => x.SelectedQuantity);
         }
     }
 }

@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using System;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
 using X.PagedList;
 using static ShopOnline.Core.Models.Enum.AppEnum;
 
@@ -16,7 +14,7 @@ namespace ShopOnline.Core.Models.Order
         public int Id { get; set; }
         public DateTime OrderDay { get; set; }
         public StatusOrder StatusOrder { get; set; }
-        public int IdCustomer{get; set;}
-        public  int ExtraFee { get; set; }
+        public int IdCustomer { get; set; }
+        public int ExtraFee { get; set; }
     }
 }

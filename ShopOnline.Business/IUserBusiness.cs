@@ -8,6 +8,7 @@ namespace ShopOnline.Business
     public interface IUserBusiness
     {
         Task<UserInfor> GetUserInforByClaimAsync(ClaimsPrincipal user);
+        UserInfor LoadInforUser(ClaimsPrincipal user);
         Task<ClaimsPrincipal> LoginAsync(AccountLoginModel accountLogin);
 
         Task<bool> RegisterAsync(AccountRegisterModel accountRegister);

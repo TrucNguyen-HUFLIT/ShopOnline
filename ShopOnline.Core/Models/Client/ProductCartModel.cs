@@ -1,7 +1,14 @@
-﻿using static ShopOnline.Core.Models.Enum.AppEnum;
+﻿using System.Collections.Generic;
+using static ShopOnline.Core.Models.Enum.AppEnum;
 
 namespace ShopOnline.Core.Models.Client
 {
+    public static class CART
+    {
+        public const string CART_KEY = "cart";
+
+    }
+
     public class ProductCartModel
     {
         public int Id { get; set; }
@@ -15,5 +22,11 @@ namespace ShopOnline.Core.Models.Client
         public int Quantity { get; set; }
         public int SelectedQuantity { get; set; }
         public ProductSize Size { get; set; }
+    }
+
+    public class ProductCartViewModel
+    {
+        public IEnumerable<ProductCartModel> ProductCarts { get; set; }
+        public UserInfor UserInfor { get; set; }
     }
 }

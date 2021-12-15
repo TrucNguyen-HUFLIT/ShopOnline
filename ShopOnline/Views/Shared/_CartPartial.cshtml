@@ -1,0 +1,19 @@
+﻿@using Microsoft.AspNetCore.Http
+@using ShopOnline.Core.Models.Client
+@using Newtonsoft.Json
+@inject IHttpContextAccessor HttpContextAccessor
+
+
+@{
+    var session = HttpContextAccessor.HttpContext.Session;
+    string jsoncart = session.GetString(CART.CART_KEY);
+    if (jsoncart != null)
+    {
+        var cart = JsonConvert.DeserializeObject<List<ProductCartModel>>(jsoncart);
+        <span class="header__navbar-btn-cart-count">(@cart.Sum(x => x.SelectedQuantity))</span>
+    }
+    else
+    {
+        <span class="header__navbar-btn-cart-count">(0)</span>
+    }
+}

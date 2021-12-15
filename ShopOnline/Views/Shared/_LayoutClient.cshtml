@@ -1,4 +1,4 @@
-﻿@using ShopOnline.Core.Helpers 
+﻿@using ShopOnline.Core.Helpers
 
 <environment names="Development">
     <link rel="shortcut icon" type="image/x-icon" href="~/img/icon/icon-title.png" />
@@ -18,20 +18,7 @@
     <div class="header">
         <div class="header__info">
             <p class="header__info-hotline">Hotline - 0933090455</p>
-            @if (UserHelper.Name == null)
-            {
-                <ul class="header__info-list" id="ul-not-logged">
-                    <a asp-controller="Account" asp-action="Login">Sign in</a>
-                    <a asp-controller="Account" asp-action="Register" class="header__info-list-border">Sign up</a>
-                </ul>
-            }
-            else
-            {
-                <ul class="header__info-list" id="ul-logged">
-                    <a asp-controller="Profile" asp-action="UpdateDetail">@UserHelper.Name</a>
-                    <a asp-controller="Account" asp-action="Logout" class="header__info-list-border">Logout</a>
-                </ul>
-            }
+            @await Component.InvokeAsync("LoadAccountOptions", false)
         </div>
         <div class="header__navbar">
             <div class="header__navbar-logo">
@@ -57,7 +44,7 @@
                 <div class="header__navbar-btn-cart">
                     <img src="~/img/icon/favorite.png" alt="" />
                     <a asp-controller="Cart" asp-action="ProductCart"><img src="~/img/icon/shopping-cart.png" alt="" /></a>
-                    <span class="header__navbar-btn-cart-count">(@SessionHelper.QuantityProductCart)</span>
+                    @await Html.PartialAsync("_CartPartial")
                 </div>
             </div>
             <div id="mobile-menu" class="mobile-menu-btn">

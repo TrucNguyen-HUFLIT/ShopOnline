@@ -1,0 +1,174 @@
+﻿@model ShopOnline.Component.LoadMenuManagementViewModel
+@using ShopOnline.Core.Models.Enum
+
+<ul class="nav flex-column pt-3 pt-md-0">
+    <li class="nav-item">
+        @if (Model.Role == AppEnum.TypeAcc.Customer)
+        {
+            <a class="nav-link d-flex align-items-center" asp-action="Home" asp-controller="Client">
+                <span class="sidebar-icon">
+                    <img src="~/assets/img/brand/light.svg" height="20" width="20" alt="Dream Logo">
+                </span>
+                <span class="mt-1 ms-1 sidebar-text">Dreams Store</span>
+            </a>
+        }
+        else
+        {
+            <a class="nav-link d-flex align-items-center">
+                <span class="sidebar-icon">
+                    <img src="~/assets/img/brand/light.svg" height="20" width="20" alt="Dream Logo">
+                </span>
+                <span class="mt-1 ms-1 sidebar-text">Dreams Store</span>
+            </a>
+        }
+    </li>
+    @if (Model.Role == AppEnum.TypeAcc.Admin)
+    {
+        <li class="nav-item">
+            <a asp-action="" asp-controller="" class="nav-link">
+                <span class="sidebar-text">Manager (Admin)</span>
+            </a>
+        </li>
+    }
+    @if (Model.Role == AppEnum.TypeAcc.Staff)
+    {
+        <li class="nav-item">
+            <span class="nav-link  collapsed  d-flex justify-content-between align-items-center"
+                  data-bs-toggle="collapse" data-bs-target="#submenu-components">
+                <span class="sidebar-text">Sell (Staff)</span>
+                <span class="link-arrow">
+                    <svg class="icon icon-sm" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
+                </span>
+            </span>
+            <div class="multi-level collapse " role="list"
+                 id="submenu-components" aria-expanded="false">
+                <ul class="flex-column nav">
+                    <li class="nav-item ">
+                        <a class="nav-link" asp-action="ListProduct" asp-controller="Product">
+                            <span class="sidebar-text">Product</span>
+                        </a>
+                    </li>
+                    <li class="nav-item ">
+                        <a class="nav-link" asp-action="ListOrder" asp-controller="Order">
+                            <span class="sidebar-text">All Order</span>
+                        </a>
+                    </li>
+                    <li class="nav-item ">
+                        <a class="nav-link" asp-action="" asp-controller="">
+                            <span class="sidebar-text">Order Process</span>
+                        </a>
+                    </li>
+                    <li class="nav-item ">
+                        <a class="nav-link" asp-action="" asp-controller="">
+                            <span class="sidebar-text">Order Paid</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+        <li class="nav-item">
+            <a asp-action="" asp-controller="" class="nav-link">
+                <span class="sidebar-text">Review (Staff)</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a asp-action="ListCustomer" asp-controller="Customer" class="nav-link">
+                <span class="sidebar-text">Customer (Staff)</span>
+            </a>
+        </li>
+    }
+    @if (Model.Role == AppEnum.TypeAcc.Manager)
+    {
+        <li class="nav-item">
+            <a asp-action="ListStaff" asp-controller="Staff" class="nav-link">
+                <span class="sidebar-text">Staff (Manager)</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a asp-action="ListCustomer" asp-controller="Customer" class="nav-link">
+                @*<span class="sidebar-icon">
+                        <svg class="icon icon-xs me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path><path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path></svg>
+                    </span>*@
+                <span class="sidebar-text">Customer</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <span class="nav-link  collapsed  d-flex justify-content-between align-items-center"
+                  data-bs-toggle="collapse" data-bs-target="#submenu-components">
+                <span class="sidebar-text">Product (Manager)</span>
+                <span class="link-arrow">
+                    <svg class="icon icon-sm" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
+                </span>
+            </span>
+            <div class="multi-level collapse " role="list"
+                 id="submenu-components" aria-expanded="false">
+                <ul class="flex-column nav">
+                    <li class="nav-item ">
+                        <a class="nav-link" asp-action="ListBrand" asp-controller="Product">
+                            <span class="sidebar-text">Brands</span>
+                        </a>
+                    </li>
+                    <li class="nav-item ">
+                        <a class="nav-link" asp-action="ListProductType" asp-controller="Product">
+                            <span class="sidebar-text">Product Type</span>
+                        </a>
+                    </li>
+                    <li class="nav-item ">
+                        <a class="nav-link" asp-action="ListProductDetail" asp-controller="Product">
+                            <span class="sidebar-text">Product Detail</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+        <li class="nav-item">
+            <a asp-action="" asp-controller="" class="nav-link">
+                <span class="sidebar-text">Report (Manager)</span>
+            </a>
+        </li>
+    }
+    <li class="nav-item">
+        @if (Model.Role == AppEnum.TypeAcc.Shipper || Model.Role == AppEnum.TypeAcc.Customer)
+        {
+            <span class="nav-link  collapsed  d-flex justify-content-between align-items-center"
+                  data-bs-toggle="collapse" data-bs-target="#submenu-components">
+                <span class="sidebar-text">Order</span>
+                <span class="link-arrow">
+                    <svg class="icon icon-sm" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
+                </span>
+            </span>
+            <div class="multi-level collapse " role="list"
+                 id="submenu-components" aria-expanded="false">
+                <ul class="flex-column nav">
+                    @if (Model.Role == AppEnum.TypeAcc.Shipper)
+                    {
+                        <li class="nav-item ">
+                            <a class="nav-link" asp-action="" asp-controller="">
+                                <span class="sidebar-text">Accepted (Shipper)</span>
+                            </a>
+                        </li>
+                        <li class="nav-item ">
+                            <a class="nav-link" asp-action="" asp-controller="">
+                                <span class="sidebar-text">History (Shipper)</span>
+                            </a>
+                        </li>
+                    }
+                    @if (Model.Role == AppEnum.TypeAcc.Customer)
+                    {
+
+                        <li class="nav-item ">
+                            <a class="nav-link" asp-action="" asp-controller="">
+                                <span class="sidebar-text">Favorites (Customer)</span>
+                            </a>
+                        </li>
+                        <li class="nav-item ">
+                            <a class="nav-link" asp-action="" asp-controller="">
+                                <span class="sidebar-text">History (Customer)</span>
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        }
+    </li>
+</ul>
