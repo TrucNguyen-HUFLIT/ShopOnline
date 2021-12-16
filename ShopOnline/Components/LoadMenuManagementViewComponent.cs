@@ -4,7 +4,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using static ShopOnline.Core.Models.Enum.AppEnum;
 
-namespace ShopOnline.Component
+namespace ShopOnline.Components
 {
     public class LoadMenuManagementViewComponent : ViewComponent
     {

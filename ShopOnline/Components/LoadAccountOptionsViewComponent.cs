@@ -2,7 +2,7 @@
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace ShopOnline.Component
+namespace ShopOnline.Components
 {
     public class LoadAccountOptionsViewComponent : ViewComponent
     {
