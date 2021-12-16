@@ -101,19 +101,22 @@
 <div class="main__product-random">
     <h1>YOU MIGHT ALSO LIKE</h1>
     <div class="main__product-random-items">
-        @foreach (var productInforDetail in Model.ProductInfors)
+        @for (int i = 0; i < 6; i++)
         {
-            <div class="main__product-random-item">
-                <a asp-action="DetailProduct" asp-route-id="@productInforDetail.Id"><img src="@productInforDetail.Pic" alt=""></a>
-                <div class="main__product-ramdon-item-box">
-                    <div class="main__ramdon-box-item">
-                        <h1></h1>
-                        <p>@string.Format("{0:N0}", ((Int64)productInforDetail.PriceVND))đ</p>
-                        <p class="color-orange">$@string.Format("{0:N0}", ((Int64)productInforDetail.PriceUSD))</p>
+            @foreach (var productInforDetail in Model.ProductInfors)
+            {
+                <div class="main__product-random-item">
+                    <a asp-action="DetailProduct" asp-route-id="@productInforDetail.Id"><img src="@productInforDetail.Pic" alt=""></a>
+                    <div class="main__product-ramdon-item-box">
+                        <div class="main__ramdon-box-item">
+                            <h1>@productInforDetail.Name</h1>
+                            <p>@string.Format("{0:N0}", ((Int64)productInforDetail.PriceVND))đ</p>
+                            <p class="color-orange">$@string.Format("{0:N0}", ((Int64)productInforDetail.PriceUSD))</p>
+                        </div>
+                        <input type="submit" onclick="location.href='@Url.Action("DetailProduct", "Client", new { id = productInforDetail.Id })'" value="Details">
                     </div>
-                    <input type="submit" onclick="location.href='@Url.Action("DetailProduct", "Client", new { id = productInforDetail.Id })'" value="Details">
                 </div>
-            </div>
+            }
         }
     </div>
 </div>

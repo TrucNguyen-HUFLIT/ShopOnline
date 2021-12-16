@@ -36,17 +36,30 @@ namespace ShopOnline.Core.Helpers
     //for Shipper
     public class HashSHA1Strategy : IHashPasswordStrategy
     {
+        //public string DoHash(string password)
+        //{
+        //    SHA1 sHA1 = SHA1.Create();
+        //    byte[] hash = sHA1.ComputeHash(Encoding.UTF8.GetBytes(password));
+        //    StringBuilder sb = new StringBuilder(hash.Length * 2);
+        //    foreach (byte b in hash)
+        //    {
+        //        // can be "x2" if you want lowercase
+        //        sb.Append(b.ToString("X2"));
+        //    }
+
+        //    return sb.ToString();
+        //}
         public string DoHash(string password)
         {
-            SHA1 sHA1 = SHA1.Create();
-            byte[] hash = sHA1.ComputeHash(Encoding.UTF8.GetBytes(password));
-            StringBuilder sb = new StringBuilder(hash.Length * 2);
-            foreach (byte b in hash)
+            MD5 mh = MD5.Create();
+            byte[] inputBytes = Encoding.ASCII.GetBytes(password);
+            byte[] hash = mh.ComputeHash(inputBytes);
+            StringBuilder sb = new();
+            for (int i = 0; i < hash.Length; i++)
             {
                 // can be "x2" if you want lowercase
-                sb.Append(b.ToString("X2"));
+                sb.Append(hash[i].ToString("X2"));
             }
-
             return sb.ToString();
         }
     }
@@ -54,17 +67,30 @@ namespace ShopOnline.Core.Helpers
     //for Admin & Staff
     public class HashSHA256Strategy : IHashPasswordStrategy
     {
+        //public string DoHash(string password)
+        //{
+        //    SHA256 sHA256 = SHA256.Create();
+        //    byte[] hash = sHA256.ComputeHash(Encoding.UTF8.GetBytes(password));
+        //    StringBuilder sb = new StringBuilder(hash.Length * 2);
+        //    foreach (byte b in hash)
+        //    {
+        //        // can be "x2" if you want lowercase
+        //        sb.Append(b.ToString("X2"));
+        //    }
+
+        //    return sb.ToString();
+        //}
         public string DoHash(string password)
         {
-            SHA256 sHA256 = SHA256.Create();
-            byte[] hash = sHA256.ComputeHash(Encoding.UTF8.GetBytes(password));
-            StringBuilder sb = new StringBuilder(hash.Length * 2);
-            foreach (byte b in hash)
+            MD5 mh = MD5.Create();
+            byte[] inputBytes = Encoding.ASCII.GetBytes(password);
+            byte[] hash = mh.ComputeHash(inputBytes);
+            StringBuilder sb = new();
+            for (int i = 0; i < hash.Length; i++)
             {
                 // can be "x2" if you want lowercase
-                sb.Append(b.ToString("X2"));
+                sb.Append(hash[i].ToString("X2"));
             }
-
             return sb.ToString();
         }
     }
