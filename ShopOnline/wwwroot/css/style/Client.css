@@ -644,7 +644,7 @@ h2 a {
 
     .main__products-item > a > img {
         width: 100%;
-        height: 360px;
+        height: auto;
     }
 
         .main__products-item > a > img:hover {
@@ -654,7 +654,7 @@ h2 a {
 
 /*Paging start*/
 .main__products-paging {
-    width: 600px;
+    width: 100%;
     height: 60px;
     margin: auto;
     margin-bottom: 30px;
@@ -669,7 +669,6 @@ h2 a {
 
     .pagination-container ul li {
         float: left;
-        margin-left: 20px;
         padding-top: 13px;
         padding-left: 13px;
     }
@@ -757,7 +756,6 @@ h2 a {
 
 .main__product-details-disc {
     width: 400px;
-    height: 100%;
     padding-top: 10px;
     padding-left: 20px;
 }
@@ -1058,10 +1056,10 @@ label span:first-of-type {
 
 /* Similar Products start*/
 .main__product-random {
-    width: 1200px;
+    width: auto;
     margin: 0 auto;
     margin-bottom: 20px;
-    padding-right: 20px;
+    padding: 0 150px;
 }
 
 .main__product-random-items {
@@ -1290,7 +1288,7 @@ label span:first-of-type {
     margin: auto;
     text-align: center;
     display: none;
-    z-index: 10;
+    z-index: -1;
     position: absolute;
     top: 180px;
     left: 360px;
