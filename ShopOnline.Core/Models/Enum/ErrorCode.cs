@@ -63,6 +63,10 @@ namespace ShopOnline.Core.Models.Enum
         [Description("Not found this product in your cart")]
         NotFoundInCart = Cart + 2,
 
+        [Display(GroupName = "Cart")]
+        [Description("Your cart is empty")]
+        EmptyCart = Cart + 3,
+
         #endregion
 
         #region User = ErrorCode + 3000

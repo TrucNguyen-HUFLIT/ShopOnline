@@ -15,7 +15,7 @@ namespace ShopOnline.Core.Entities
 
         public int IdCustomer { get; set; }
         public virtual CustomerEntity Customer { get; set; }
-        public int IdShipper { get; set; }
+        public int? IdShipper { get; set; }
         public virtual ShipperEntity Shipper { get; set; }
         public virtual ICollection<OrderDetailEntity> OrderDetails { get; set; }
 
