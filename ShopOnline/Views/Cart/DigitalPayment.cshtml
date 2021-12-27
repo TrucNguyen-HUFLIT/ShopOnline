@@ -1,10 +1,10 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
     ViewData["Title"] = "Momo Payment";
     Layout = "~/Views/Shared/_LayoutClient.cshtml";
 }
+
+@model ShopOnline.Core.Models.Client.OrderInfor
+
 <div class="main__payment">
     <h1>PAYMENT METHODS</h1>
     <p>Please check your orders</p>
@@ -12,23 +12,23 @@
         <table>
             <tr>
                 <th>Address</th>
-                <th>This is address</th>
+                <th>@Model.Addess</th>
             </tr>
             <tr>
                 <th>Name</th>
-                <th>Nguyen Minh Tam</th>
+                <th>@Model.FullName</th>
             </tr>
             <tr>
                 <th>Number phone</th>
-                <th>0933090455</th>
+                <th>@Model.Phone</th>
             </tr>
             <tr>
                 <th>Code orders (Note)</th>
-                <th>#123</th>
+                <th>#@Model.Id</th>
             </tr>
             <tr>
                 <th>Total</th>
-                <th>7.200.000<span>đ</span></th>
+                <th>@string.Format("{0:N0}", ((Int64)Model.PriceVND))<span>đ</span></th>
             </tr>
         </table>
         <img src="~/img/icon/momopay.jpg" alt="">
@@ -37,7 +37,6 @@
         <img src="~/img/icon/instruct.png" alt="Alternate Text" />
     </div>
     <div class="main__payment-selected-btn">
-        <input type="submit" value="Check your orders">
         <input type="submit" value="Completed">
     </div>
 </div>

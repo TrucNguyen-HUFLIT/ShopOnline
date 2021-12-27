@@ -87,7 +87,7 @@ namespace ShopOnline.Business.Logic.Customer
                                                 Name = x.ProductType.Brand.Name
                                             },
                                             BaseProductInfors = x.Products
-                                                            .Where(y => !y.IsDeleted)
+                                                            .Where(y => !y.IsDeleted && y.Quantity > 0)
                                                             .Select(y => new BaseProductInfor
                                                             {
                                                                 Id = y.Id,
@@ -114,7 +114,6 @@ namespace ShopOnline.Business.Logic.Customer
             productDetail.PriceUSD = await ConvertCurrencyHelper.ConvertVNDToUSD(productDetail.PriceVND);
 
             var availableSize = productDetail.BaseProductInfors
-                                        .Where(x => x.Quantity != 0)
                                         .Select(x => x.Size)
                                         .ToArray();
             var productSizes = Enum.GetValues(typeof(ProductSize))

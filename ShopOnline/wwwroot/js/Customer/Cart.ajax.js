@@ -5,8 +5,9 @@
         REMOVE: '/Cart/RemoveProductFromCart',
         REMOVE_ALL: '/Cart/RemoveAllProductFromCart',
         PRODUCT_CART: '/Cart/ProductCart',
-        DIGITAL_PAYMENT: '/Cart/DigitalPayment',
+        DIGITAL_PAYMENT: '/Cart/DigitalPayment?id={id}',
         E_WALLET: '/Cart/EWallet',
+        CHECK_OUT: '/Cart/CheckOut',
     },
 }
 
@@ -33,14 +34,8 @@ function addToCart() {
             window.location.reload();
         },
         error: function (XMLHttpRequest) {
-            //const EleErrorMsgLogin = {
-            //    Email: 'email_msg',
-            //    Password: 'password_msg',
-            //}
-
-            //let msg = XMLHttpRequest.responseJSON ? XMLHttpRequest.responseJSON : XMLHttpRequest.responseText;
-
-            //innerHTMLMsg(msg, EleErrorMsgLogin);
+            let msg = XMLHttpRequest.responseJSON ? XMLHttpRequest.responseJSON : XMLHttpRequest.responseText;
+            console.log(msg);
         },
     });
 }
@@ -60,7 +55,8 @@ function addMoreToCart(id) {
             window.location.reload();
         },
         error: function (XMLHttpRequest) {
-
+            let msg = XMLHttpRequest.responseJSON ? XMLHttpRequest.responseJSON : XMLHttpRequest.responseText;
+            console.log(msg);
         },
     });
 }
@@ -82,7 +78,8 @@ function reduceFromCart(id) {
             window.location.reload();
         },
         error: function (XMLHttpRequest) {
-
+            let msg = XMLHttpRequest.responseJSON ? XMLHttpRequest.responseJSON : XMLHttpRequest.responseText;
+            console.log(msg);
         },
     });
 }
@@ -103,7 +100,8 @@ function removeFromCart(id) {
             window.location.reload();
         },
         error: function (XMLHttpRequest) {
-
+            let msg = XMLHttpRequest.responseJSON ? XMLHttpRequest.responseJSON : XMLHttpRequest.responseText;
+            console.log(msg);
         },
     });
 }
@@ -117,30 +115,34 @@ function order() {
         BANK_TRANSFER: 'payBankTransfer'
     }
     const paymentMethodSelected = document.querySelector('input[name="choosePaymentMethod"]:checked').getAttribute('id');
+    const address = document.getElementById('currentAddress').innerHTML;
+    const formData = {
+        paymentMethod: paymentMethodSelected.substring(3),
+        address: address
+    };
 
-    switch (paymentMethodSelected) {
-        case PAYMENT_METHODS.BANK_TRANSFER:
-            window.location.replace(ROUTE_CART.CART.DIGITAL_PAYMENT);
-            break;
-        case PAYMENT_METHODS.E_WALLET:
-            console.log(ROUTE_CART.CART.E_WALLET);
-            break;
-        default:
-            console.log(PAYMENT_METHODS.SHIP_COD);
-            break;
-    }
-
-    //$.ajax({
-    //    url: ROUTE.CART.REMOVE,
-    //    type: 'post',
-    //    contentType: "application/x-www-form-urlencoded",
-    //    data: formData,
-    //    success: function () {
-    //        window.location.reload();
-    //    },
-    //    error: function (XMLHttpRequest) {
-
-    //    },
-    //});
+    $.ajax({
+        url: ROUTE_CART.CART.CHECK_OUT,
+        type: 'post',
+        contentType: "application/x-www-form-urlencoded",
+        data: formData,
+        success: function (data) {
+            switch (paymentMethodSelected) {
+                case PAYMENT_METHODS.BANK_TRANSFER:
+                    window.location.replace(ROUTE_CART.CART.DIGITAL_PAYMENT.replace('{id}', data));
+                    break;
+                case PAYMENT_METHODS.E_WALLET:
+                    console.log(ROUTE_CART.CART.E_WALLET);
+                    break;
+                default:
+                    console.log(PAYMENT_METHODS.SHIP_COD);
+                    break;
+            }
+        },
+        error: function (XMLHttpRequest) {
+            let msg = XMLHttpRequest.responseJSON ? XMLHttpRequest.responseJSON : XMLHttpRequest.responseText;
+            console.log(msg);
+        },
+    });
 }
 //#endregion

@@ -5,6 +5,7 @@ using ShopOnline.Business.Customer;
 using ShopOnline.Core.Models;
 using ShopOnline.Core.Models.Client;
 using System.Threading.Tasks;
+using static ShopOnline.Core.Models.Enum.AppEnum;
 
 namespace ShopOnline.Controllers.Customer
 {
@@ -34,6 +35,7 @@ namespace ShopOnline.Controllers.Customer
         }
 
         [Authorize(Roles = ROLE.CUSTOMER)]
+        [HttpGet]
         public async Task<IActionResult> CheckOutAsync()
         {
             await _clientBusiness.InitBrands();
@@ -50,10 +52,20 @@ namespace ShopOnline.Controllers.Customer
         }
 
         [Authorize(Roles = ROLE.CUSTOMER)]
-        public async Task<IActionResult> DigitalPayment()
+        [HttpPost]
+        public async Task<IActionResult> CheckOutAsync(PaymentMethod paymentMethod, string address)
+        {
+            int newOrderId = await _cartBusiness.CheckOutAsync(User, paymentMethod, address);
+            return Ok(newOrderId);
+        }
+
+        [Authorize(Roles = ROLE.CUSTOMER)]
+        [HttpGet]
+        public async Task<IActionResult> DigitalPayment(int id)
         {
             await _clientBusiness.InitBrands();
-            return View();
+            var orderInfor = await _cartBusiness.GetOrderById(id);
+            return View(orderInfor);
         }
 
         [HttpPost]

@@ -139,7 +139,7 @@ function quantityFormat(input) {//returns (###) ###-####
 //#enregion
 
 //#region change Address
-function changeAddress() {//returns (###) ###-####
+function changeAddress() {
     const newAddress = document.getElementById('newAddress').value.trim();
     if (newAddress && newAddress !== null && newAddress !== "") {
         document.getElementById('currentAddress').innerHTML = newAddress;
