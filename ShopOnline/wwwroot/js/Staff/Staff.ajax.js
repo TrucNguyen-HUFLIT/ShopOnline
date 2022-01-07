@@ -18,6 +18,8 @@
     setTimeout(function () { toast.className = toast.className.replace("show", ""); }, 4000);
 }
 
+
+
 $("#create-staff-form").submit(function (e) {
     e.preventDefault();
 
@@ -32,7 +34,8 @@ $("#create-staff-form").submit(function (e) {
         processData: false,
         data: formData,
         success: function () {
-            window.location.replace("/staff/liststaff");
+            toast("Created staff successfully", true);
+            setTimeout(() => window.location.replace("/staff/liststaff"), 2000);
         },
         error: function (data) {
             console.log(data)
@@ -96,7 +99,8 @@ $("#edit-staff-form").submit(function (e) {
         processData: false,
         data: formData,
         success: function (data) {
-            window.location.replace(`/staff/updatestaff/${data}`);
+            toast("Updated staff successfully", true);
+            setTimeout(() => window.location.replace(`/staff/updatestaff/${data}`), 2000);
         },
         error: function (data) {
             console.log(data)
@@ -138,7 +142,8 @@ $("#create-brand-form").submit(function (e) {
         processData: false,
         data: formData,
         success: function () {
-            window.location.replace("/product/listbrand");
+            toast("Created brand successfully", true);
+            setTimeout(() => window.location.replace("/product/listbrand"), 2000);
         },
         error: function (data) {
             console.log(data)
@@ -179,7 +184,8 @@ $("#edit-brand-form").submit(function (e) {
         processData: false,
         data: formData,
         success: function (data) {
-            window.location.replace(`/product/updatebrand/${data}`);
+            toast("Updated brand successfully", true);
+            setTimeout(() => window.location.replace(`/product/updatebrand/${data}`), 2000);
         },
         error: function (data) {
             console.log(data)
@@ -220,7 +226,8 @@ $("#create-product-type-form").submit(function (e) {
         processData: false,
         data: formData,
         success: function () {
-            window.location.replace("/product/listproducttype");
+            toast("Created product type successfully", true);
+            setTimeout(() => window.location.replace("/product/listproducttype"), 2000);
         },
         error: function (data) {
             console.log(data)
@@ -261,7 +268,8 @@ $("#update-product-type-form").submit(function (e) {
         processData: false,
         data: formData,
         success: function (data) {
-            window.location.replace(`/product/updateproducttype/${data}`);
+            toast("Updated product type successfully", true);
+            setTimeout(() => window.location.replace(`/product/updateproducttype/${data}`), 2000);
         },
         error: function (data) {
             console.log(data)
@@ -346,7 +354,8 @@ $("#create-product-detail-form").submit(function (e) {
         processData: false,
         data: formData,
         success: function () {
-            window.location.replace("/product/listProductDetail");
+            toast("Created product detail successfully", true);
+            setTimeout(() => window.location.replace("/product/listProductDetail"), 2000);
         },
         error: function (data) {
             console.log(data)
@@ -398,7 +407,8 @@ $("#update-product-detail-form").submit(function (e) {
         processData: false,
         data: formData,
         success: function (data) {
-            window.location.replace(`/product/updateProductDetail/${data}`);
+            toast("Updated product detail successfully", true);
+            setTimeout(() => window.location.replace(`/product/updateProductDetail/${data}`), 2000);
         },
         error: function (data) {
             console.log(data)
@@ -440,3 +450,45 @@ $("#update-product-detail-form").submit(function (e) {
         },
     });
 });
+
+function ApproveReview(id) {
+    const formData = {
+        id: id
+    };
+    $.ajax({
+        url: '/review/approvereview',
+        type: 'post',
+        data: formData,
+        success: function () {
+            toast("Approve review successfully", true);
+            setTimeout(() => window.location.reload("/review/listreview"), 50);
+        },
+        error: function () {
+            notyfError.open({
+                type: 'warning',
+                message: 'Approve review failed'
+            })
+        }
+    })
+}
+
+function RejectReview(id) {
+    const formData = {
+        id: id
+    };
+    $.ajax({
+        url: '/review/rejectreview',
+        type: 'post',
+        data: formData,
+        success: function () {
+            toast("Approve review successfully", true);
+            setTimeout(() => window.location.reload("/review/rejectreview"), 50);
+        },
+        error: function () {
+            notyfError.open({
+                type: 'warning',
+                message: 'Reject review failed'
+            })
+        }
+    })
+}

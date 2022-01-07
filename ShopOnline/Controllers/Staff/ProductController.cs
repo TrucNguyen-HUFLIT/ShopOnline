@@ -80,6 +80,14 @@ namespace ShopOnline.Controllers.Staff
         }
 
         [Authorize(Roles = ROLE.MANAGER)]
+        public async Task<IActionResult> DeleteBrandAsync(int id)
+        {
+            await _productBusiness.DeleteBrandAsync(id);
+            return Ok();
+        }
+
+
+        [Authorize(Roles = ROLE.MANAGER)]
         public async Task<IActionResult> ListProductType(string sortOrder, string currentFilter, string searchString, int? page)
         {
             ViewBag.CurrentSort = sortOrder;
@@ -146,6 +154,13 @@ namespace ShopOnline.Controllers.Staff
         }
 
         [Authorize(Roles = ROLE.MANAGER)]
+        public async Task<IActionResult> DeleteProductTypeAsync(int id)
+        {
+            await _productBusiness.DeleteProductTypeAsync(id);
+            return Ok();
+        }
+
+        [Authorize(Roles = ROLE.MANAGER)]
         [HttpGet]
         public async Task<IActionResult> CreateProductDetail()
         {
@@ -186,6 +201,13 @@ namespace ShopOnline.Controllers.Staff
         {
             await _productBusiness.UpdateProductDetailAsync(productDetailUpdate);
             return Ok(productDetailUpdate.Id);
+        }
+
+        [Authorize(Roles = ROLE.MANAGER)]
+        public async Task<IActionResult> DeleteProductDetailAsync(int id)
+        {
+            await _productBusiness.DeleteProductDetailAsync(id);
+            return Ok();
         }
 
         [Authorize(Roles = ROLE.MANAGER)]

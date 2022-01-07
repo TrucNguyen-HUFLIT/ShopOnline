@@ -64,7 +64,7 @@
         <tbody>
             @foreach (var productDetail in Model.ListProductDetail)
             {
-                <tr>
+                <tr  id="id-@productDetail.Id"> 
                     <td>
                         @productDetail.Id
                     </td>
@@ -101,7 +101,10 @@
                     </td>
                     <td>
                         <a asp-action="UpdateProductDetail" asp-route-id="@productDetail.Id" type="button"><i class="fas fa-edit" style="font-size: 20px; color: #f0bc74;"></i></a>
-                        <a asp-action="DeleteStaff" asp-route-id="@productDetail.Id" type="button"><i class="fas fa-trash-alt" style="font-size: 20px; color: #E11D48; margin-left:10px"></i></a>
+                        @{
+                            string url = "/product/deleteproductdetail";
+                        }
+                        <a onclick="ConfirmDelete(@productDetail.Id, '@url')"><i class="fas fa-trash-alt" style="font-size: 20px; color: #E11D48; margin-left:10px"></i></a>
                     </td>
                 </tr>
             }
@@ -109,6 +112,6 @@
     </table>
     Page @(Model.ListProductDetail.PageCount < Model.ListProductDetail.PageNumber ? 0 : Model.ListProductDetail.PageNumber) of @Model.ListProductDetail.PageCount
     @Html.PagedListPager(Model.ListProductDetail, page => Url.Action("ListProductDetail",
-                                        new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
     @*<div class="fw-normal small mt-4 mt-lg-0">Showing <b>5</b> out of <b>25</b> entries</div>*@
 </div>

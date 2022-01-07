@@ -520,5 +520,70 @@ namespace ShopOnline.Business.Logic.Staff
 
             return false;
         }
+
+        public async Task<bool> DeleteBrandAsync(int id)
+        {
+            var brand = await _context.Brands.Where(x => x.Id == id && !x.IsDeleted).FirstOrDefaultAsync();
+
+            if (brand != null)
+            {
+                var isCannotDelete = await _context.ProductTypes.Where(x => x.IdBrand == id).AnyAsync(x => !x.IsDeleted || x.ProductDetails.Any(y => !y.IsDeleted || y.Products.Any(z => !z.IsDeleted)));
+
+                if (isCannotDelete)
+                {
+                    throw new UserFriendlyException(ErrorCode.CannotDelete);
+                }
+
+                brand.IsDeleted = true;
+                _context.Brands.Update(brand);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> DeleteProductTypeAsync(int id)
+        {
+            var productType = await _context.ProductTypes.Where(x => x.Id == id && !x.IsDeleted).FirstOrDefaultAsync();
+
+            if (productType != null)
+            {
+                var isCannotDelete = await _context.ProductDetails.Where(x => x.IdProductType == id).AnyAsync(x => !x.IsDeleted || x.Products.Any(y => !y.IsDeleted));
+
+                if (isCannotDelete)
+                {
+                    throw new UserFriendlyException(ErrorCode.CannotDelete);
+                }
+
+                productType.IsDeleted = true;
+                _context.ProductTypes.Update(productType);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> DeleteProductDetailAsync(int id)
+        {
+            var productDetail = await _context.ProductDetails.Where(x => x.Id == id && !x.IsDeleted).FirstOrDefaultAsync();
+
+            if (productDetail != null)
+            {
+                productDetail.IsDeleted = true;
+                _context.ProductDetails.Update(productDetail);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }

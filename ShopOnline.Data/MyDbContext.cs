@@ -22,7 +22,7 @@ namespace ShopOnline.Core
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
-                optionsBuilder.UseSqlServer(@"Server=DESKTOP-I7EOLFR\SQLEXPRESS;Initial Catalog=ShopOnline_Shoes;User ID=sa1;Password=sa123;Trusted_Connection=False;");
+                optionsBuilder.UseSqlServer(@"Server=HUY-LAPTOP;Initial Catalog=ShopOnline_Shoes;User ID=sa;Password=sa123;Trusted_Connection=False;");
 
         }
 
