@@ -25,7 +25,7 @@ namespace ShopOnline.Business.Logic.Staff
 
         public async Task<bool> ApproveReview(int id)
         {
-            var review = await _context.ReviewDetails.Where(x => x.Id == id && x.ReviewStatus == ReviewStatus.Waiting).FirstOrDefaultAsync();
+            var review = await _context.ReviewDetails.Where(x => x.Id == id && x.ReviewStatus == ReviewStatus.Waiting && !x.IsDeleted).FirstOrDefaultAsync();
             review.ReviewStatus = ReviewStatus.Approved;
             _context.ReviewDetails.Update(review);
             await _context.SaveChangesAsync();
@@ -34,7 +34,7 @@ namespace ShopOnline.Business.Logic.Staff
 
         public async Task<List<CustomerInfor>> GetListCustomer()
         {
-            var customers = await _context.Customers.Select(x => new CustomerInfor
+            var customers = await _context.Customers.Where(x => !x.IsDeleted).Select(x => new CustomerInfor
             {
                 Id = x.Id,
                 Address = x.Address,
@@ -48,7 +48,7 @@ namespace ShopOnline.Business.Logic.Staff
 
         public async Task<List<ProductDetailInfor>> GetListProductDetail()
         {
-            var productDetails = await _context.ProductDetails.Select(x => new ProductDetailInfor
+            var productDetails = await _context.ProductDetails.Where(x => !x.IsDeleted).Select(x => new ProductDetailInfor
             {
                 Id = x.Id,
                 BasePrice = x.BasePrice,
@@ -67,7 +67,7 @@ namespace ShopOnline.Business.Logic.Staff
         {
             var queryReview = _context.ReviewDetails.Where(x => !x.IsDeleted);
 
-            if(reviewStatus != 0)
+            if (reviewStatus != 0)
             {
                 queryReview = queryReview.Where(x => x.ReviewStatus == reviewStatus);
             }
@@ -80,7 +80,7 @@ namespace ShopOnline.Business.Logic.Staff
                 _ => queryReview.OrderBy(x => x.Id),
             };
 
-            var listReview = await queryReview.Select(review=>new ReviewInfor
+            var listReview = await queryReview.Select(review => new ReviewInfor
             {
                 Id = review.Id,
                 Content = review.Content,
@@ -97,7 +97,7 @@ namespace ShopOnline.Business.Logic.Staff
 
         public async Task<bool> RejectReview(int id)
         {
-            var review = await _context.ReviewDetails.Where(x => x.Id == id && x.ReviewStatus == ReviewStatus.Waiting).FirstOrDefaultAsync();
+            var review = await _context.ReviewDetails.Where(x => x.Id == id && x.ReviewStatus == ReviewStatus.Waiting && !x.IsDeleted).FirstOrDefaultAsync();
             review.ReviewStatus = ReviewStatus.Rejected;
             _context.ReviewDetails.Update(review);
             await _context.SaveChangesAsync();
