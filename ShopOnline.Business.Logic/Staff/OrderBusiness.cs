@@ -113,7 +113,7 @@ namespace ShopOnline.Business.Logic.Staff
         public async Task<IPagedList<HistoryOrderInfor>> GetHistoryOrderCustomerAsync(string sortOrder, string currentFilter, string searchString, int? page, ClaimsPrincipal user)
         {
             string email = user.FindFirst(ClaimTypes.Email).Value;
-            var customerId = _context.Customers.Where(x => x.Email == email).Select(x => x.Id).FirstOrDefault();
+            var customerId = _context.Customers.Where(x => x.Email == email && !x.IsDeleted).Select(x => x.Id).FirstOrDefault();
             var listHistoryOrder = new List<HistoryOrderInfor>();
             var historyOrders = await _context.Orders.Where(x => !x.IsDeleted && x.IdCustomer == customerId).ToListAsync();
             if (historyOrders != null)
@@ -149,7 +149,7 @@ namespace ShopOnline.Business.Logic.Staff
         public async Task<IPagedList<HistoryOrderShipperInfor>> GetHistoryOrderShipperAsync(string sortOrder, string currentFilter, string searchString, int? page, ClaimsPrincipal user)
         {
             string email = user.FindFirst(ClaimTypes.Email).Value;
-            var shipperId = _context.Shippers.Where(x => x.Email == email).Select(x => x.Id).FirstOrDefault();
+            var shipperId = _context.Shippers.Where(x => x.Email == email && !x.IsDeleted).Select(x => x.Id).FirstOrDefault();
             var listHistoryOrderShipper = new List<HistoryOrderShipperInfor>();
             var historyOrdersShipper = await _context.Orders.Where(x => !x.IsDeleted && x.IdShipper == shipperId).ToListAsync();
             if (historyOrdersShipper != null)
