@@ -63,8 +63,8 @@
         <tbody>
             @foreach (var product in Model.ListProduct)
             {
-                <tr>
-                    <td id="id-@product.Id">
+                <tr id="id-@product.Id">
+                    <td >
                         @product.Id
                     </td>
                     <td>
@@ -87,7 +87,7 @@
                         }
                     </td>
                     <td>
-                        <a asp-action="UpdateStaff" asp-route-id="@product.Id" type="button"><i class="fas fa-edit" style="font-size: 20px; color: #f0bc74;"></i></a>
+                        <a asp-action="UpdateProduct" asp-route-id="@product.Id" type="button"><i class="fas fa-edit" style="font-size: 20px; color: #f0bc74;"></i></a>
                         @{
                             string url = "/product/deleteproduct";
                         }

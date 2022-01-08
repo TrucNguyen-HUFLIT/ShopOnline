@@ -10,9 +10,7 @@
 @{ 
     bool isWaiting = Model.ListReview.Any(x => x.ReviewStatus == AppEnum.ReviewStatus.Waiting);
     bool isApproved = Model.ListReview.Any(x => x.ReviewStatus == AppEnum.ReviewStatus.Approved);
-    int currentReviewStatus = isWaiting ? 1
-                            : isApproved ? 2
-                            : 3;
+    int currentReviewStatus = isWaiting ? 1 : isApproved ? 2 : 3;
 }
 
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">

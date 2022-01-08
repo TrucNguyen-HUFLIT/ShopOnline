@@ -237,7 +237,7 @@ namespace ShopOnline.Controllers.Staff
 
         [Authorize(Roles = ROLE.STAFF)]
         [HttpGet]
-        public async Task<IActionResult> ListProductDetail()
+        public async Task<IActionResult> GetListProductDetail()
         {
             var listProductDetail = await _productBusiness.GetListProductDetail();
             return Ok(listProductDetail);
@@ -272,7 +272,7 @@ namespace ShopOnline.Controllers.Staff
         {
             var model = new ProductUpdateViewModel
             {
-                ProductUpdate = _productBusiness.GetProductByIdAsync(id),
+                ProductUpdate = await _productBusiness.GetProductByIdAsync(id),
                 ListProductDetail = await _productBusiness.GetListProductDetail(),
             };
             return View(model);
@@ -285,6 +285,13 @@ namespace ShopOnline.Controllers.Staff
         {
             await _productBusiness.UpdateProductAsync(productUpdate);
             return Ok(productUpdate.Id);
+        }
+
+        [Authorize(Roles = ROLE.STAFF)]
+        public async Task<IActionResult> DeleteProductAsync(int id)
+        {
+            await _productBusiness.DeleteProductAsync(id);
+            return Ok();
         }
 
         [Authorize(Roles = ROLE.STAFF)]

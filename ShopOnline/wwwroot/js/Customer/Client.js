@@ -74,10 +74,12 @@ function showMoreCateBtn() {
 //#region Bolder for current sort Price Products
 
 $('#sortDecrease').ready(function () {
-    let currentSort = document.getElementById('currentSort').value;
-    currentSort = currentSort.split('+');
-    if (currentSort !== "") {
-        addClassToSortProductsPrice(currentSort[0]);
+    let currentSort = document.getElementById('currentSort');
+    if (currentSort) {
+        currentSort = currentSort.value.split('+');
+        if (currentSort !== "") {
+            addClassToSortProductsPrice(currentSort[0]);
+        }
     }
 });
 
@@ -111,12 +113,14 @@ function showChangeAddress() {
 //#region Auto hide paging
 let paging = document.getElementById("products-paging");
 let errorpage = document.getElementById("error__page");
-if ($("#main__products-items").children().length == 0) {
-    paging.style.display = "none";
-    errorpage.style.display = "block";
-} else {
-    paging.style.display = "block";
-    errorpage.style.display = "none";
+if (paging && errorpage) {
+    if ($("#main__products-items").children().length == 0) {
+        paging.style.display = "none";
+        errorpage.style.display = "block";
+    } else {
+        paging.style.display = "block";
+        errorpage.style.display = "none";
+    }
 }
 //#endregion
 

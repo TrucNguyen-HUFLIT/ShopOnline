@@ -19,3 +19,50 @@
         <h2 class="h4">Update Product</h2>
     </div>
 </div>
+<div class="row">
+    <div class="col-12 col-xl-12 container-create-product">
+        <div class="card card-body border-0 shadow mb-4">
+            <h2 class="h5 mb-4">General information</h2>
+            <form enctype="multipart/form-data" id="update-product-form">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <div>
+                            <label>Product Detail</label>
+                            <input id="product-detail-id" name="IdProductDetail" hidden value="@Model.ProductUpdate.IdProductDetail" />
+                            <input name="Id" hidden value="@Model.ProductUpdate.Id" />
+                            <input id="name" name="Name" class="form-control" readonly value="@Model.ProductUpdate.Name" />
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div>
+                            <label>Price (VND)</label>
+                            <input id="price" class="form-control" placeholder="Price" readonly/>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div>
+                            <label>Base Price (VND)</label>
+                            <input id="base-price" class="form-control" placeholder="Base price" readonly/>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div>
+                            <label>Size</label>
+                            <input class="form-control" value="Size @((int)Model.ProductUpdate.Size)" readonly />
+                            <input name="Size" value="@Model.ProductUpdate.Size" hidden />
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div>
+                            <label>Product Quantity</label>
+                            <input id="product-quantity" name="Quantity" value="@Model.ProductUpdate.Quantity" class="form-control" oninput="this.value = quantityFormat(this.value)" value="1" min="1" max="50" type="number" placeholder="Enter quantity of this product"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <button type="submit" @*onclick="CreateProduct()"*@ class="btn btn-gray-800 mt-2 animate-up-2">Save all</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

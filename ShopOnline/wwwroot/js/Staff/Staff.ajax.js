@@ -1,4 +1,4 @@
-﻿ function toast(message, isSuccessfully) {
+﻿function toast(message, isSuccessfully) {
     let toast;
     let toastMessage;
 
@@ -451,6 +451,47 @@ $("#update-product-detail-form").submit(function (e) {
     });
 });
 
+$("#create-product-form").submit(function (e) {
+    e.preventDefault();
+
+    let formData = $('#create-product-form').serializeArray();
+
+    $.ajax({
+        url: '/product/CreateProduct',
+        type: "post",
+        enctype: 'multipart/form-data',
+        data: formData,
+        success: function () {
+            toast("Created product successfully", true);
+            setTimeout(() => window.location.replace("/product/listproduct"), 2000);
+        },
+        error: function (data) {
+            console.log(data)
+            toast(data.responseText, false);
+        },
+    });
+});
+
+$("#update-product-form").submit(function (e) {
+    e.preventDefault();
+
+    let formData = $('#update-product-form').serializeArray();
+    $.ajax({
+        url: '/product/UpdateProduct',
+        type: "post",
+        enctype: 'multipart/form-data',
+        data: formData,
+        success: function (data) {
+            toast("Created product successfully", true);
+            setTimeout(() => window.location.replace(`/product/UpdateProduct/${data}`), 2000);
+        },
+        error: function (data) {
+            console.log(data)
+            toast(data.responseText, false);
+        },
+    });
+});
+
 function ApproveReview(id) {
     const formData = {
         id: id
@@ -492,51 +533,3 @@ function RejectReview(id) {
         }
     })
 }
-
-$("#change-password-form").submit(function (e) {
-    e.preventDefault();
-
-    let formData = new FormData($(this)[0]);
-    $.ajax({
-        url: '/profile/changepassword',
-        type: "post",
-        async: false,
-        cache: false,
-        contentType: false,
-        enctype: 'multipart/form-data',
-        processData: false,
-        data: formData,
-        success: function (data) {
-            toast("Change password successfully", true);
-            setTimeout(() => window.location.replace(`/profile/changepassword/${data}`), 100);
-        },
-        error: function (data) {
-            console.log(data)
-            var errors = data.responseText;
-            if (errors == "Old Password is not correct") {
-                document.getElementById("OldPasswordIsNotCorrect").innerHTML = data.responseText;
-
-            }
-            try {
-
-                var objectValid = data.responseJSON;
-
-                if (objectValid["changePassword.OldPassword"] != undefined)
-                    document.getElementById("Old_Password").innerHTML = objectValid["changePassword.OldPassword"];
-                else
-                    document.getElementById("Old_Password").innerHTML = "";
-
-                if (objectValid["changePassword.NewPassword"] != undefined)
-                    document.getElementById("New_Password").innerHTML = objectValid["changePassword.NewPassword"];
-                else
-                    document.getElementById("New_Password").innerHTML = "";
-
-            }
-            catch {
-                document.getElementById("Old_Password").innerHTML = "";
-                document.getElementById("New_Password").innerHTML = "";
-
-            }
-        },
-    });
-});
