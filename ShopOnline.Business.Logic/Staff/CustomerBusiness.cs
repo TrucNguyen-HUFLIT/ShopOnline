@@ -39,8 +39,8 @@ namespace ShopOnline.Business.Logic.Customer
 
                 if (!String.IsNullOrEmpty(searchString))
                 {
-                    listCustomer = listCustomer.Where(s => s.FullName.Contains(searchString)
-                                            || s.Email.Contains(searchString)).ToList();
+                    listCustomer = listCustomer.Where(s => s.FullName.ToLower().Contains(searchString.ToLower())
+                                            || s.Email.ToLower().Contains(searchString.ToLower())).ToList();
                 }
                 listCustomer = sortOrder switch
                 {

@@ -5,6 +5,15 @@
 @model ShopOnline.Core.Models.Review.ReviewModel
 @using X.PagedList.Mvc.Core;
 @using Microsoft.AspNetCore.Mvc;
+@using ShopOnline.Core.Models.Enum;
+
+@{ 
+    bool isWaiting = Model.ListReview.Any(x => x.ReviewStatus == AppEnum.ReviewStatus.Waiting);
+    bool isApproved = Model.ListReview.Any(x => x.ReviewStatus == AppEnum.ReviewStatus.Approved);
+    int currentReviewStatus = isWaiting ? 1
+                            : isApproved ? 2
+                            : 3;
+}
 
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
     <div class="d-block mb-4 mb-md-0">
@@ -30,10 +39,24 @@
                 <div class="input-group me-2 me-lg-3 fmxw-400">
                     @*<input type="text" class="form-control" id="searchString" name="searchString" placeholder="Find by name or email">*@
                     <select class="form-select" name="reviewStatus" aria-label="Default select example">
-                        <option value="0" selected>Select Status Review</option>
-                        <option value="1"> Waiting  </option>
-                        <option value="2"> Approved </option>
-                        <option value="3"> Rejected </option>
+                        @if (isWaiting)
+                        {
+                            <option value="1" selected> Waiting</option>
+                            <option value="2">Approved</option>
+                            <option value="3">Rejected</option>
+                        }
+                        else if (isApproved)
+                        {
+                            <option value="1">Waiting</option>
+                            <option value="2" selected>Approved</option>
+                            <option value="3">Rejected</option>
+                        }
+                        else
+                        {
+                            <option value="1">Waiting</option>
+                            <option value="2">Approved</option>
+                            <option value="3" selected>Rejected</option>
+                        }
                     </select>
                     <button type="submit" value="Search" class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
                         Search
@@ -50,7 +73,7 @@
                 <th>Customer</th>
                 <th>Product</th>
                 <th>Content</th>
-                <th>Review Time</th>
+                <th>@Html.ActionLink("Review Time", "ListReview", new { sortOrder = ViewBag.ReviewTimeSortParm, reviewStatus = currentReviewStatus })</th>
                 <th>Status</th>
                 <th>Action</th>
             </tr>
@@ -114,6 +137,6 @@
     </table>
     Page @(Model.ListReview.PageCount < Model.ListReview.PageNumber ? 0 : Model.ListReview.PageNumber) of @Model.ListReview.PageCount
     @Html.PagedListPager(Model.ListReview, page => Url.Action("ListReview",
-    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+    new { page, sortOrder = ViewBag.CurrentSort, reviewStatus = currentReviewStatus, currentFilter = ViewBag.CurrentFilter }))
     @*<div class="fw-normal small mt-4 mt-lg-0">Showing <b>5</b> out of <b>25</b> entries</div>*@
 </div>

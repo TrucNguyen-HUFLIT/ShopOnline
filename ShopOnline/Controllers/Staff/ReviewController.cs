@@ -19,15 +19,13 @@ namespace ShopOnline.Controllers.Staff
         }
 
         [Authorize(Roles = ROLE.STAFF)]
-        public async Task<IActionResult> ListReviewAsync(string sortOrder, string currentFilter, int? reviewStatus, int? page)
+        public async Task<IActionResult> ListReviewAsync(string sortOrder, string currentFilter, int reviewStatus, int? page)
         {
             ViewBag.CurrentSort = sortOrder;
-            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) || sortOrder.Equals("name") ? "name_desc" : "name";
+            ViewBag.ReviewTimeSortParm = String.IsNullOrEmpty(sortOrder) ? "id" : "";
 
-            ViewBag.IdSortParm = String.IsNullOrEmpty(sortOrder) ? "id_desc" : "";
-
-            if (reviewStatus != null) page = 1;
-            reviewStatus ??= 0;
+            if (page == 0 || page == null) page = 1;
+            reviewStatus = reviewStatus == 0 ? 1 : reviewStatus;
             ViewBag.CurrentFilter = reviewStatus;
 
             var enumReviewStatus = (ReviewStatus)reviewStatus;

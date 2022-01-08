@@ -166,6 +166,7 @@ namespace ShopOnline.Business.Logic.Customer
 
                     if (newQuantity < 0)
                     {
+                        transaction.Rollback();
                         throw new UserFriendlyException(ErrorCode.OutOfStock);
                     }
                     else
@@ -186,6 +187,7 @@ namespace ShopOnline.Business.Logic.Customer
                 _context.OrderDetails.AddRange(orderDetails);
 
                 await _context.SaveChangesAsync();
+                transaction.Commit();
                 await RemoveAllProductFromCartAsync();
                 return orderEntity.Id;
             }

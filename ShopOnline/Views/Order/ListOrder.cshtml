@@ -16,7 +16,7 @@
                     </a>
                 </li>
                 <li class="breadcrumb-item"><a>Order Management</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Index</li>
+                <li class="breadcrumb-item active" aria-current="page">List Order</li>
             </ol>
         </nav>
         <h2 class="h4">List Order</h2>
@@ -52,12 +52,11 @@
     <table class="table table-hover">
         <thead>
             <tr>
-                <th>#@Html.ActionLink("Id", "Index", new { sortOrder = ViewBag.IDSortParm })</th>
-                <th>@Html.DisplayNameFor(model => model.orderInfor.Id)</th>
-                <th>  @Html.ActionLink("FullName", "Index", new { sortOrder = ViewBag.NameSortParm })</th>
-                <th>@Html.DisplayNameFor(model => model.orderInfor.IdCustomer)</th>
-                <th>@Html.DisplayNameFor(model => model.orderInfor.OrderDay)</th>
-                <th>@Html.DisplayNameFor(model => model.orderInfor.StatusOrder)</th>
+                <th>#Id</th>
+                @*<th>  @Html.ActionLink("FullName", "ListOrder", new { sortOrder = ViewBag.NameSortParm })</th>*@
+                @*<th>@Html.DisplayNameFor(model => model.orderInfor.IdCustomer)</th>*@
+                <th>@Html.ActionLink("Order Day", "ListOrder", new { sortOrder = ViewBag.OrderDay })</th>
+                <th>Status</th>
             </tr>
         </thead>
         <tbody>
@@ -73,9 +72,9 @@
                     <td>
                         @order.StatusOrder
                     </td>
-                    <td>
+                    @*<td>
                         @order.IdCustomer
-                    </td>
+                    </td>*@
 
                 </tr>
             }
