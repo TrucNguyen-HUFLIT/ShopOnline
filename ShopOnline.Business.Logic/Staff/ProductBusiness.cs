@@ -302,12 +302,13 @@ namespace ShopOnline.Business.Logic.Staff
 
         public async Task<List<ProductDetailInfor>> GetListProductDetail()
         {
-            var productDetails = await _context.ProductDetails.Where(x => !x.IsDeleted).Select(x => new ProductDetailInfor
+            var productDetails = await _context.ProductDetails.Where(x => !x.IsDeleted && x.Status == AppEnum.ProductStatus.Available).Select(x => new ProductDetailInfor
             {
                 Name = x.Name,
                 Id = x.Id,
                 Pic1 = x.Pic1,
                 Price = x.Price,
+                BasePrice = x.BasePrice,
                 Status = x.Status,
                 IdProductType = x.IdProductType,
             }).ToListAsync();
@@ -469,9 +470,6 @@ namespace ShopOnline.Business.Logic.Staff
                 Quantity = x.Quantity,
                 IdProductDetail = x.IdProductDetail,
                 Size = x.Size,
-                Pic1 = x.ProductDetail.Pic1,
-                Pic2 = x.ProductDetail.Pic2,
-                Pic3 = x.ProductDetail.Pic3,
             }).FirstOrDefault();
 
             return product;

@@ -74,10 +74,8 @@ namespace ShopOnline.Business.Logic.Staff
 
             queryReview = sortOrder switch
             {
-                "name_desc" => queryReview.OrderByDescending(x => x.Content),
-                "name" => queryReview.OrderBy(x => x.Content),
-                "id_desc" => queryReview.OrderByDescending(x => x.Id),
-                _ => queryReview.OrderBy(x => x.Id),
+                "id" => queryReview.OrderBy(x => x.ReviewTime),
+                _ => queryReview.OrderByDescending(x => x.ReviewTime),
             };
 
             var listReview = await queryReview.Select(review => new ReviewInfor

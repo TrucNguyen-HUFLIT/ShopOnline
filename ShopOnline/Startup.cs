@@ -12,6 +12,7 @@ using ShopOnline.Business.Customer;
 using ShopOnline.Business.Logic;
 using ShopOnline.Business.Logic.Customer;
 using ShopOnline.Business.Logic.Staff;
+using ShopOnline.Business.Order;
 using ShopOnline.Business.Staff;
 using ShopOnline.Core;
 using ShopOnline.Core.Filters;
@@ -35,7 +36,7 @@ namespace ShopOnline
         {
             services.AddControllersWithViews();
 
-            services.AddDbContext<MyDbContext>(option => option.UseSqlServer(_configuration.GetConnectionString("HuyConnectionString")));
+            services.AddDbContext<MyDbContext>(option => option.UseSqlServer(_configuration.GetConnectionString("TrucConnectionString")));
 
             // Use AppSetting by DI
             var appSetting = _configuration.GetSection("AppSetting");
@@ -77,6 +78,7 @@ namespace ShopOnline
             services.AddScoped<IProductBusiness, ProductBusiness>();
             services.AddScoped<IReviewBusiness, ReviewBusiness>();
             services.AddScoped<ICustomerBusiness, CustomerBusiness>();
+            services.AddScoped<IOrderBusiness, OrderBusiness>();
 
         }
 

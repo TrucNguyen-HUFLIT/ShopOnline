@@ -97,7 +97,7 @@ namespace ShopOnline.Business.Logic.Customer
                                                             })
                                                             .ToList(),
                                             ReviewsDetail = x.ReviewDetails
-                                                            .Where(y => !y.IsDeleted)
+                                                            .Where(y => !y.IsDeleted && y.ReviewStatus == ReviewStatus.Approved)
                                                             .Select(y => new ReviewDetailViewModel
                                                             {
                                                                 Id = y.Id,

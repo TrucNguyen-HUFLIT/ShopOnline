@@ -38,7 +38,5 @@ namespace ShopOnline.Business.Staff
         Task CreateProductAsync(ProductCreate productCreate);
         Task<bool> UpdateProductAsync(ProductUpdate productUpdate);
 
-
-
     }
 }

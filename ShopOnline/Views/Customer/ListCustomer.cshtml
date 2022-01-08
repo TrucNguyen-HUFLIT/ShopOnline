@@ -16,7 +16,7 @@
                     </a>
                 </li>
                 <li class="breadcrumb-item"><a>Customer Management</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Index</li>
+                <li class="breadcrumb-item active" aria-current="page">List Customer</li>
             </ol>
         </nav>
         <h2 class="h4">List Customer</h2>
@@ -50,7 +50,7 @@
                 <th>@Html.DisplayNameFor(model => model.customerInfor.Avatar)</th>
                 <th>  @Html.ActionLink("FullName", "ListCustomer", new { sortOrder = ViewBag.NameSortParm })</th>
                 <th>@Html.DisplayNameFor(model => model.customerInfor.Email)</th>
-                <th>@Html.DisplayNameFor(model => model.customerInfor.PhoneNumber)</th>
+                <th>Phone Number</th>
                 <th>@Html.DisplayNameFor(model => model.customerInfor.Address)</th>
             </tr>
         </thead>

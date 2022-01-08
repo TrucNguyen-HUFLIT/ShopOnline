@@ -18,14 +18,10 @@ namespace ShopOnline.Controllers.Staff
         }
 
         [Authorize(Roles = ROLE.STAFF)]
-        public async Task<IActionResult> ListOder(string sortOrder, string currentFilter, string searchString, int? page)
+        public async Task<IActionResult> ListOrder(string sortOrder, string currentFilter, string searchString, int? page)
         {
             ViewBag.CurrentSort = sortOrder;
-            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) || sortOrder.Equals("name") ? "name_desc" : "name";
-
-            ViewBag.IdSortParm = String.IsNullOrEmpty(sortOrder) ? "id_desc" : "";
-
-            //StaticAcc.Name = User.Claims.Where(x => x.Type == "name").FirstOrDefault().Value;
+            ViewBag.OrderDay = String.IsNullOrEmpty(sortOrder) ? "order_day_desc" : ""; 
 
             if (searchString != null) page = 1;
             else searchString = currentFilter;
@@ -35,7 +31,6 @@ namespace ShopOnline.Controllers.Staff
             {
                 ListOrder = await _orderBusiness.GetListOrderAsync(sortOrder, currentFilter, searchString, page)
             };
-
 
             return View(model);
         }

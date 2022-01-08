@@ -9,8 +9,8 @@ namespace ShopOnline.Core.Helpers
     {
         public static BrandSingleton Instance { get; } = new BrandSingleton();
         public List<BrandInforModel> BrandInfors { get; } = new List<BrandInforModel>();
-        private List<int> Ids { get; } = new List<int>();
         private BrandSingleton() { }
+        private List<int> Ids { get; } = new List<int>();
 
         public void Init(List<BrandInforModel> brandInfors)
         {

@@ -5,7 +5,9 @@ using ShopOnline.Core.Filters;
 using ShopOnline.Core.Models;
 using ShopOnline.Core.Models.Product;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
+using static ShopOnline.Core.Models.Enum.AppEnum;
 
 namespace ShopOnline.Controllers.Staff
 {
@@ -235,13 +237,22 @@ namespace ShopOnline.Controllers.Staff
 
         [Authorize(Roles = ROLE.STAFF)]
         [HttpGet]
+        public async Task<IActionResult> ListProductDetail()
+        {
+            var listProductDetail = await _productBusiness.GetListProductDetail();
+            return Ok(listProductDetail);
+        }
+
+        [Authorize(Roles = ROLE.STAFF)]
+        [HttpGet]
         public async Task<IActionResult> CreateProduct()
         {
             var model = new ProductCreateViewModel
             {
-                ProductCreate = new ProductCreate(),
+                ListProductSize = Enum.GetValues(typeof(ProductSize)).Cast<ProductSize>().ToList(),
                 ListProductDetail = await _productBusiness.GetListProductDetail(),
             };
+
             return View(model);
         }
 
