@@ -381,7 +381,8 @@ namespace ShopOnline.Business.Logic
                     userInfor = await _context.Customers
                                         .Where(x => x.Email == email && !x.IsDeleted)
                                         .Select(x => new ChangePassword
-                                        {   UserId = x.Id,         
+                                        { 
+                                            UserId = x.Id,         
                                             Email = x.Email,
                                             Role = x.TypeAcc
                                         })

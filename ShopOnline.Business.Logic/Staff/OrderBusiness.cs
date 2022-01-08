@@ -1,9 +1,12 @@
-﻿using ShopOnline.Business.Order;
+﻿using Microsoft.EntityFrameworkCore;
+using ShopOnline.Business.Order;
 using ShopOnline.Core;
 using ShopOnline.Core.Models.Enum;
+using ShopOnline.Core.Models.HistoryOrder;
 using ShopOnline.Core.Models.Order;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using X.PagedList;
 
@@ -104,6 +107,78 @@ namespace ShopOnline.Business.Logic.Staff
                 return listOrder.ToPagedList(pageNumber, pageSize);
             }
 
+            return null;
+        }
+
+        public async Task<IPagedList<HistoryOrderInfor>> GetHistoryOrderCustomerAsync(string sortOrder, string currentFilter, string searchString, int? page, ClaimsPrincipal user)
+        {
+            string email = user.FindFirst(ClaimTypes.Email).Value;
+            var customerId = _context.Customers.Where(x => x.Email == email).Select(x => x.Id).FirstOrDefault();
+            var listHistoryOrder = new List<HistoryOrderInfor>();
+            var historyOrders = await _context.Orders.Where(x => !x.IsDeleted && x.IdCustomer == customerId).ToListAsync();
+            if (historyOrders != null)
+            {
+                foreach (var historyOrder in historyOrders)
+                {
+                    var totalPrice = await _context.OrderDetails.Where(x => x.IdOrder == historyOrder.Id).Select(x => x.TotalPrice).FirstOrDefaultAsync();
+                    var historyOrderInfor = new HistoryOrderInfor
+                    {
+                        Id = historyOrder.Id,
+                        OrderDay = historyOrder.OrderDay,
+                        Address = historyOrder.Address,
+                        ExtraFee = historyOrder.ExtraFee,
+                        StatusOrder = historyOrder.StatusOrder,
+                        Payment = historyOrder.Payment,
+                        TotalPrice = totalPrice
+                    };
+                    listHistoryOrder.Add(historyOrderInfor);
+                }
+                listHistoryOrder = sortOrder switch
+                {
+                    "order_day_desc" => listHistoryOrder.OrderBy(x => x.OrderDay).ToList(),
+                    _ => listHistoryOrder.OrderByDescending(x => x.OrderDay).ToList(),
+                };
+                int pageSize = 10;
+                int pageNumber = (page ?? 1);
+                return listHistoryOrder.ToPagedList(pageNumber, pageSize);
+            }
+
+            return null;
+        }
+
+        public async Task<IPagedList<HistoryOrderShipperInfor>> GetHistoryOrderShipperAsync(string sortOrder, string currentFilter, string searchString, int? page, ClaimsPrincipal user)
+        {
+            string email = user.FindFirst(ClaimTypes.Email).Value;
+            var shipperId = _context.Shippers.Where(x => x.Email == email).Select(x => x.Id).FirstOrDefault();
+            var listHistoryOrderShipper = new List<HistoryOrderShipperInfor>();
+            var historyOrdersShipper = await _context.Orders.Where(x => !x.IsDeleted && x.IdShipper == shipperId).ToListAsync();
+            if (historyOrdersShipper != null)
+            {
+                foreach (var historyOrderShipper in historyOrdersShipper)
+                {
+                    var totalPrice = await _context.OrderDetails.Where(x => x.IdOrder == historyOrderShipper.Id).Select(x => x.TotalPrice).FirstOrDefaultAsync();
+                    var historyOrderInfor = new HistoryOrderShipperInfor
+                    {
+                        Id = historyOrderShipper.Id,
+                        OrderDay = historyOrderShipper.OrderDay,
+                        Address = historyOrderShipper.Address,
+                        ExtraFee = historyOrderShipper.ExtraFee,
+                        StatusOrder = historyOrderShipper.StatusOrder,
+                        Payment = historyOrderShipper.Payment,
+                        IdCustomer = historyOrderShipper.IdCustomer,
+                        TotalPrice = totalPrice
+                    };
+                    listHistoryOrderShipper.Add(historyOrderInfor);
+                }
+                listHistoryOrderShipper = sortOrder switch
+                {
+                    "order_day" => listHistoryOrderShipper.OrderBy(x => x.OrderDay).ToList(),
+                    _ => listHistoryOrderShipper.OrderByDescending(x => x.OrderDay).ToList(),
+                };
+                int pageSize = 10;
+                int pageNumber = (page ?? 1);
+                return listHistoryOrderShipper.ToPagedList(pageNumber, pageSize);
+            }
             return null;
         }
     }
