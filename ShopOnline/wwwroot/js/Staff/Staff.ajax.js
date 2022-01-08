@@ -1,4 +1,4 @@
-﻿function toast(message, isSuccessfully) {
+﻿ function toast(message, isSuccessfully) {
     let toast;
     let toastMessage;
 
@@ -492,3 +492,51 @@ function RejectReview(id) {
         }
     })
 }
+
+$("#change-password-form").submit(function (e) {
+    e.preventDefault();
+
+    let formData = new FormData($(this)[0]);
+    $.ajax({
+        url: '/profile/changepassword',
+        type: "post",
+        async: false,
+        cache: false,
+        contentType: false,
+        enctype: 'multipart/form-data',
+        processData: false,
+        data: formData,
+        success: function (data) {
+            toast("Change password successfully", true);
+            setTimeout(() => window.location.replace(`/profile/changepassword/${data}`), 100);
+        },
+        error: function (data) {
+            console.log(data)
+            var errors = data.responseText;
+            if (errors == "Old Password is not correct") {
+                document.getElementById("OldPasswordIsNotCorrect").innerHTML = data.responseText;
+
+            }
+            try {
+
+                var objectValid = data.responseJSON;
+
+                if (objectValid["changePassword.OldPassword"] != undefined)
+                    document.getElementById("Old_Password").innerHTML = objectValid["changePassword.OldPassword"];
+                else
+                    document.getElementById("Old_Password").innerHTML = "";
+
+                if (objectValid["changePassword.NewPassword"] != undefined)
+                    document.getElementById("New_Password").innerHTML = objectValid["changePassword.NewPassword"];
+                else
+                    document.getElementById("New_Password").innerHTML = "";
+
+            }
+            catch {
+                document.getElementById("Old_Password").innerHTML = "";
+                document.getElementById("New_Password").innerHTML = "";
+
+            }
+        },
+    });
+});

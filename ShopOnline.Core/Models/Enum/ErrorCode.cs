@@ -77,6 +77,10 @@ namespace ShopOnline.Core.Models.Enum
         User = ErrorCode + 3000,
 
         [Display(GroupName = "User")]
+        [Description("Old Password is not correct")]
+        OldPasswordNotCorrect = User + 1,
+
+        [Display(GroupName = "User")]
         [Description("Not found user")]
         NotFoundUser = Cart + 1,
 

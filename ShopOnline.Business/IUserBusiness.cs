@@ -15,5 +15,8 @@ namespace ShopOnline.Business
 
         Task ResetPasswordAsync(ResetPasswordModel resetPasswordModel);
         Task<bool> UpdateProfileAsync(UserInfor userInfor);
+
+        Task<ChangePassword> GetInforUserChangePassword(ClaimsPrincipal user);
+        Task<bool> ChangePasswordUser(ChangePassword changePassword);
     }
 }
