@@ -26,8 +26,6 @@ namespace ShopOnline.Controllers.Staff
 
             ViewBag.IdSortParm = String.IsNullOrEmpty(sortOrder) ? "id_desc" : "";
 
-            //StaticAcc.Name = User.Claims.Where(x => x.Type == "name").FirstOrDefault().Value;
-
             if (searchString != null) page = 1;
             else searchString = currentFilter;
             ViewBag.CurrentFilter = searchString;

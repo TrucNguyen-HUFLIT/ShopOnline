@@ -92,8 +92,8 @@ namespace ShopOnline.Business.Logic.Staff
 
                 if (!String.IsNullOrEmpty(searchString))
                 {
-                    listStaff = listStaff.Where(s => s.FullName.Contains(searchString)
-                                            || s.Email.Contains(searchString)).ToList();
+                    listStaff = listStaff.Where(s => s.FullName.ToLower().Contains(searchString.ToLower())
+                                            || s.Email.ToLower().Contains(searchString.ToLower())).ToList();
                 }
                 listStaff = sortOrder switch
                 {
