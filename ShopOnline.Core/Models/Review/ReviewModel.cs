@@ -2,9 +2,6 @@
 using ShopOnline.Core.Models.Product;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using X.PagedList;
 using static ShopOnline.Core.Models.Enum.AppEnum;
 
@@ -17,13 +14,13 @@ namespace ShopOnline.Core.Models.Review
         public List<CustomerInfor> ListCustomer { get; set; }
         public IPagedList<ReviewInfor> ListReview { get; set; }
     }
-     public class ReviewInfor
-     {
+    public class ReviewInfor
+    {
         public int Id { get; set; }
         public string Content { get; set; }
         public DateTime ReviewTime { get; set; }
         public ReviewStatus ReviewStatus { get; set; }
         public int IdCustomer { get; set; }
         public int IdProductDetail { get; set; }
-     }
+    }
 }

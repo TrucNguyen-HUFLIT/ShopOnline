@@ -1,9 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ShopOnline.Business.Customer;
+using ShopOnline.Business.Order;
 using ShopOnline.Core.Helpers;
 using ShopOnline.Core.Models;
 using ShopOnline.Core.Models.Client;
+using ShopOnline.Core.Models.HistoryOrder;
+using System;
 using System.Threading.Tasks;
 
 namespace ShopOnline.Controllers.Customer
@@ -11,10 +14,12 @@ namespace ShopOnline.Controllers.Customer
     public class ClientController : Controller
     {
         private readonly IClientBusiness _clientBusiness;
+        private readonly IOrderBusiness _orderBusiness;
 
-        public ClientController(IClientBusiness clientBusiness)
+        public ClientController(IClientBusiness clientBusiness, IOrderBusiness orderBusiness)
         {
             _clientBusiness = clientBusiness;
+            _orderBusiness = orderBusiness;
         }
 
         [HttpGet]
@@ -71,6 +76,24 @@ namespace ShopOnline.Controllers.Customer
             };
 
             return View(productsBrandPageViewModel);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ListHistoryOrderCustomerAsync(string sortOrder, string currentFilter, string searchString, int? page)
+        {
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.OrderDay = String.IsNullOrEmpty(sortOrder) ? "order_day" : "";
+
+            if (searchString != null) page = 1;
+            else searchString = currentFilter;
+            ViewBag.CurrentFilter = searchString;
+
+            var model = new HistoryOrderModel
+            {
+                ListHistoryOrder = await _orderBusiness.GetHistoryOrderCustomerAsync(sortOrder, currentFilter, searchString, page, User)
+            };
+
+            return View(model);
         }
     }
 }

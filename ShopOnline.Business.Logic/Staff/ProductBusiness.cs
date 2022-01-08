@@ -10,7 +10,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 using X.PagedList;
 
@@ -479,8 +478,8 @@ namespace ShopOnline.Business.Logic.Staff
         public async Task CreateProductAsync(ProductCreate productCreate)
         {
             var product = await _context.Products
-                            .Where(x => !x.IsDeleted 
-                            && x.IdProductDetail == productCreate.IdProductDetail 
+                            .Where(x => !x.IsDeleted
+                            && x.IdProductDetail == productCreate.IdProductDetail
                             && x.Size == productCreate.Size)
                             .FirstOrDefaultAsync();
 
