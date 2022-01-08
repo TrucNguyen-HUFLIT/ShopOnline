@@ -94,20 +94,24 @@
                 <h2 class="h5 my-4">Password Info</h2>
                 <div class="row">
                     <div class="col-md-6 mb-3">
-                        <div>
+                        <div class="main__register-check-password">
                             <label>Password</label>
-                            <input asp-for="StaffCreate.Password" class="form-control" type="password" placeholder="Enter password">
+                            <input asp-for="StaffCreate.Password" type="password" id="password" class="form-control input-decor" oninput="strengthChecker()" placeholder="Enter password">
                             <span asp-validation-for="StaffCreate.Password" class="text-danger" id="Err_Password"></span>
+                            <div id="strength-bar"></div>
                         </div>
+                        <p id="password_msg" class="text-msg-error"></p>
                     </div>
                     <div class="col-md-6 mb-3">
-                        <div>
+                        <div class="main__register-check-password">
                             <label>Confirm Password</label>
-                            <input asp-for="StaffCreate.ConfirmPassword" class="form-control" type="password" placeholder="Confirm pasword">
+                            <input asp-for="StaffCreate.ConfirmPassword" id="confirm-password" class="form-control input-decor" oninput="checkPassword()" type="password" placeholder="Confirm pasword">
                             <span asp-validation-for="StaffCreate.ConfirmPassword" class="text-danger" id="Err_ConfirmPassword"></span>
                         </div>
+                        <p id="confirmpassword_msg" class="text-msg-error"></p>
                     </div>
                 </div>
+                <p id="msg"></p>
                 <div class="mt-3">
                     <button type="submit" class="btn btn-gray-800 mt-2 animate-up-2">Save all</button>
                 </div>
