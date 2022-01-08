@@ -131,6 +131,10 @@ namespace ShopOnline.Core.Models.Enum
         [Description("Product doesn't exist")]
         ProductNotExisted = Product + 2,
 
+        [Display(GroupName = "Product")]
+        [Description("Cannot delete this, please check the orders related to this")]
+        CannotDeleteProduct = Product + 3,
+
         #endregion
     }
 }

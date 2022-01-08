@@ -41,7 +41,7 @@
                     </div>
                     <div class="col-md-6 mb-3">
                         <label>Status</label>
-                        <select class="form-select w-100 mb-0" asp-for="ProductDetailCreate.Status">
+                        <select asp-for="ProductDetailCreate.Status">
                             <option value="1">Availble</option>
                             <option value="2">Unavailble</option>
                         </select>
@@ -51,7 +51,7 @@
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label>ProductType</label>
-                        <select class="form-select mb-0" asp-for="ProductDetailCreate.IdProductType">
+                        <select asp-for="ProductDetailCreate.IdProductType">
                             @foreach (var item in Model.ListProductType)
                             {
                                 <option value="@item.Id">@item.Name </option>

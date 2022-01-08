@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using X.PagedList;
 
@@ -180,7 +181,7 @@ namespace ShopOnline.Business.Logic.Staff
 
         public async Task<List<BrandInfor>> GetListBrand()
         {
-            var brands = await _context.Brands.Select(x => new BrandInfor
+            var brands = await _context.Brands.Where(x => !x.IsDeleted).Select(x => new BrandInfor
             {
                 BrandName = x.Name,
                 Id = x.Id,
@@ -461,24 +462,29 @@ namespace ShopOnline.Business.Logic.Staff
             return productDetail;
         }
 
-        public ProductUpdate GetProductByIdAsync(int id)
+        public async Task<ProductUpdate> GetProductByIdAsync(int id)
         {
-            var product = _context.Products.Where(x => x.Id == id && !x.IsDeleted).Select(x => new ProductUpdate
+            var product = await _context.Products.Where(x => x.Id == id && !x.IsDeleted).Select(x => new ProductUpdate
             {
                 Id = x.Id,
                 Name = x.Name,
                 Quantity = x.Quantity,
                 IdProductDetail = x.IdProductDetail,
                 Size = x.Size,
-            }).FirstOrDefault();
+            }).FirstOrDefaultAsync();
 
             return product;
         }
 
         public async Task CreateProductAsync(ProductCreate productCreate)
         {
-            var product = await _context.Products.Where(x => x.Name == productCreate.Name && !x.IsDeleted).Select(x => x.Name).FirstOrDefaultAsync();
-            if (product == null && product.Any())
+            var product = await _context.Products
+                            .Where(x => !x.IsDeleted 
+                            && x.IdProductDetail == productCreate.IdProductDetail 
+                            && x.Size == productCreate.Size)
+                            .FirstOrDefaultAsync();
+
+            if (product == null)
             {
                 var productEntity = new ProductEntity
                 {
@@ -489,26 +495,22 @@ namespace ShopOnline.Business.Logic.Staff
                 };
 
                 _context.Products.Add(productEntity);
-                await _context.SaveChangesAsync();
             }
             else
             {
-                throw new UserFriendlyException(ErrorCode.ProductExisted);
+                product.Quantity += productCreate.Quantity;
+                _context.Products.Update(product);
             }
+
+            await _context.SaveChangesAsync();
         }
 
         public async Task<bool> UpdateProductAsync(ProductUpdate productUpdate)
         {
             var productEntity = await _context.Products.Where(x => x.Id == productUpdate.Id && !x.IsDeleted).FirstOrDefaultAsync();
-            var productName = productUpdate.Name.ToLower().Trim();
 
-            if (productEntity.Name.ToLower().Trim() != productName)
+            if (productEntity != null)
             {
-                bool isExistedProductName = await _context.ProductDetails.AnyAsync(x => x.Name.ToLower().Trim() == productName && !x.IsDeleted);
-                if (isExistedProductName) throw new UserFriendlyException(ErrorCode.ProductExisted);
-                productEntity.Name = productUpdate.Name;
-                productEntity.Size = productUpdate.Size;
-                productEntity.IdProductDetail = productUpdate.IdProductDetail;
                 productEntity.Quantity = productUpdate.Quantity;
 
                 _context.Products.Update(productEntity);
@@ -517,6 +519,31 @@ namespace ShopOnline.Business.Logic.Staff
             }
 
             return false;
+        }
+
+        public async Task<bool> DeleteProductAsync(int id)
+        {
+            var product = await _context.Products.Where(x => x.Id == id && !x.IsDeleted).FirstOrDefaultAsync();
+            if (product != null)
+            {
+                var isCannotDelete = await _context.Products.Where(x => x.Id == id).AnyAsync(x => x.OrderDetails.Any(y => y.Order.StatusOrder == AppEnum.StatusOrder.Accepted
+                                                                              || y.Order.StatusOrder == AppEnum.StatusOrder.Processing
+                                                                              || y.Order.StatusOrder == AppEnum.StatusOrder.Delivering));
+
+                if (isCannotDelete)
+                {
+                    throw new UserFriendlyException(ErrorCode.CannotDeleteProduct);
+                }
+
+                product.IsDeleted = true;
+                _context.Products.Update(product);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public async Task<bool> DeleteBrandAsync(int id)

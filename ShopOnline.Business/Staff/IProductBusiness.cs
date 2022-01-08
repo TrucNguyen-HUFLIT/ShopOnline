@@ -34,8 +34,9 @@ namespace ShopOnline.Business.Staff
         // Product
         Task<IPagedList<ProductInfor>> GetListProductAsync(string sortOrder, string currentFilter, string searchString, int? page);
         Task<List<ProductDetailInfor>> GetListProductDetail();
-        ProductUpdate GetProductByIdAsync(int id);
+        Task<ProductUpdate> GetProductByIdAsync(int id);
         Task CreateProductAsync(ProductCreate productCreate);
+        Task<bool> DeleteProductAsync(int id);
         Task<bool> UpdateProductAsync(ProductUpdate productUpdate);
 
     }

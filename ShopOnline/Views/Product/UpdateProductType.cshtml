@@ -50,7 +50,7 @@
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label>Brands</label>
-                        <select class="form-select mb-0" asp-for="productType.IdBrand">
+                        <select asp-for="productType.IdBrand">
                             @foreach (var item in Model.ListBrand)
                             {
                                 <option value="@item.Id">@item.BrandName </option>
