@@ -36,10 +36,6 @@
     color: white;
 }
 
-.container-create-product {
-    height: 600px;
-}
-
-.selectize-dropdown .option {
-    cursor: pointer;
+.inline {
+    display:inline;
 }

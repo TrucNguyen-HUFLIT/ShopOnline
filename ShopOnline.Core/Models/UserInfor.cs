@@ -21,4 +21,23 @@ namespace ShopOnline.Core.Models
     {
         public UserInfor UserInfor { get; set; }
     }
+
+    public class ChangePasswordViewModel
+    {
+        public ChangePassword ChangePassword { get; set; }
+    }
+
+    public class InforChangePassword
+    {
+        public int UserId { get; set; }
+        public TypeAcc Role { get; set; }
+        public string Email { get; set; }
+    }
+
+    public class ChangePassword : InforChangePassword
+    {
+        public string OldPassword { get; set; }
+        public string NewPassword { get; set; }
+        public string ConfirmPassword { get; set; }
+    }
 }

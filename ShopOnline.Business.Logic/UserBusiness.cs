@@ -363,5 +363,147 @@ namespace ShopOnline.Business.Logic
             await _context.SaveChangesAsync();
             return true;
         }
+
+        public async Task<ChangePassword> GetInforUserChangePassword(ClaimsPrincipal user)
+        {
+            string email = user.FindFirst(ClaimTypes.Email).Value;
+            var userInfor = new ChangePassword();
+            if (email == null)
+                return userInfor;
+
+            string role = user.FindFirst(ClaimTypes.Role).Value;
+            role = char.ToUpper(role[0]) + role.Substring(1);
+            Enum.TryParse(role, out TypeAcc enumRole);
+
+            switch (enumRole)
+            {
+                case TypeAcc.Customer:
+                    userInfor = await _context.Customers
+                                        .Where(x => x.Email == email && !x.IsDeleted)
+                                        .Select(x => new ChangePassword
+                                        {   UserId = x.Id,         
+                                            Email = x.Email,
+                                            Role = x.TypeAcc
+                                        })
+                                        .FirstOrDefaultAsync();
+                    break;
+                case TypeAcc.Shipper:
+                    userInfor = await _context.Shippers
+                                        .Where(x => x.Email == email && !x.IsDeleted)
+                                        .Select(x => new ChangePassword
+                                        {
+                                            UserId = x.Id,
+                                            Email = x.Email,
+                                            Role = x.TypeAcc
+                                        })
+                                        .FirstOrDefaultAsync();
+                    break;
+                case TypeAcc.Staff:
+                    userInfor = await _context.Staffs
+                                        .Where(x => x.Email == email && !x.IsDeleted && x.TypeAcc == TypeAcc.Staff)
+                                        .Select(x => new ChangePassword
+                                        {
+                                            UserId = x.Id,
+                                            Email = x.Email,
+                                            Role = x.TypeAcc
+                                        })
+                                        .FirstOrDefaultAsync();
+                    break;
+                case TypeAcc.Manager:
+                    userInfor = await _context.Staffs
+                                        .Where(x => x.Email == email && !x.IsDeleted && x.TypeAcc == TypeAcc.Manager)
+                                        .Select(x => new ChangePassword
+                                        {
+                                            UserId = x.Id,
+                                            Email = x.Email,
+                                            Role = x.TypeAcc
+                                        })
+                                        .FirstOrDefaultAsync();
+                    break;
+                default: // Admin
+                    userInfor = await _context.Staffs
+                                        .Where(x => x.Email == email && !x.IsDeleted && x.TypeAcc == TypeAcc.Admin)
+                                        .Select(x => new ChangePassword
+                                        {
+                                            UserId = x.Id,
+                                            Email = x.Email,
+                                            Role = x.TypeAcc
+                                        })
+                                        .FirstOrDefaultAsync();
+                    break;
+            }
+
+            return userInfor;
+        }
+
+        public async Task<bool> ChangePasswordUser(ChangePassword changePassword)
+        {
+            string password;
+            switch (changePassword.Role)
+            {
+                case TypeAcc.Customer:
+                    var customerProfile = await _context.Customers.Where(x => x.Id == changePassword.UserId && x.Email == changePassword.Email && !x.IsDeleted)
+                                        .FirstOrDefaultAsync();
+                    
+                    if (customerProfile == null)
+                        throw new UserFriendlyException(ErrorCode.NotFoundUser);
+                    HashPasswordHelper.HashPasswordStrategy = new HashMD5Strategy();
+                    password = HashPasswordHelper.DoHash(changePassword.OldPassword);
+                    if (customerProfile.Password == password)
+                    {
+                        customerProfile.Password = HashPasswordHelper.DoHash(changePassword.NewPassword);
+                        _context.Customers.Update(customerProfile);
+                    }    
+                    else
+                    {
+                        throw new UserFriendlyException(ErrorCode.OldPasswordNotCorrect);
+                    }    
+
+                    break;
+                case TypeAcc.Shipper:
+                    var shipperProfile = await _context.Shippers.Where(x => x.Id == changePassword.UserId && x.Email == changePassword.Email && !x.IsDeleted)
+                                        .FirstOrDefaultAsync();
+
+                    if (shipperProfile == null)
+                        throw new UserFriendlyException(ErrorCode.NotFoundUser);
+
+                    HashPasswordHelper.HashPasswordStrategy = new HashSHA1Strategy();
+                    password = HashPasswordHelper.DoHash(changePassword.OldPassword);
+                    if (shipperProfile.Password == password)
+                    {
+                        shipperProfile.Password = HashPasswordHelper.DoHash(changePassword.NewPassword);
+                        _context.Shippers.Update(shipperProfile);
+                    }    
+                    else
+                    {
+                        throw new UserFriendlyException(ErrorCode.OldPasswordNotCorrect);
+                    }    
+
+                    break;
+                default: // Admin || Staff || Manager
+                    var staffProfile = await _context.Staffs.Where(x => x.Id == changePassword.UserId && x.Email == changePassword.Email && !x.IsDeleted && x.TypeAcc == changePassword.Role)
+                                        .FirstOrDefaultAsync();
+
+                    if (staffProfile == null)
+                        throw new UserFriendlyException(ErrorCode.NotFoundUser);
+
+                    HashPasswordHelper.HashPasswordStrategy = new HashSHA256Strategy();
+                    password = HashPasswordHelper.DoHash(changePassword.OldPassword);
+                    if (staffProfile.Password == password)
+                    {
+                        staffProfile.Password = HashPasswordHelper.DoHash(changePassword.NewPassword);
+                        _context.Staffs.Update(staffProfile);
+                    }
+                    else
+                    {
+                        throw new UserFriendlyException(ErrorCode.OldPasswordNotCorrect);
+                    }
+
+                    break;
+            }
+
+            await _context.SaveChangesAsync();
+            return true;
+        }
     }
 }

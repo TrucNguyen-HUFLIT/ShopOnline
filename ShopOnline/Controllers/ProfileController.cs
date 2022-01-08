@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ShopOnline.Business;
+using ShopOnline.Core.Filters;
 using ShopOnline.Core.Models;
 using System.Threading.Tasks;
 
@@ -35,6 +36,28 @@ namespace ShopOnline.Controllers
         {
             await _userBusiness.UpdateProfileAsync(userInfor);
             return RedirectToAction("UpdateDetail");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ChangePasswordAsync()
+        {
+            var model = new ChangePasswordViewModel
+            {
+                ChangePassword = await _userBusiness.GetInforUserChangePassword(User)
+            };
+            if (model.ChangePassword != null)
+                return View(model);
+            else
+                return NotFound();
+        }
+
+        [HttpPost]
+        [TypeFilter(typeof(ModelStateAjaxFilter))]
+        [TypeFilter(typeof(ExceptionFilter))]
+        public async Task<IActionResult> ChangePasswordAsync(ChangePassword changePassword)
+        {
+            await _userBusiness.ChangePasswordUser(changePassword);
+            return Ok();
         }
     }
 }
