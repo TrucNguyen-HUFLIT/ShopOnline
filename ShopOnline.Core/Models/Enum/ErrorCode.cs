@@ -7,6 +7,10 @@ namespace ShopOnline.Core.Models.Enum
     {
         ErrorCode = 400,
 
+        [Display(GroupName = "Common")]
+        [Description("Cannot delete this, please check the items related to this")]
+        CannotDelete = ErrorCode + 1,
+
         #region Account = ErrorCode + 1000
         Account = ErrorCode + 1000,
 
@@ -87,7 +91,6 @@ namespace ShopOnline.Core.Models.Enum
         [Display(GroupName = "Brand")]
         [Description("Brand doesn't exist")]
         BrandNotExisted = Brand + 2,
-
         #endregion
 
         #region ProductType = ErrorCode + 5000

@@ -53,7 +53,7 @@
             <table class="table table-centered table-nowrap mb-0 rounded">
                 <thead class="thead-light">
                     <tr>
-                        <th  class="border-0 rounded-start" >@Html.ActionLink("Id", "ListBrand", new { sortOrder = ViewBag.IDSortParm })</th>
+                        <th class="border-0 rounded-start">@Html.ActionLink("Id", "ListBrand", new { sortOrder = ViewBag.IDSortParm })</th>
                         <th class="border-0">@Html.ActionLink("BrandName", "ListBrand", new { sortOrder = ViewBag.NameSortParm })</th>
                         <th class="border-0 rounded-end">Action</th>
                     </tr>
@@ -61,7 +61,7 @@
                 <tbody>
                     @foreach (var brand in Model.ListBrand)
                     {
-                        <tr>
+                        <tr id="id-@brand.Id">
                             <td class="border-0 fw-bold">
                                 @brand.Id
                             </td>
@@ -70,7 +70,10 @@
                             </td>
                             <td class="border-0 fw-bold">
                                 <a asp-action="UpdateBrand" asp-route-id="@brand.Id" type="button"><i class="fas fa-edit" style="font-size: 20px; color: #f0bc74;"></i></a>
-                                <a asp-action="Delete" asp-route-id="@brand.Id" type="button"><i class="fas fa-trash-alt" style="font-size: 20px; color: #E11D48; margin-left:10px"></i></a>
+                                @{
+                                    string url = "/product/deletebrand";
+                                }
+                                <a onclick="ConfirmDelete(@brand.Id, '@url')"><i class="fas fa-trash-alt" style="font-size: 20px; color: #E11D48; margin-left:10px"></i></a>
                             </td>
                         </tr>
                     }
@@ -78,7 +81,7 @@
             </table>
             Page @(Model.ListBrand.PageCount < Model.ListBrand.PageNumber ? 0 : Model.ListBrand.PageNumber) of @Model.ListBrand.PageCount
             @Html.PagedListPager(Model.ListBrand, page => Url.Action("Index",
-                                                new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+            new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
         </div>
     </div>
 </div>
