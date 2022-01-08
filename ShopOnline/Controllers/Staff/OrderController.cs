@@ -25,7 +25,7 @@ namespace ShopOnline.Controllers.Staff
         public async Task<IActionResult> ListOrder(string sortOrder, string currentFilter, string searchString, int? page)
         {
             ViewBag.CurrentSort = sortOrder;
-            ViewBag.OrderDay = String.IsNullOrEmpty(sortOrder) ? "order_day_desc" : ""; 
+            ViewBag.OrderDay = String.IsNullOrEmpty(sortOrder) ? "order_day_desc" : "";
 
             if (searchString != null) page = 1;
             else searchString = currentFilter;
@@ -38,7 +38,7 @@ namespace ShopOnline.Controllers.Staff
 
             return View(model);
         }
-       
+
         public async Task<IActionResult> ListHistoryOrderShipperAsync(string sortOrder, string currentFilter, string searchString, int? page)
         {
             ViewBag.CurrentSort = sortOrder;

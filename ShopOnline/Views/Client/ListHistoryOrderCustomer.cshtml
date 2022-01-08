@@ -38,7 +38,7 @@
             @foreach (var historyOrder in Model.ListHistoryOrder)
             {
                 <tr>
-                    <td >
+                    <td>
                         @historyOrder.OrderDay
                     </td>
                     <td>
@@ -47,13 +47,13 @@
                     <td>
                         @historyOrder.ExtraFee
                     </td>
-                     <td>
+                    <td>
                         @historyOrder.Payment
                     </td>
-                     <td>
+                    <td>
                         @historyOrder.StatusOrder
                     </td>
-                      <td>
+                    <td>
                         @historyOrder.TotalPrice
                     </td>
                 </tr>
@@ -62,6 +62,6 @@
     </table>
     Page @(Model.ListHistoryOrder.PageCount < Model.ListHistoryOrder.PageNumber ? 0 : Model.ListHistoryOrder.PageNumber) of @Model.ListHistoryOrder.PageCount
     @Html.PagedListPager(Model.ListHistoryOrder, page => Url.Action("ListHistoryOrderCustomer",
-                                        new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
     @*<div class="fw-normal small mt-4 mt-lg-0">Showing <b>5</b> out of <b>25</b> entries</div>*@
 </div>

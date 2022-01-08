@@ -381,8 +381,8 @@ namespace ShopOnline.Business.Logic
                     userInfor = await _context.Customers
                                         .Where(x => x.Email == email && !x.IsDeleted)
                                         .Select(x => new ChangePassword
-                                        { 
-                                            UserId = x.Id,         
+                                        {
+                                            UserId = x.Id,
                                             Email = x.Email,
                                             Role = x.TypeAcc
                                         })
@@ -445,7 +445,7 @@ namespace ShopOnline.Business.Logic
                 case TypeAcc.Customer:
                     var customerProfile = await _context.Customers.Where(x => x.Id == changePassword.UserId && x.Email == changePassword.Email && !x.IsDeleted)
                                         .FirstOrDefaultAsync();
-                    
+
                     if (customerProfile == null)
                         throw new UserFriendlyException(ErrorCode.NotFoundUser);
                     HashPasswordHelper.HashPasswordStrategy = new HashMD5Strategy();
@@ -454,11 +454,11 @@ namespace ShopOnline.Business.Logic
                     {
                         customerProfile.Password = HashPasswordHelper.DoHash(changePassword.NewPassword);
                         _context.Customers.Update(customerProfile);
-                    }    
+                    }
                     else
                     {
                         throw new UserFriendlyException(ErrorCode.OldPasswordNotCorrect);
-                    }    
+                    }
 
                     break;
                 case TypeAcc.Shipper:
@@ -474,11 +474,11 @@ namespace ShopOnline.Business.Logic
                     {
                         shipperProfile.Password = HashPasswordHelper.DoHash(changePassword.NewPassword);
                         _context.Shippers.Update(shipperProfile);
-                    }    
+                    }
                     else
                     {
                         throw new UserFriendlyException(ErrorCode.OldPasswordNotCorrect);
-                    }    
+                    }
 
                     break;
                 default: // Admin || Staff || Manager

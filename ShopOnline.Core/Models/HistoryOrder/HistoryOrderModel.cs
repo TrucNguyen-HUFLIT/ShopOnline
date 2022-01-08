@@ -1,9 +1,6 @@
 ﻿using ShopOnline.Core.Models.Customer;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using X.PagedList;
 using static ShopOnline.Core.Models.Enum.AppEnum;
 
@@ -26,7 +23,7 @@ namespace ShopOnline.Core.Models.HistoryOrder
         public int TotalPrice { get; set; }
     }
 
-    public class HistoryOrderShipperInfor: HistoryOrderInfor
+    public class HistoryOrderShipperInfor : HistoryOrderInfor
     {
         public int IdCustomer { get; set; }
     }

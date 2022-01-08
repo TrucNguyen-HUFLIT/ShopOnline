@@ -49,7 +49,7 @@
                             }
                         }
                     </td>
-                    <td >
+                    <td>
                         @historyOrderShipper.OrderDay
                     </td>
                     <td>
@@ -58,13 +58,13 @@
                     <td>
                         @historyOrderShipper.ExtraFee
                     </td>
-                     <td>
+                    <td>
                         @historyOrderShipper.Payment
                     </td>
-                     <td>
+                    <td>
                         @historyOrderShipper.StatusOrder
                     </td>
-                      <td>
+                    <td>
                         @historyOrderShipper.TotalPrice
                     </td>
                 </tr>
@@ -73,6 +73,6 @@
     </table>
     Page @(Model.ListHistoryOrderShipper.PageCount < Model.ListHistoryOrderShipper.PageNumber ? 0 : Model.ListHistoryOrderShipper.PageNumber) of @Model.ListHistoryOrderShipper.PageCount
     @Html.PagedListPager(Model.ListHistoryOrderShipper, page => Url.Action("ListHistoryOrderShipper",
-                                        new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
     @*<div class="fw-normal small mt-4 mt-lg-0">Showing <b>5</b> out of <b>25</b> entries</div>*@
 </div>

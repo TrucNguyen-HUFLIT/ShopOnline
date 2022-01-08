@@ -1,10 +1,7 @@
 ﻿using ShopOnline.Core.Models.Customer;
 using ShopOnline.Core.Models.Product;
 using ShopOnline.Core.Models.Review;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using X.PagedList;
 using static ShopOnline.Core.Models.Enum.AppEnum;
