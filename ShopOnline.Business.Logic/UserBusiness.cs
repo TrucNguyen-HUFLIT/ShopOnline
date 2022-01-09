@@ -319,6 +319,10 @@ namespace ShopOnline.Business.Logic
                     {
                         customerProfile.Avatar = await UserHelper.UploadImageAvatarHanlderAsync(userInfor.UploadAvt, _hostEnvironment);
                     }
+                    else
+                    {
+                        customerProfile.Avatar = "/img/Avatar/avatar-icon-images-4.jpg";
+                    }
                     _context.Customers.Update(customerProfile);
 
                     break;
@@ -337,6 +341,10 @@ namespace ShopOnline.Business.Logic
                     {
                         shipperProfile.Avatar = await UserHelper.UploadImageAvatarHanlderAsync(userInfor.UploadAvt, _hostEnvironment);
                     }
+                    else
+                    {
+                        shipperProfile.Avatar = "/img/Avatar/avatar-icon-images-4.jpg";
+                    }
                     _context.Shippers.Update(shipperProfile);
 
                     break;
@@ -354,6 +362,10 @@ namespace ShopOnline.Business.Logic
                     if (userInfor.UploadAvt != null)
                     {
                         staffProfile.Avatar = await UserHelper.UploadImageAvatarHanlderAsync(userInfor.UploadAvt, _hostEnvironment);
+                    }
+                    else
+                    {
+                        staffProfile.Avatar = "/img/Avatar/avatar-icon-images-4.jpg";
                     }
                     _context.Staffs.Update(staffProfile);
 

@@ -18,8 +18,6 @@
     setTimeout(function () { toast.className = toast.className.replace("show", ""); }, 4000);
 }
 
-
-
 $("#create-staff-form").submit(function (e) {
     e.preventDefault();
 
@@ -48,28 +46,28 @@ $("#create-staff-form").submit(function (e) {
 
                 var objectValid = data.responseJSON;
 
-                if (objectValid["StaffCreate.FullName"] != undefined)
-                    document.getElementById("Err_FullName").innerHTML = objectValid["StaffCreate.FullName"];
+                if (objectValid["staffCreate.FullName"] != undefined)
+                    document.getElementById("Err_FullName").innerHTML = objectValid["staffCreate.FullName"];
                 else
                     document.getElementById("Err_FullName").innerHTML = "";
 
-                if (objectValid["StaffCreate.PhoneNumber"] != undefined)
-                    document.getElementById("Err_PhoneNumber").innerHTML = objectValid["StaffCreate.PhoneNumber"];
+                if (objectValid["staffCreate.PhoneNumber"] != undefined)
+                    document.getElementById("Err_PhoneNumber").innerHTML = objectValid["staffCreate.PhoneNumber"];
                 else
                     document.getElementById("Err_PhoneNumber").innerHTML = "";
 
-                if (objectValid["StaffCreate.Email"] != undefined)
-                    document.getElementById("Err_Email").innerHTML = objectValid["StaffCreate.Email"];
+                if (objectValid["staffCreate.Email"] != undefined)
+                    document.getElementById("Err_Email").innerHTML = objectValid["staffCreate.Email"];
                 else
                     document.getElementById("Err_Email").innerHTML = "";
 
-                if (objectValid["StaffCreate.Password"] != undefined)
-                    document.getElementById("Err_Password").innerHTML = objectValid["StaffCreate.Password"];
+                if (objectValid["staffCreate.Password"] != undefined)
+                    document.getElementById("Err_Password").innerHTML = objectValid["staffCreate.Password"];
                 else
                     document.getElementById("Err_Password").innerHTML = "";
 
-                if (objectValid["StaffCreate.ConfirmPassword"] != undefined)
-                    document.getElementById("Err_ConfirmPassword").innerHTML = objectValid["StaffCreate.ConfirmPassword"];
+                if (objectValid["staffCreate.ConfirmPassword"] != undefined)
+                    document.getElementById("Err_ConfirmPassword").innerHTML = objectValid["staffCreate.ConfirmPassword"];
                 else
                     document.getElementById("Err_ConfirmPassword").innerHTML = "";
 
@@ -108,13 +106,13 @@ $("#edit-staff-form").submit(function (e) {
 
                 var objectValid = data.responseJSON;
 
-                if (objectValid["StaffEdit.FullName"] != undefined)
-                    document.getElementById("Err_FullName").innerHTML = objectValid["StaffEdit.FullName"];
+                if (objectValid["staffEdit.FullName"] != undefined)
+                    document.getElementById("Err_FullName").innerHTML = objectValid["staffEdit.FullName"];
                 else
                     document.getElementById("Err_FullName").innerHTML = "";
 
-                if (objectValid["StaffEdit.PhoneNumber"] != undefined)
-                    document.getElementById("Err_PhoneNumber").innerHTML = objectValid["StaffEdit.PhoneNumber"];
+                if (objectValid["staffEdit.PhoneNumber"] != undefined)
+                    document.getElementById("Err_PhoneNumber").innerHTML = objectValid["staffEdit.PhoneNumber"];
                 else
                     document.getElementById("Err_PhoneNumber").innerHTML = "";
 
@@ -123,6 +121,222 @@ $("#edit-staff-form").submit(function (e) {
                 document.getElementById("Err_FullName").innerHTML = "";
                 document.getElementById("Err_PhoneNumber").innerHTML = "";
      
+            }
+        },
+    });
+});
+
+$("#create-manager-form").submit(function (e) {
+    e.preventDefault();
+
+    let formData = new FormData($(this)[0]);
+    $.ajax({
+        url: '/staff/createmanager',
+        type: "post",
+        async: false,
+        cache: false,
+        contentType: false,
+        enctype: 'multipart/form-data',
+        processData: false,
+        data: formData,
+        success: function () {
+            toast("Created manager successfully", true);
+            setTimeout(() => window.location.replace("/staff/listmanager"), 2000);
+        },
+        error: function (data) {
+            console.log(data)
+            var errors = data.responseText;
+            if (errors == "Email already exists") {
+                document.getElementById("emailAlready").innerHTML = data.responseText;
+
+            }
+            try {
+
+                var objectValid = data.responseJSON;
+
+                if (objectValid["staffCreate.FullName"] != undefined)
+                    document.getElementById("Err_FullName").innerHTML = objectValid["staffCreate.FullName"];
+                else
+                    document.getElementById("Err_FullName").innerHTML = "";
+
+                if (objectValid["staffCreate.PhoneNumber"] != undefined)
+                    document.getElementById("Err_PhoneNumber").innerHTML = objectValid["staffCreate.PhoneNumber"];
+                else
+                    document.getElementById("Err_PhoneNumber").innerHTML = "";
+
+                if (objectValid["staffCreate.Email"] != undefined)
+                    document.getElementById("Err_Email").innerHTML = objectValid["staffCreate.Email"];
+                else
+                    document.getElementById("Err_Email").innerHTML = "";
+
+                if (objectValid["staffCreate.Password"] != undefined)
+                    document.getElementById("Err_Password").innerHTML = objectValid["staffCreate.Password"];
+                else
+                    document.getElementById("Err_Password").innerHTML = "";
+
+                if (objectValid["staffCreate.ConfirmPassword"] != undefined)
+                    document.getElementById("Err_ConfirmPassword").innerHTML = objectValid["staffCreate.ConfirmPassword"];
+                else
+                    document.getElementById("Err_ConfirmPassword").innerHTML = "";
+
+            }
+            catch {
+                document.getElementById("Err_FullName").innerHTML = "";
+                document.getElementById("Err_PhoneNumber").innerHTML = "";
+                document.getElementById("Err_Email").innerHTML = "";
+                document.getElementById("Err_Password").innerHTML = "";
+                document.getElementById("Err_ConfirmPassword").innerHTML = "";
+            }
+        },
+    });
+});
+
+$("#edit-manager-form").submit(function (e) {
+    e.preventDefault();
+
+    let formData = new FormData($(this)[0]);
+    $.ajax({
+        url: '/staff/updatemanager',
+        type: "post",
+        async: false,
+        cache: false,
+        contentType: false,
+        enctype: 'multipart/form-data',
+        processData: false,
+        data: formData,
+        success: function (data) {
+            toast("Updated manager successfully", true);
+            setTimeout(() => window.location.replace(`/staff/updatemanager/${data}`), 2000);
+        },
+        error: function (data) {
+            console.log(data)
+            try {
+
+                var objectValid = data.responseJSON;
+
+                if (objectValid["staffEdit.FullName"] != undefined)
+                    document.getElementById("Err_FullName").innerHTML = objectValid["staffEdit.FullName"];
+                else
+                    document.getElementById("Err_FullName").innerHTML = "";
+
+                if (objectValid["staffEdit.PhoneNumber"] != undefined)
+                    document.getElementById("Err_PhoneNumber").innerHTML = objectValid["staffEdit.PhoneNumber"];
+                else
+                    document.getElementById("Err_PhoneNumber").innerHTML = "";
+
+            }
+            catch {
+                document.getElementById("Err_FullName").innerHTML = "";
+                document.getElementById("Err_PhoneNumber").innerHTML = "";
+
+            }
+        },
+    });
+});
+
+$("#create-shipper-form").submit(function (e) {
+    e.preventDefault();
+
+    let formData = new FormData($(this)[0]);
+    $.ajax({
+        url: '/staff/createshipper',
+        type: "post",
+        async: false,
+        cache: false,
+        contentType: false,
+        enctype: 'multipart/form-data',
+        processData: false,
+        data: formData,
+        success: function () {
+            toast("Created shipper successfully", true);
+            setTimeout(() => window.location.replace("/staff/listshipper"), 2000);
+        },
+        error: function (data) {
+            console.log(data)
+            var errors = data.responseText;
+            if (errors == "Email already exists") {
+                document.getElementById("emailAlready").innerHTML = data.responseText;
+
+            }
+            try {
+
+                var objectValid = data.responseJSON;
+
+                if (objectValid["staffCreate.FullName"] != undefined)
+                    document.getElementById("Err_FullName").innerHTML = objectValid["staffCreate.FullName"];
+                else
+                    document.getElementById("Err_FullName").innerHTML = "";
+
+                if (objectValid["staffCreate.PhoneNumber"] != undefined)
+                    document.getElementById("Err_PhoneNumber").innerHTML = objectValid["staffCreate.PhoneNumber"];
+                else
+                    document.getElementById("Err_PhoneNumber").innerHTML = "";
+
+                if (objectValid["staffCreate.Email"] != undefined)
+                    document.getElementById("Err_Email").innerHTML = objectValid["staffCreate.Email"];
+                else
+                    document.getElementById("Err_Email").innerHTML = "";
+
+                if (objectValid["staffCreate.Password"] != undefined)
+                    document.getElementById("Err_Password").innerHTML = objectValid["staffCreate.Password"];
+                else
+                    document.getElementById("Err_Password").innerHTML = "";
+
+                if (objectValid["staffCreate.ConfirmPassword"] != undefined)
+                    document.getElementById("Err_ConfirmPassword").innerHTML = objectValid["staffCreate.ConfirmPassword"];
+                else
+                    document.getElementById("Err_ConfirmPassword").innerHTML = "";
+
+            }
+            catch {
+                document.getElementById("Err_FullName").innerHTML = "";
+                document.getElementById("Err_PhoneNumber").innerHTML = "";
+                document.getElementById("Err_Email").innerHTML = "";
+                document.getElementById("Err_Password").innerHTML = "";
+                document.getElementById("Err_ConfirmPassword").innerHTML = "";
+            }
+        },
+    });
+});
+
+$("#edit-shipper-form").submit(function (e) {
+    e.preventDefault();
+
+    let formData = new FormData($(this)[0]);
+    $.ajax({
+        url: '/staff/updateshipper',
+        type: "post",
+        async: false,
+        cache: false,
+        contentType: false,
+        enctype: 'multipart/form-data',
+        processData: false,
+        data: formData,
+        success: function (data) {
+            toast("Updated shipper successfully", true);
+            setTimeout(() => window.location.replace(`/staff/updateshipper/${data}`), 2000);
+        },
+        error: function (data) {
+            console.log(data)
+            try {
+
+                var objectValid = data.responseJSON;
+
+                if (objectValid["staffEdit.FullName"] != undefined)
+                    document.getElementById("Err_FullName").innerHTML = objectValid["staffEdit.FullName"];
+                else
+                    document.getElementById("Err_FullName").innerHTML = "";
+
+                if (objectValid["staffEdit.PhoneNumber"] != undefined)
+                    document.getElementById("Err_PhoneNumber").innerHTML = objectValid["staffEdit.PhoneNumber"];
+                else
+                    document.getElementById("Err_PhoneNumber").innerHTML = "";
+
+            }
+            catch {
+                document.getElementById("Err_FullName").innerHTML = "";
+                document.getElementById("Err_PhoneNumber").innerHTML = "";
+
             }
         },
     });

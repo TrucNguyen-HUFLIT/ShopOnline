@@ -1,6 +1,6 @@
 ﻿@model ShopOnline.Core.Models.Staff.StaffCreateViewModel
 @{
-    ViewData["Title"] = "Create Staff";
+    ViewData["Title"] = "Create Manager";
     Layout = "~/Views/Shared/_LayoutManager.cshtml";
 }
 
@@ -15,21 +15,21 @@
                     </a>
                 </li>
                 <li class="breadcrumb-item"><a>Staff Management</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Create Staff</li>
+                <li class="breadcrumb-item active" aria-current="page">Create Manager</li>
             </ol>
         </nav>
-        <h2 class="h4">Create Staff</h2>
+        <h2 class="h4">Create Manager</h2>
     </div>
 </div>
 <div class="row">
     <div class="col-12 col-xl-12">
         <div class="card card-body border-0 shadow mb-4">
             <h2 class="h5 mb-4">General information</h2>
-            <form enctype="multipart/form-data" id="create-staff-form">
+            <form enctype="multipart/form-data" id="create-manager-form">
                 <div class="form-group" style="display:flex ; justify-content:center">
                     <div class="card-img" style="position:relative;">
                         @*<img src="@(Model.staffCreate.Avatar != null? Url.Content("/img"+Model.staffCreate.Avatar) :"/img/Avatar/avatar-icon-images-4.jpg")" height="200" width="200" id="previewImg" style="margin-left: auto; width:*@
-                        <img src="@(Model.StaffCreate.Avatar != null? Url.Content(Model.StaffCreate.Avatar) :"/img/Avatar/avatar-icon-images-4.jpg")" id="output" height="200" width="200" 
+                        <img src="@(Model.StaffCreate.Avatar != null? Url.Content(Model.StaffCreate.Avatar) :"/img/Avatar/avatar-icon-images-4.jpg")" id="output" height="200" width="200"
                              style="margin-left: auto; width: 100%; margin-right: auto; max-width: 200px; display: block;" />
                         <br />
                     </div>
@@ -67,8 +67,8 @@
                     </div>
                     <div class="col-md-6 mb-3">
                         <label>Role</label>
-                        <input class="form-control" value="Staff" disabled/>
-                        <input asp-for="StaffCreate.TypeAcc" value="2" hidden />
+                        <input class="form-control" value="Manager" disabled />
+                        <input asp-for="StaffCreate.TypeAcc" value="5" hidden />
                     </div>
                 </div>
                 <div class="row">

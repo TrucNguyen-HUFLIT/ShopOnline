@@ -1,8 +1,8 @@
 ﻿@{
-    ViewData["Title"] = "Management Staff";
+    ViewData["Title"] = "Management Shipper";
     Layout = "~/Views/Shared/_LayoutManager.cshtml";
 }
-@model ShopOnline.Core.Models.Product.ProductModel
+@model ShopOnline.Core.Models.Staff.StaffModel
 @using X.PagedList.Mvc.Core;
 @using Microsoft.AspNetCore.Mvc;
 
@@ -15,22 +15,22 @@
                         <svg class="icon icon-xxs" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
                     </a>
                 </li>
-                <li class="breadcrumb-item"><a>Product Management</a></li>
-                <li class="breadcrumb-item active" aria-current="page">List Product</li>
+                <li class="breadcrumb-item"><a>Staff Management</a></li>
+                <li class="breadcrumb-item active" aria-current="page">List Shipper</li>
             </ol>
         </nav>
-        <h2 class="h4">List Product </h2>
+        <h2 class="h4">List Shipper</h2>
     </div>
     <div class="btn-toolbar mb-2 mb-md-0">
-        <a asp-action="CreateProduct" asp-controller="Product" class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
+        <a asp-action="CreateShipper" asp-controller="Staff" class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
             <svg class="icon icon-xs me-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
-            Add New Product
+            Add New Shipper
         </a>
     </div>
 </div>
 <div class="table-settings mb-4">
     <div class="row align-items-center justify-content-between">
-        @using (Html.BeginForm("ListProduct", "Product", FormMethod.Get))
+        @using (Html.BeginForm("ListShipper", "Staff", FormMethod.Get))
         {
             <div class="col col-md-6 col-lg-3 col-xl-4">
                 <div class="input-group me-2 me-lg-3 fmxw-400">
@@ -52,53 +52,50 @@
     <table class="table table-hover">
         <thead>
             <tr>
-                <th>@Html.ActionLink("Id", "ListProduct", new { sortOrder = ViewBag.IDSortParm })</th>
-                <th>  @Html.ActionLink("Name", "ListProduct", new { sortOrder = ViewBag.NameSortParm })</th>
-                <th>@Html.DisplayNameFor(model => model.productInfor.Quantity)</th>
-                <th>@Html.DisplayNameFor(model => model.productInfor.Size)</th>
-                <th>Status</th>
+                <th>@Html.ActionLink("Id", "ListShipper", new { sortOrder = ViewBag.IDSortParm })</th>
+                <th>@Html.DisplayNameFor(model => model.staffInfor.Avatar)</th>
+                <th>  @Html.ActionLink("FullName", "ListShipper", new { sortOrder = ViewBag.NameSortParm })</th>
+                <th>@Html.DisplayNameFor(model => model.staffInfor.Email)</th>
+                <th>Phone Number</th>
+                <th>@Html.DisplayNameFor(model => model.staffInfor.Address)</th>
                 <th>Action</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var product in Model.ListProduct)
+            @foreach (var staff in Model.ListStaff)
             {
-                <tr id="id-@product.Id">
-                    <td >
-                        @product.Id
+                <tr id="id-@staff.Id">
+                    <td>
+                        @staff.Id
+                    </td>
+                    <td class="avatar">
+                        <img class="rounded" src="@(staff.Avatar)" style="display:block" />
                     </td>
                     <td>
-                        @product.Name
+                        @staff.FullName
                     </td>
                     <td>
-                        @product.Quantity
+                        @staff.Email
                     </td>
                     <td>
-                        @product.Size
+                        @staff.PhoneNumber
                     </td>
                     <td>
-                        @foreach (var productDetail in Model.ListProductDetail)
-                        {
-                            if (productDetail.Id == product.IdProductDetail)
-                            {
-                                @productDetail.Status
-                                break;
-                            }
-                        }
+                        @staff.Address
                     </td>
                     <td>
-                        <a asp-action="UpdateProduct" asp-route-id="@product.Id" type="button"><i class="fas fa-edit" style="font-size: 20px; color: #f0bc74;"></i></a>
+                        <a asp-action="UpdateShipper" asp-route-id="@staff.Id" type="button"><i class="fas fa-edit" style="font-size: 20px; color: #f0bc74;"></i></a>
                         @{
-                            string url = "/product/deleteproduct";
+                            string url = "/staff/deleteShipper";
                         }
-                        <a onclick="ConfirmDelete(@product.Id, '@url')"><i class="fas fa-trash-alt" style="font-size: 20px; color: #E11D48; margin-left:10px"></i></a>
+                        <a onclick="ConfirmDelete(@staff.Id, '@url')"><i class="fas fa-trash-alt" style="font-size: 20px; color: #E11D48; margin-left:10px"></i></a>
                     </td>
                 </tr>
             }
         </tbody>
     </table>
-    Page @(Model.ListProduct.PageCount < Model.ListProduct.PageNumber ? 0 : Model.ListProduct.PageNumber) of @Model.ListProduct.PageCount
-    @Html.PagedListPager(Model.ListProduct, page => Url.Action("ListProduct",
-    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+    Page @(Model.ListStaff.PageCount < Model.ListStaff.PageNumber ? 0 : Model.ListStaff.PageNumber) of @Model.ListStaff.PageCount
+    @Html.PagedListPager(Model.ListStaff, page => Url.Action("ListShipper",
+                                        new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
     @*<div class="fw-normal small mt-4 mt-lg-0">Showing <b>5</b> out of <b>25</b> entries</div>*@
-</div>
+</div>>

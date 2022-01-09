@@ -72,7 +72,7 @@ namespace ShopOnline.Business.Logic.Staff
 
             queryReview = sortOrder switch
             {
-                "id" => queryReview.OrderBy(x => x.ReviewTime),
+                "review-time" => queryReview.OrderBy(x => x.ReviewTime),
                 _ => queryReview.OrderByDescending(x => x.ReviewTime),
             };
 

@@ -30,7 +30,7 @@
 </div>
 <div class="table-settings mb-4">
     <div class="row align-items-center justify-content-between">
-        @using (Html.BeginForm("Index", "Staff", FormMethod.Get))
+        @using (Html.BeginForm("ListStaff", "Staff", FormMethod.Get))
         {
             <div class="col col-md-6 col-lg-3 col-xl-4">
                 <div class="input-group me-2 me-lg-3 fmxw-400">
@@ -39,10 +39,10 @@
                             <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
                         </svg>
                     </span>
-                    <input type="text" class="form-control" id="searchString" name="searchString" placeholder="Find by name or email">
+                    <input type="text" class="form-control" id="searchString" name="searchString" value="@ViewBag.CurrentFilter" placeholder="Find by name or email">
                     <button type="submit" value="Search" class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
                         Search
-                    </button>       
+                    </button>
                 </div>
             </div>
         }
@@ -52,20 +52,19 @@
     <table class="table table-hover">
         <thead>
             <tr>
-                <th>@Html.ActionLink("Id", "Index", new { sortOrder = ViewBag.IDSortParm })</th>
+                <th>@Html.ActionLink("Id", "ListStaff", new { sortOrder = ViewBag.IDSortParm })</th>
                 <th>@Html.DisplayNameFor(model => model.staffInfor.Avatar)</th>
-                <th>  @Html.ActionLink("FullName", "Index", new { sortOrder = ViewBag.NameSortParm })</th>
+                <th>  @Html.ActionLink("FullName", "ListStaff", new { sortOrder = ViewBag.NameSortParm })</th>
                 <th>@Html.DisplayNameFor(model => model.staffInfor.Email)</th>
-                <th>@Html.DisplayNameFor(model => model.staffInfor.PhoneNumber)</th>
+                <th>Phone Number</th>
                 <th>@Html.DisplayNameFor(model => model.staffInfor.Address)</th>
-                <th>@Html.DisplayNameFor(model => model.staffInfor.TypeAcc)</th>
                 <th>Action</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var staff in Model.ListStaff)
             {
-                <tr>
+                <tr id="id-@staff.Id">
                     <td>
                         @staff.Id
                     </td>
@@ -85,11 +84,11 @@
                         @staff.Address
                     </td>
                     <td>
-                        @staff.TypeAcc
-                    </td>
-                    <td>
                         <a asp-action="UpdateStaff" asp-route-id="@staff.Id" type="button"><i class="fas fa-edit" style="font-size: 20px; color: #f0bc74;"></i></a>
-                        <a asp-action="DeleteStaff" asp-route-id="@staff.Id" type="button"><i class="fas fa-trash-alt" style="font-size: 20px; color: #E11D48; margin-left:10px"></i></a>
+                        @{
+                            string url = "/staff/deleteStaff";
+                        }
+                        <a onclick="ConfirmDelete(@staff.Id, '@url')"><i class="fas fa-trash-alt" style="font-size: 20px; color: #E11D48; margin-left:10px"></i></a>
                     </td>
                 </tr>
             }
