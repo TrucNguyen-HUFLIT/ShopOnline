@@ -27,12 +27,13 @@
         <thead>
             <tr>
                 <th>Customer</th>
-                <th>@Html.ActionLink("Order Day", "ListHistoryOrderShipper", new { sortOrder = ViewBag.OrderDay })</th>
+                <th>Phone Number</th>
                 <th>Address</th>
-                <th>ExtraFee</th>
+                <th>Extra Fee (VND)</th>
                 <th>Payment</th>
                 <th>Status</th>
-                <th>Total</th>
+                <th>Total Price (VND)</th>
+                <th>@Html.ActionLink("Order Day", "ListHistoryOrderShipper", new { sortOrder = ViewBag.OrderDay }, new { @class = "text-info" })</th>
             </tr>
         </thead>
         <tbody>
@@ -40,23 +41,22 @@
             {
                 <tr>
                     <td>
-                        @foreach (var customer in Model.ListCustomer)
-                        {
-                            if (customer.Id == historyOrderShipper.IdCustomer)
-                            {
-                                @customer.FullName
-                                break;
-                            }
+                        @{
+                            var customerName = Model.ListCustomer.Where(x => x.Id == historyOrderShipper.IdCustomer).Select(x => x.FullName).FirstOrDefault();
                         }
+                        @customerName
                     </td>
                     <td>
-                        @historyOrderShipper.OrderDay
+                        @{
+                            var customerPhone = Model.ListCustomer.Where(x => x.Id == historyOrderShipper.IdCustomer).Select(x => x.PhoneNumber).FirstOrDefault();
+                        }
+                        @customerPhone
                     </td>
                     <td>
                         @historyOrderShipper.Address
                     </td>
                     <td>
-                        @historyOrderShipper.ExtraFee
+                        @string.Format("{0:N0}", ((Int64)historyOrderShipper.ExtraFee))
                     </td>
                     <td>
                         @historyOrderShipper.Payment
@@ -65,7 +65,10 @@
                         @historyOrderShipper.StatusOrder
                     </td>
                     <td>
-                        @historyOrderShipper.TotalPrice
+                        @string.Format("{0:N0}", ((Int64)historyOrderShipper.TotalPrice))
+                    </td>
+                    <td>
+                        @historyOrderShipper.OrderDay
                     </td>
                 </tr>
             }

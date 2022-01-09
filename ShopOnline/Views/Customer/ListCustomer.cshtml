@@ -15,7 +15,7 @@
                         <svg class="icon icon-xxs" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
                     </a>
                 </li>
-                <li class="breadcrumb-item"><a>Customer Management</a></li>
+                <li class="breadcrumb-item"><a>Management Customer</a></li>
                 <li class="breadcrumb-item active" aria-current="page">List Customer</li>
             </ol>
         </nav>
@@ -46,9 +46,9 @@
     <table class="table table-hover">
         <thead>
             <tr>
-                <th>#@Html.ActionLink("Id", "ListCustomer", new { sortOrder = ViewBag.IDSortParm })</th>
+                <th>#@Html.ActionLink("Id", "ListCustomer", new { sortOrder = ViewBag.IDSortParm }, new { @class = "text-info" })</th>
                 <th>@Html.DisplayNameFor(model => model.customerInfor.Avatar)</th>
-                <th>  @Html.ActionLink("FullName", "ListCustomer", new { sortOrder = ViewBag.NameSortParm })</th>
+                <th>  @Html.ActionLink("FullName", "ListCustomer", new { sortOrder = ViewBag.NameSortParm }, new { @class = "text-info" })</th>
                 <th>@Html.DisplayNameFor(model => model.customerInfor.Email)</th>
                 <th>Phone Number</th>
                 <th>@Html.DisplayNameFor(model => model.customerInfor.Address)</th>

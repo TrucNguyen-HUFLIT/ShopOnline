@@ -78,6 +78,7 @@ namespace ShopOnline.Controllers.Customer
             return View(productsBrandPageViewModel);
         }
 
+        [Authorize(Roles = ROLE.CUSTOMER)]
         [HttpGet]
         public async Task<IActionResult> ListHistoryOrderCustomerAsync(string sortOrder, string currentFilter, int? page)
         {

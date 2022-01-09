@@ -315,6 +315,7 @@ h2 a {
 }
 
 .brand {
+    justify-content: left;
     height: 410px;
 }
 

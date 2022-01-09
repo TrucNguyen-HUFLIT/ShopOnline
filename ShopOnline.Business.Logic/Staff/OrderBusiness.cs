@@ -9,6 +9,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using X.PagedList;
+using static ShopOnline.Core.Models.Enum.AppEnum;
 
 namespace ShopOnline.Business.Logic.Staff
 {
@@ -20,7 +21,7 @@ namespace ShopOnline.Business.Logic.Staff
             _context = context;
         }
 
-        public async Task<IPagedList<OrderInfor>> GetListOrderAsync(string sortOrder, string currentFilter, int? page)
+        public async Task<IPagedList<OrderInfor>> GetListOrderAsync(string sortOrder, StatusOrder statusOrder, int? page)
         {
             var ordersQuery = _context.Orders.Where(x => !x.IsDeleted);
 
@@ -30,59 +31,10 @@ namespace ShopOnline.Business.Logic.Staff
                 _ => ordersQuery.OrderBy(x => x.Id),
             };
 
-            var listOrder = await ordersQuery
-              .Select(historyOrder => new OrderInfor
-              {
-                  Id = historyOrder.Id,
-                  OrderDay = historyOrder.OrderDay,
-                  Address = historyOrder.Address,
-                  ExtraFee = historyOrder.ExtraFee,
-                  StatusOrder = historyOrder.StatusOrder,
-                  Payment = historyOrder.Payment,
-                  IdCustomer = historyOrder.IdCustomer,
-                  TotalPrice = historyOrder.OrderDetails.Sum(y => y.TotalPrice)
-              })
-              .ToListAsync();
-            int pageSize = 10;
-            int pageNumber = (page ?? 1);
-            return listOrder.ToPagedList(pageNumber, pageSize);
-        }
-
-        public async Task<IPagedList<OrderInfor>> GetListOrderProcessAsync(string sortOrder, string currentFilter, string searchString, int? page)
-        {
-            var ordersQuery = _context.Orders.Where(x => !x.IsDeleted && x.StatusOrder == AppEnum.StatusOrder.Processing);
-            ordersQuery = sortOrder switch
+            if (statusOrder != 0)
             {
-                "order_day_desc" => ordersQuery.OrderByDescending(x => x.OrderDay),
-                _ => ordersQuery.OrderBy(x => x.Id),
-            };
-
-            var listOrder = await ordersQuery
-              .Select(historyOrder => new OrderInfor
-              {
-                  Id = historyOrder.Id,
-                  OrderDay = historyOrder.OrderDay,
-                  Address = historyOrder.Address,
-                  ExtraFee = historyOrder.ExtraFee,
-                  StatusOrder = historyOrder.StatusOrder,
-                  Payment = historyOrder.Payment,
-                  IdCustomer = historyOrder.IdCustomer,
-                  TotalPrice = historyOrder.OrderDetails.Sum(y => y.TotalPrice)
-              })
-              .ToListAsync();
-            int pageSize = 10;
-            int pageNumber = (page ?? 1);
-            return listOrder.ToPagedList(pageNumber, pageSize);
-        }
-
-        public async Task<IPagedList<OrderInfor>> GetListOrderPaidAsync(string sortOrder, string currentFilter, string searchString, int? page)
-        {
-            var ordersQuery =  _context.Orders.Where(x => !x.IsDeleted && x.IsPaid);
-            ordersQuery = sortOrder switch
-            {
-                "order_day_desc" => ordersQuery.OrderByDescending(x => x.OrderDay),
-                _ => ordersQuery.OrderBy(x => x.Id),
-            };
+                ordersQuery = ordersQuery.Where(x => x.StatusOrder == statusOrder);
+            }
 
             var listOrder = await ordersQuery
               .Select(historyOrder => new OrderInfor
@@ -165,12 +117,9 @@ namespace ShopOnline.Business.Logic.Staff
             return listHistoryOrder.ToPagedList(pageNumber, pageSize);
         }
 
-        public async Task<IPagedList<OrderInforShipper>> GetOrderAcceptedShipperAsync(string sortOrder, string currentFilter, int? page, ClaimsPrincipal user)
+        public async Task<IPagedList<OrderInforShipper>> GetOrderAcceptedShipperAsync(string sortOrder, string currentFilter, int? page)
         {
-            string email = user.FindFirst(ClaimTypes.Email).Value;
-            var shipperId = _context.Shippers.Where(x => x.Email == email && !x.IsDeleted).Select(x => x.Id).FirstOrDefault();
-
-            var ordersAcceptedShipperQuery = _context.Orders.Where(x => !x.IsDeleted && x.IdShipper == shipperId && x.StatusOrder == AppEnum.StatusOrder.Accepted);
+            var ordersAcceptedShipperQuery = _context.Orders.Where(x => !x.IsDeleted && x.StatusOrder == AppEnum.StatusOrder.Accepted);
             ordersAcceptedShipperQuery = sortOrder switch
             {
                 "order_day" => ordersAcceptedShipperQuery.OrderBy(x => x.OrderDay),
@@ -194,6 +143,19 @@ namespace ShopOnline.Business.Logic.Staff
             int pageSize = 10;
             int pageNumber = (page ?? 1);
             return listOrderAcceptedShipper.ToPagedList(pageNumber, pageSize);
+        }
+
+        public async Task AcceptDeliveryAsync(int id, ClaimsPrincipal user)
+        {
+            string email = user.FindFirst(ClaimTypes.Email).Value;
+            var idShipper = _context.Shippers.Where(x => x.Email == email && !x.IsDeleted).Select(x => x.Id).FirstOrDefault();
+
+            var order = await _context.Orders.Where(x => !x.IsDeleted && x.Id == id).FirstOrDefaultAsync();
+            order.IdShipper = idShipper;
+            order.StatusOrder = StatusOrder.Delivering;
+
+            _context.Orders.Update(order);
+            await _context.SaveChangesAsync();
         }
     }
 }
