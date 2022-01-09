@@ -173,6 +173,12 @@ namespace ShopOnline.Business.Logic.Staff
         public async Task StaffChangeStatusOrderAsync(int id, StatusOrder statusOrder)
         {
             var order = await _context.Orders.Where(x => !x.IsDeleted && x.Id == id).FirstOrDefaultAsync();
+
+            if (statusOrder == StatusOrder.Cancelled)
+            {
+                await RevertQuantityByOrderId(id);
+            }
+
             order.StatusOrder = statusOrder;
             _context.Orders.Update(order);
             await _context.SaveChangesAsync();
@@ -183,6 +189,17 @@ namespace ShopOnline.Business.Logic.Staff
             var order = await _context.Orders.Where(x => !x.IsDeleted && x.Id == id).FirstOrDefaultAsync();
             order.IsPaid = isPaid;
             _context.Orders.Update(order);
+            await _context.SaveChangesAsync();
+        }
+
+        private async Task RevertQuantityByOrderId(int orderId)
+        {
+            var productOrderDetails = await _context.OrderDetails.Where(x => x.IdOrder == orderId).Select(x => new { x.Product, x.QuantityPurchased }).ToListAsync();
+            foreach (var productOrderDetail in productOrderDetails)
+            {
+                productOrderDetail.Product.Quantity += productOrderDetail.QuantityPurchased;
+            }
+            _context.UpdateRange(productOrderDetails.Select(x => x.Product).ToArray());
             await _context.SaveChangesAsync();
         }
     }
