@@ -58,7 +58,7 @@ namespace ShopOnline.Controllers.Staff
             var model = new OrderInforShipperModel
             {
                 ListCustomer = await _reviewBusiness.GetListCustomer(),
-                ListOrderInforShipper = await _orderBusiness.GetOrderShipperAsync(sortOrder, currentFilter, page, User)
+                ListOrderInforShipper = await _orderBusiness.GetOrderAcceptedShipperAsync(sortOrder, currentFilter, page, User)
             };
 
             return View(model);
