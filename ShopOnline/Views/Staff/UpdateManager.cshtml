@@ -1,6 +1,6 @@
 ﻿@model ShopOnline.Core.Models.Staff.StaffEditViewModel
 @{
-    ViewData["Title"] = "Update Staff";
+    ViewData["Title"] = "Update Manager";
     Layout = "~/Views/Shared/_LayoutManager.cshtml";
 }
 
@@ -14,29 +14,29 @@
                     </a>
                 </li>
                 <li class="breadcrumb-item"><a asp-action="Index">Staff Management</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Update Staff</li>
+                <li class="breadcrumb-item active" aria-current="page">Update Manager</li>
             </ol>
         </nav>
-        <h2 class="h4">Update Staff</h2>
+        <h2 class="h4">Update Manager</h2>
     </div>
 </div>
 <div class="row">
     <div class="col-12 col-xl-12">
         <div class="card card-body border-0 shadow mb-4">
             <h2 class="h5 mb-4">General information</h2>
-            <form enctype="multipart/form-data" id="edit-staff-form">
+            <form enctype="multipart/form-data" id="edit-manager-form">
                 <div class="form-group" style="display:flex ; justify-content:center">
                     <div class="card-img" style="position:relative;">
                         @*<img src="@(Model.staffCreate.Avatar != null? Url.Content("/img"+Model.staffCreate.Avatar) :"/img/Avatar/avatar-icon-images-4.jpg")" height="200" width="200" id="previewImg" style="margin-left: auto; width:*@
                         <img src="@(Model.StaffEdit?.Avatar != null? Url.Content(Model.StaffEdit.Avatar) :"/img/Avatar/avatar-icon-images-4.jpg")" id="output" height="200" width="200" style="margin-left: auto; width: 100%; margin-right: auto; max-width: 200px; display: block;" />
                         <br />
-                     
+
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-6 mb-3" hidden>
                         <div>
-                            <label>Id Staff</label>
+                            <label>Id Manager</label>
                             <input asp-for="StaffEdit.Id" class="form-control" type="text">
                             <span asp-validation-for="StaffEdit.Id" class="text-danger"></span>
                         </div>

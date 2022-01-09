@@ -22,7 +22,7 @@ namespace ShopOnline.Controllers.Staff
         public async Task<IActionResult> ListReviewAsync(string sortOrder, string currentFilter, int reviewStatus, int? page)
         {
             ViewBag.CurrentSort = sortOrder;
-            ViewBag.ReviewTimeSortParm = String.IsNullOrEmpty(sortOrder) ? "id" : "";
+            ViewBag.ReviewTimeSortParm = String.IsNullOrEmpty(sortOrder) ? "review-time" : "";
 
             if (page == 0 || page == null) page = 1;
             reviewStatus = reviewStatus == 0 ? 1 : reviewStatus;
