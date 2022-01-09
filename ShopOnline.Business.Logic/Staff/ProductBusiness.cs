@@ -6,6 +6,7 @@ using ShopOnline.Core.Entities;
 using ShopOnline.Core.Exceptions;
 using ShopOnline.Core.Models.Enum;
 using ShopOnline.Core.Models.Product;
+using ShopOnline.Data.Repositories.Product;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -18,10 +19,12 @@ namespace ShopOnline.Business.Logic.Staff
     public class ProductBusiness : IProductBusiness
     {
         private readonly MyDbContext _context;
+        private readonly IProductRepository _productRepository;
         private readonly IWebHostEnvironment hostEnvironment;
-        public ProductBusiness(MyDbContext context, IWebHostEnvironment hostEnvironment)
+        public ProductBusiness(MyDbContext context, IWebHostEnvironment hostEnvironment, IProductRepository productRepository)
         {
             _context = context;
+            _productRepository = productRepository;
             this.hostEnvironment = hostEnvironment;
         }
 
@@ -258,48 +261,6 @@ namespace ShopOnline.Business.Logic.Staff
             return productTypes;
         }
 
-        public async Task<IPagedList<ProductInfor>> GetListProductAsync(string sortOrder, string currentFilter, string searchString, int? page)
-        {
-            var listProduct = new List<ProductInfor>();
-            var products = await _context.Products.Where(x => !x.IsDeleted).ToListAsync();
-            if (products != null && products.Any())
-            {
-                foreach (var product in products)
-                {
-                    var productInfor = new ProductInfor
-                    {
-                        Id = product.Id,
-                        Name = product.Name,
-                        Quantity = product.Quantity,
-                        Size = product.Size,
-                        IdProductDetail = product.IdProductDetail,
-                        //Pic1 = product.ProductDetail.Pic1,
-                        //Pic2 = product.ProductDetail.Pic2,
-                        //Pic3 = product.ProductDetail.Pic3,
-
-                    };
-                    listProduct.Add(productInfor);
-                }
-
-                if (!String.IsNullOrEmpty(searchString))
-                {
-                    listProduct = listProduct.Where(s => s.Name.ToLower().Contains(searchString.ToLower())).ToList();
-                }
-                listProduct = sortOrder switch
-                {
-                    "name_desc" => listProduct.OrderByDescending(x => x.Name).ToList(),
-                    "name" => listProduct.OrderBy(x => x.Name).ToList(),
-                    "id_desc" => listProduct.OrderByDescending(x => x.Id).ToList(),
-                    _ => listProduct.OrderBy(x => x.Id).ToList(),
-                };
-                int pageSize = 10;
-                int pageNumber = (page ?? 1);
-                return listProduct.ToPagedList(pageNumber, pageSize);
-            }
-
-            return null;
-        }
-
         public async Task<List<ProductDetailInfor>> GetListProductDetail()
         {
             var productDetails = await _context.ProductDetails.Where(x => !x.IsDeleted && x.Status == AppEnum.ProductStatus.Available).Select(x => new ProductDetailInfor
@@ -475,11 +436,53 @@ namespace ShopOnline.Business.Logic.Staff
             return product;
         }
 
+        public async Task<IPagedList<ProductInfor>> GetListProductAsync(string sortOrder, string currentFilter, string searchString, int? page)
+        {
+            var listProduct = new List<ProductInfor>();
+            var products = await _productRepository.Get().ToListAsync();
+
+            if (products != null && products.Any())
+            {
+                foreach (var product in products)
+                {
+                    var productInfor = new ProductInfor
+                    {
+                        Id = product.Id,
+                        Name = product.Name,
+                        Quantity = product.Quantity,
+                        Size = product.Size,
+                        IdProductDetail = product.IdProductDetail,
+                        //Pic1 = product.ProductDetail.Pic1,
+                        //Pic2 = product.ProductDetail.Pic2,
+                        //Pic3 = product.ProductDetail.Pic3,
+
+                    };
+                    listProduct.Add(productInfor);
+                }
+
+                if (!String.IsNullOrEmpty(searchString))
+                {
+                    listProduct = listProduct.Where(s => s.Name.ToLower().Contains(searchString.ToLower())).ToList();
+                }
+                listProduct = sortOrder switch
+                {
+                    "name_desc" => listProduct.OrderByDescending(x => x.Name).ToList(),
+                    "name" => listProduct.OrderBy(x => x.Name).ToList(),
+                    "id_desc" => listProduct.OrderByDescending(x => x.Id).ToList(),
+                    _ => listProduct.OrderBy(x => x.Id).ToList(),
+                };
+                int pageSize = 10;
+                int pageNumber = (page ?? 1);
+                return listProduct.ToPagedList(pageNumber, pageSize);
+            }
+
+            return null;
+        }
+
         public async Task CreateProductAsync(ProductCreate productCreate)
         {
-            var product = await _context.Products
-                            .Where(x => !x.IsDeleted
-                            && x.IdProductDetail == productCreate.IdProductDetail
+            var product = await _productRepository.Get()
+                            .Where(x => x.IdProductDetail == productCreate.IdProductDetail
                             && x.Size == productCreate.Size)
                             .FirstOrDefaultAsync();
 
@@ -493,27 +496,27 @@ namespace ShopOnline.Business.Logic.Staff
                     IdProductDetail = productCreate.IdProductDetail,
                 };
 
-                _context.Products.Add(productEntity);
+                _productRepository.Add(productEntity);
             }
             else
             {
                 product.Quantity += productCreate.Quantity;
-                _context.Products.Update(product);
+                _productRepository.Update(product);
             }
 
-            await _context.SaveChangesAsync();
+            await _productRepository.SaveChangesAsync();
         }
 
         public async Task<bool> UpdateProductAsync(ProductUpdate productUpdate)
         {
-            var productEntity = await _context.Products.Where(x => x.Id == productUpdate.Id && !x.IsDeleted).FirstOrDefaultAsync();
+            var productEntity = await _productRepository.Get().Where(x => x.Id == productUpdate.Id).FirstOrDefaultAsync();
 
             if (productEntity != null)
             {
                 productEntity.Quantity = productUpdate.Quantity;
 
-                _context.Products.Update(productEntity);
-                await _context.SaveChangesAsync();
+                _productRepository.Update(productEntity);
+                await _productRepository.SaveChangesAsync();
                 return true;
             }
 
@@ -522,10 +525,10 @@ namespace ShopOnline.Business.Logic.Staff
 
         public async Task<bool> DeleteProductAsync(int id)
         {
-            var product = await _context.Products.Where(x => x.Id == id && !x.IsDeleted).FirstOrDefaultAsync();
+            var product = await _productRepository.Get().Where(x => x.Id == id).FirstOrDefaultAsync();
             if (product != null)
             {
-                var isCannotDelete = await _context.Products.Where(x => x.Id == id).AnyAsync(x => x.OrderDetails.Any(y => y.Order.StatusOrder == AppEnum.StatusOrder.Accepted
+                var isCannotDelete = await _productRepository.Get().Where(x => x.Id == id).AnyAsync(x => x.OrderDetails.Any(y => y.Order.StatusOrder == AppEnum.StatusOrder.Accepted
                                                                               || y.Order.StatusOrder == AppEnum.StatusOrder.Processing
                                                                               || y.Order.StatusOrder == AppEnum.StatusOrder.Delivering));
 
@@ -534,9 +537,8 @@ namespace ShopOnline.Business.Logic.Staff
                     throw new UserFriendlyException(ErrorCode.CannotDeleteProduct);
                 }
 
-                product.IsDeleted = true;
-                _context.Products.Update(product);
-                await _context.SaveChangesAsync();
+                _productRepository.SoftDelete(product);
+                await _productRepository.SaveChangesAsync();
                 return true;
             }
             else
