@@ -20,6 +20,7 @@ namespace ShopOnline.Core.Models.Order
         public int IdCustomer { get; set; }
         public int ExtraFee { get; set; }
         public int TotalPrice { get; set; }
+        public bool IsPaid { get; set; }
         public PaymentMethod Payment { get; set; }
         public string Address { get; set; }
     }

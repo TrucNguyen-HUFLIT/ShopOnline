@@ -1,0 +1,96 @@
+﻿@{
+    ViewData["Title"] = "Management Order Processing";
+    Layout = "~/Views/Shared/_LayoutManager.cshtml";
+}
+@model ShopOnline.Core.Models.Order.OrderModel
+@using X.PagedList.Mvc.Core;
+@using Microsoft.AspNetCore.Mvc;
+@using ShopOnline.Core.Models.Enum;
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
+    <div class="d-block mb-4 mb-md-0">
+        <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
+            <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
+                <li class="breadcrumb-item">
+                    <a href="#">
+                        <svg class="icon icon-xxs" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                    </a>
+                </li>
+                <li class="breadcrumb-item"><a>Management Sell</a></li>
+                <li class="breadcrumb-item active" aria-current="page">List Order Processing</li>
+            </ol>
+        </nav>
+        <h2 class="h4">List Order Processing</h2>
+    </div>
+</div>
+<div class="card card-body border-0 shadow table-wrapper table-responsive">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>#Id</th>
+                <th>Customer</th>
+                <th>Phone Number</th>
+                <th>Address</th>
+                <th>Extra Fee (VND)</th>
+                <th>Payment</th>
+                <th>Total Price (VND)</th>
+                <th>@Html.ActionLink("Order Day", "ListOrder", new { sortOrder = ViewBag.OrderDay }, new { @class = "text-info" })</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in Model.ListOrder)
+            {
+                <tr id="id-@order.Id">
+                    <td>
+                        @order.Id
+                    </td>
+                    <td>
+                        @{
+                            var customerName = Model.ListCustomer.Where(x => x.Id == order.IdCustomer).Select(x => x.FullName).FirstOrDefault();
+                        }
+                        @customerName
+                    </td>
+                    <td>
+                        @{
+                            var customerPhone = Model.ListCustomer.Where(x => x.Id == order.IdCustomer).Select(x => x.PhoneNumber).FirstOrDefault();
+                        }
+                        @customerPhone
+                    </td>
+                    <td>
+                        @order.Address
+                    </td>
+                    <td>
+                        @string.Format("{0:N0}", ((Int64)order.ExtraFee))
+                    </td>
+                    <td>
+                        @{
+                            var isPaid = order.IsPaid ? "Paid" : "Unpaid";
+                            var negIsPaid = order.IsPaid ? "Unpaid" : "Paid";
+                            var negStatusIsPaid = !order.IsPaid;
+                        }
+                        @order.Payment <span class="text-secondary"> (@isPaid)</span>
+                    </td>
+                    <td>
+                        @string.Format("{0:N0}", ((Int64)order.TotalPrice))
+                    </td>
+                    <td>
+                        @order.OrderDay
+                    </td>
+                    <td>
+                        <a asp-action="AcceptOrder" asp-route-id="@order.Id" class="btn btn-primary">Accept</a>
+                        @{
+                            string url = "/Order/CancelOrder";
+                        }
+                        <a onclick="ConfirmDelete(@order.Id, '@url')" class="btn btn-outline-primary">Cancel</a>
+                        <a asp-action="PayOrder" asp-route-id="@order.Id" asp-route-ispaid="@negStatusIsPaid" class="btn btn-secondary">@negIsPaid</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    Page @(Model.ListOrder.PageCount < Model.ListOrder.PageNumber ? 0 : Model.ListOrder.PageNumber) of @Model.ListOrder.PageCount
+    @Html.PagedListPager(Model.ListOrder, page => Url.Action("ListOrder",
+                                        new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+    @*<div class="fw-normal small mt-4 mt-lg-0">Showing <b>5</b> out of <b>25</b> entries</div>*@
+</div>

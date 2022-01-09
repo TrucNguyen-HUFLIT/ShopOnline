@@ -15,7 +15,8 @@
     bool isCompleted = Model.ListOrder.Any(x => x.StatusOrder == AppEnum.StatusOrder.Completed);
     bool isCancelled = Model.ListOrder.Any(x => x.StatusOrder == AppEnum.StatusOrder.Cancelled);
 
-    int currentStatusOrder = isAccepted ? 2
+    int currentStatusOrder = isAllStatus ? 0
+                            : isAccepted ? 2
                             : isDelivering ? 3
                             : isCompleted ? 4
                             : isCancelled ? 5 : 0;
@@ -30,7 +31,7 @@
                         <svg class="icon icon-xxs" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
                     </a>
                 </li>
-                <li class="breadcrumb-item"><a>Management Order</a></li>
+                <li class="breadcrumb-item"><a>Management Sell</a></li>
                 <li class="breadcrumb-item active" aria-current="page">List Order</li>
             </ol>
         </nav>
@@ -87,13 +88,21 @@
                             <option value="4" selected>Completed</option>
                             <option value="5">Cancelled</option>
                         }
-                        else
+                        else if (isCancelled)
                         {
                             <option value="0">All</option>
                             <option value="2">Accepted</option>
                             <option value="3">Delivering</option>
                             <option value="4">Completed</option>
                             <option value="5" selected>Cancelled</option>
+                        }
+                        else
+                        {
+                            <option value="0" selected>All</option>
+                            <option value="2">Accepted</option>
+                            <option value="3">Delivering</option>
+                            <option value="4">Completed</option>
+                            <option value="5">Cancelled</option>
                         }
                     </select>
                     <button type="submit" value="Search" class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
@@ -130,13 +139,13 @@
                         @{
                             var customerName = Model.ListCustomer.Where(x => x.Id == order.IdCustomer).Select(x => x.FullName).FirstOrDefault();
                         }
-                        @customerName;
+                        @customerName
                     </td>
                     <td>
                         @{
                             var customerPhone = Model.ListCustomer.Where(x => x.Id == order.IdCustomer).Select(x => x.PhoneNumber).FirstOrDefault();
                         }
-                        @customerPhone;
+                        @customerPhone
                     </td>
                     <td>
                         @order.Address

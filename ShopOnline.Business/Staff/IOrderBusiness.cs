@@ -13,6 +13,8 @@ namespace ShopOnline.Business.Order
         Task<IPagedList<HistoryOrderInfor>> GetHistoryOrderCustomerAsync(string sortOrder, string currentFilter, int? page, ClaimsPrincipal user);
         Task<IPagedList<HistoryOrderShipperInfor>> GetHistoryOrderShipperAsync(string sortOrder, string currentFilter, int? page, ClaimsPrincipal user);
         Task<IPagedList<OrderInforShipper>> GetOrderAcceptedShipperAsync(string sortOrder, string currentFilter, int? page);
-        Task AcceptDeliveryAsync(int id, ClaimsPrincipal user);
+        Task ShipperChangeStatusOrderAsync(int id, StatusOrder statusOrder, ClaimsPrincipal user);
+        Task StaffChangeStatusOrderAsync(int id, StatusOrder statusOrder);
+        Task SetIsPaidOrderAsync(int id, bool isPaid);
     }
 }
