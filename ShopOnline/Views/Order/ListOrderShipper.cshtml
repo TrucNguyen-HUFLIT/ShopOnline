@@ -2,7 +2,7 @@
     ViewData["Title"] = "Management Order";
     Layout = "~/Views/Shared/_LayoutManager.cshtml";
 }
-@model ShopOnline.Core.Models.Order.OrderModel
+@model ShopOnline.Core.Models.Order.OrderInforShipperModel
 @using X.PagedList.Mvc.Core;
 @using Microsoft.AspNetCore.Mvc;
 
@@ -15,60 +15,64 @@
                         <svg class="icon icon-xxs" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
                     </a>
                 </li>
-                <li class="breadcrumb-item"><a>Order Management</a></li>
-                <li class="breadcrumb-item active" aria-current="page">List Order</li>
+                <li class="breadcrumb-item"><a>Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Receive Order History</li>
             </ol>
         </nav>
-        <h2 class="h4">List Order</h2>
-    </div>
-    <div class="btn-toolbar mb-2 mb-md-0">
-        <a asp-action="CreateOrder" asp-controller="Order" class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
-            <svg class="icon icon-xs me-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
-            Add New Order
-        </a>
+        <h2 class="h4"> Receive Order History</h2>
     </div>
 </div>
 <div class="card card-body border-0 shadow table-wrapper table-responsive">
     <table class="table table-hover">
         <thead>
             <tr>
-                <th>#Id</th>
-                @*<th>  @Html.ActionLink("FullName", "ListOrder", new { sortOrder = ViewBag.NameSortParm })</th>*@
                 <th>Customer</th>
-                <th>@Html.ActionLink("Order Day", "ListOrder", new { sortOrder = ViewBag.OrderDay })</th>
+                <th>@Html.ActionLink("Order Day", "ListOrderShipper", new { sortOrder = ViewBag.OrderDay })</th>
+                <th>Address</th>
+                <th>ExtraFee</th>
+                <th>Payment</th>
                 <th>Status</th>
+                <th>Total</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var order in Model.ListOrder)
+            @foreach (var orderInforShipper in Model.ListOrderInforShipper)
             {
                 <tr>
                     <td>
-                        @order.Id
-                    </td>
-                    <td>
-                         @foreach (var customer in Model.ListCustomer)
+                        @foreach (var customer in Model.ListCustomer)
                         {
-                            if (customer.Id == order.IdCustomer)
+                            if (customer.Id == orderInforShipper.IdCustomer)
                             {
                                 @customer.FullName
                                 break;
                             }
                         }
                     </td>
-                    <td >
-                        @order.OrderDay
+                    <td>
+                        @orderInforShipper.OrderDay
                     </td>
                     <td>
-                        @order.StatusOrder
+                        @orderInforShipper.Address
                     </td>
-
+                    <td>
+                        @orderInforShipper.ExtraFee
+                    </td>
+                    <td>
+                        @orderInforShipper.Payment
+                    </td>
+                    <td>
+                        @orderInforShipper.StatusOrder
+                    </td>
+                    <td>
+                        @orderInforShipper.TotalPrice
+                    </td>
                 </tr>
             }
         </tbody>
     </table>
-    Page @(Model.ListOrder.PageCount < Model.ListOrder.PageNumber ? 0 : Model.ListOrder.PageNumber) of @Model.ListOrder.PageCount
-    @Html.PagedListPager(Model.ListOrder, page => Url.Action("ListOrder",
-                                        new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+    Page @(Model.ListOrderInforShipper.PageCount < Model.ListOrderInforShipper.PageNumber ? 0 : Model.ListOrderInforShipper.PageNumber) of @Model.ListOrderInforShipper.PageCount
+    @Html.PagedListPager(Model.ListOrderInforShipper, page => Url.Action("ListOrderShipper",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
     @*<div class="fw-normal small mt-4 mt-lg-0">Showing <b>5</b> out of <b>25</b> entries</div>*@
 </div>
