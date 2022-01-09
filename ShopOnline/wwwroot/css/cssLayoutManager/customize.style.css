@@ -39,3 +39,7 @@
 .inline {
     display:inline;
 }
+
+.swal2-confirm {
+    margin-left: 30px;
+}
