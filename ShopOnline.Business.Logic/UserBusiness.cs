@@ -151,7 +151,7 @@ namespace ShopOnline.Business.Logic
 
             MimeMessage message = new();
 
-            MailboxAddress from = new("Dreams Store", "dreamsstore.ss@gmail.com");
+            MailboxAddress from = new("Bicycle Store", "dreamsstore.ss@gmail.com");
             message.From.Add(from);
 
             MailboxAddress to = new(accountReset.FullName, accountReset.Email);

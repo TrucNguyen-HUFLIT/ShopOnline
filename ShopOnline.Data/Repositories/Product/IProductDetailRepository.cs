@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ShopOnline.Data.Repositories.Product
 {
-    public interface IProductRepository : IRepositoryBase<ProductEntity>
+    public interface IProductDetailRepository : IRepositoryBase<ProductDetailEntity>
     {
     }
 }

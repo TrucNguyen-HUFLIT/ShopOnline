@@ -19,12 +19,12 @@ namespace ShopOnline.Business.Logic.Staff
     public class ProductBusiness : IProductBusiness
     {
         private readonly MyDbContext _context;
-        private readonly IProductRepository _productRepository;
+        private readonly IProductDetailRepository _productDetailRepository;
         private readonly IWebHostEnvironment hostEnvironment;
-        public ProductBusiness(MyDbContext context, IWebHostEnvironment hostEnvironment, IProductRepository productRepository)
+        public ProductBusiness(MyDbContext context, IWebHostEnvironment hostEnvironment, IProductDetailRepository productDetailRepository)
         {
             _context = context;
-            _productRepository = productRepository;
+            _productDetailRepository = productDetailRepository;
             this.hostEnvironment = hostEnvironment;
         }
 
@@ -112,7 +112,7 @@ namespace ShopOnline.Business.Logic.Staff
         public async Task<IPagedList<ProductDetailInfor>> GetListProductDetailAsync(string sortOrder, string currentFilter, string searchString, int? page)
         {
             var listProductDetail = new List<ProductDetailInfor>();
-            var productDetails = await _context.ProductDetails.Where(x => !x.IsDeleted).ToListAsync();
+            var productDetails = await _productDetailRepository.Get().ToListAsync();
             if (productDetails != null && productDetails.Any())
             {
                 foreach (var productDetail in productDetails)
@@ -230,8 +230,8 @@ namespace ShopOnline.Business.Logic.Staff
                 }
                 #endregion
 
-                _context.ProductDetails.Add(productDetailEntity);
-                await _context.SaveChangesAsync();
+                _productDetailRepository.Add(productDetailEntity);
+                await _productDetailRepository.SaveChangesAsync();
             }
             else
             {
@@ -300,8 +300,8 @@ namespace ShopOnline.Business.Logic.Staff
 
                 #endregion
 
-                _context.ProductDetails.Update(productDetailEntity);
-                await _context.SaveChangesAsync();
+                _productDetailRepository.Update(productDetailEntity);
+                await _productDetailRepository.SaveChangesAsync();
                 return true;
             }
             return false;
@@ -356,8 +356,8 @@ namespace ShopOnline.Business.Logic.Staff
             if (productDetail != null)
             {
                 productDetail.IsDeleted = true;
-                _context.ProductDetails.Update(productDetail);
-                await _context.SaveChangesAsync();
+                _productDetailRepository.SoftDelete(productDetail);
+                await _productDetailRepository.SaveChangesAsync();
                 return true;
             }
             else

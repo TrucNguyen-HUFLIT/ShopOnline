@@ -80,7 +80,7 @@ namespace ShopOnline
             services.AddScoped<IReviewBusiness, ReviewBusiness>();
             services.AddScoped<ICustomerBusiness, CustomerBusiness>();
             services.AddScoped<IOrderBusiness, OrderBusiness>();
-            services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<IProductDetailRepository, ProductDetailRepository>();
 
         }
 
