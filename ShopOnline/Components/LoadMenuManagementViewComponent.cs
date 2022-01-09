@@ -10,14 +10,18 @@ namespace ShopOnline.Components
     {
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            string role = UserClaimsPrincipal.FindFirst(ClaimTypes.Role)?.Value;
-            role = char.ToUpper(role[0]) + role.Substring(1);
-            Enum.TryParse(role, out TypeAcc enumRole);
-
-            var vm = new LoadMenuManagementViewModel
+            var vm = new LoadMenuManagementViewModel();
+            await Task.Run(() =>
             {
-                Role = enumRole
-            };
+                string role = UserClaimsPrincipal.FindFirst(ClaimTypes.Role)?.Value;
+                role = char.ToUpper(role[0]) + role.Substring(1);
+                Enum.TryParse(role, out TypeAcc enumRole);
+
+                var vm = new LoadMenuManagementViewModel
+                {
+                    Role = enumRole
+                };
+            });
             return View(vm);
         }
     }
