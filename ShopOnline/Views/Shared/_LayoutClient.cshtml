@@ -48,7 +48,7 @@
                     <input type="text" placeholder="Search">
                 </div>
                 <div class="header__navbar-btn-cart">
-                    <img src="~/img/icon/favorite.png" alt="" />
+                    @*<img src="~/img/icon/favorite.png" alt="" />*@
                     <a asp-controller="Cart" asp-action="ProductCart"><img src="~/img/icon/shopping-cart.png" alt="" /></a>
                     @await Html.PartialAsync("_CartPartial")
                 </div>

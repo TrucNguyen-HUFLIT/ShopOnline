@@ -59,7 +59,10 @@
                         @string.Format("{0:N0}", ((Int64)orderInforShipper.ExtraFee))
                     </td>
                     <td>
-                        @orderInforShipper.Payment
+                        @{
+                            var isPaid = orderInforShipper.IsPaid ? "Paid" : "Unpaid";
+                        }
+                        @orderInforShipper.Payment <span class="text-secondary"> (@isPaid)</span>
                     </td>
                     <td>
                         @string.Format("{0:N0}", ((Int64)orderInforShipper.TotalPrice))

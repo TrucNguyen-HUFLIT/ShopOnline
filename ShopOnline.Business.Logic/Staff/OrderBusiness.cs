@@ -35,18 +35,23 @@ namespace ShopOnline.Business.Logic.Staff
             {
                 ordersQuery = ordersQuery.Where(x => x.StatusOrder == statusOrder);
             }
+            else
+            {
+                ordersQuery = ordersQuery.Where(x => x.StatusOrder != StatusOrder.Processing);
+            }
 
             var listOrder = await ordersQuery
-              .Select(historyOrder => new OrderInfor
+              .Select(order => new OrderInfor
               {
-                  Id = historyOrder.Id,
-                  OrderDay = historyOrder.OrderDay,
-                  Address = historyOrder.Address,
-                  ExtraFee = historyOrder.ExtraFee,
-                  StatusOrder = historyOrder.StatusOrder,
-                  Payment = historyOrder.Payment,
-                  IdCustomer = historyOrder.IdCustomer,
-                  TotalPrice = historyOrder.OrderDetails.Sum(y => y.TotalPrice)
+                  Id = order.Id,
+                  OrderDay = order.OrderDay,
+                  Address = order.Address,
+                  ExtraFee = order.ExtraFee,
+                  StatusOrder = order.StatusOrder,
+                  Payment = order.Payment,
+                  IsPaid = order.IsPaid,
+                  IdCustomer = order.IdCustomer,
+                  TotalPrice = order.OrderDetails.Sum(y => y.TotalPrice)
               })
               .ToListAsync();
             int pageSize = 10;
@@ -75,6 +80,7 @@ namespace ShopOnline.Business.Logic.Staff
                     Address = historyOrder.Address,
                     ExtraFee = historyOrder.ExtraFee,
                     StatusOrder = historyOrder.StatusOrder,
+                    IsPaid = historyOrder.IsPaid,
                     Payment = historyOrder.Payment,
                     TotalPrice = historyOrder.OrderDetails.Sum(y => y.TotalPrice)
                 })
@@ -107,6 +113,7 @@ namespace ShopOnline.Business.Logic.Staff
                     ExtraFee = historyOrder.ExtraFee,
                     StatusOrder = historyOrder.StatusOrder,
                     IdCustomer = historyOrder.IdCustomer,
+                    IsPaid = historyOrder.IsPaid,
                     Payment = historyOrder.Payment,
                     TotalPrice = historyOrder.OrderDetails.Sum(y => y.TotalPrice)
                 })
@@ -135,6 +142,7 @@ namespace ShopOnline.Business.Logic.Staff
                     ExtraFee = orderShipper.ExtraFee,
                     StatusOrder = orderShipper.StatusOrder,
                     IdCustomer = orderShipper.IdCustomer,
+                    IsPaid = orderShipper.IsPaid,
                     Payment = orderShipper.Payment,
                     TotalPrice = orderShipper.OrderDetails.Sum(y => y.TotalPrice)
                 })
@@ -145,15 +153,35 @@ namespace ShopOnline.Business.Logic.Staff
             return listOrderAcceptedShipper.ToPagedList(pageNumber, pageSize);
         }
 
-        public async Task AcceptDeliveryAsync(int id, ClaimsPrincipal user)
+        public async Task ShipperChangeStatusOrderAsync(int id, StatusOrder statusOrder, ClaimsPrincipal user)
         {
             string email = user.FindFirst(ClaimTypes.Email).Value;
             var idShipper = _context.Shippers.Where(x => x.Email == email && !x.IsDeleted).Select(x => x.Id).FirstOrDefault();
 
             var order = await _context.Orders.Where(x => !x.IsDeleted && x.Id == id).FirstOrDefaultAsync();
             order.IdShipper = idShipper;
-            order.StatusOrder = StatusOrder.Delivering;
+            order.StatusOrder = statusOrder;
+            if (statusOrder == StatusOrder.Completed && order.Payment == PaymentMethod.ShipCod)
+            {
+                order.IsPaid = true;
+            }
 
+            _context.Orders.Update(order);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task StaffChangeStatusOrderAsync(int id, StatusOrder statusOrder)
+        {
+            var order = await _context.Orders.Where(x => !x.IsDeleted && x.Id == id).FirstOrDefaultAsync();
+            order.StatusOrder = statusOrder;
+            _context.Orders.Update(order);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task SetIsPaidOrderAsync(int id, bool isPaid)
+        {
+            var order = await _context.Orders.Where(x => !x.IsDeleted && x.Id == id).FirstOrDefaultAsync();
+            order.IsPaid = isPaid;
             _context.Orders.Update(order);
             await _context.SaveChangesAsync();
         }

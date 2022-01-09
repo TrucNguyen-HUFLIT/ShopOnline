@@ -45,7 +45,10 @@
                         @string.Format("{0:N0}", ((Int64)historyOrder.ExtraFee))
                     </td>
                     <td>
-                        @historyOrder.Payment
+                        @{
+                            var isPaid = historyOrder.IsPaid ? "Paid" : "Unpaid";
+                        }
+                        @historyOrder.Payment <span class="text-secondary"> (@isPaid)</span>
                     </td>
                     <td>
                         @historyOrder.StatusOrder
