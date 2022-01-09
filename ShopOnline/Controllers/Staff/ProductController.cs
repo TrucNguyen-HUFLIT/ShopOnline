@@ -20,17 +20,6 @@ namespace ShopOnline.Controllers.Staff
         }
 
         [Authorize(Roles = ROLE.MANAGER)]
-        [HttpGet]
-        public IActionResult CreateBrand()
-        {
-            var model = new BrandCreateViewModel
-            {
-                BrandCreate = new BrandCreate(),
-            };
-            return View(model);
-        }
-
-        [Authorize(Roles = ROLE.MANAGER)]
         public async Task<IActionResult> ListProductType(string sortOrder, string currentFilter, string searchString, int? page)
         {
             ViewBag.CurrentSort = sortOrder;

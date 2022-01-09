@@ -144,7 +144,7 @@ namespace ShopOnline.Business.Logic.Customer
 
         public async Task InitTypes()
         {
-            var brandInfors = await _context.ProductTypes
+            var productTypesInfor = await _context.ProductTypes
                                 .Where(x => !x.IsDeleted)
                                 .Select(x => new TypeInforModel
                                 {
@@ -152,7 +152,7 @@ namespace ShopOnline.Business.Logic.Customer
                                     Name = x.Name,
                                 })
                                 .ToListAsync();
-            ProductTypeSingleton.Instance.Init(brandInfors);
+            ProductTypeSingleton.Instance.Init(productTypesInfor);
         }
 
         public async Task<TypeInforModel> GetTypesAsync(int typeId)

@@ -103,12 +103,12 @@
                 <p>115/103 Le Van Sy Street</p>
             </div>
             <div class="footer__content-items">
-                <h1>BRANDS</h1>
+                <h1>PRODUCT TYPES</h1>
                 <br>
                 <ul>
-                    @foreach (var brandInfor in ProductTypeSingleton.Instance.ProductTypeInfors)
+                    @foreach (var productTypeInfor in ProductTypeSingleton.Instance.ProductTypeInfors)
                     {
-                        <li><a asp-action="Products" asp-route-brandid="@brandInfor.Id">@brandInfor.Name</a></li>
+                        <li><a asp-action="Products" asp-route-typeid="@productTypeInfor.Id">@productTypeInfor.Name</a></li>
                     }
                 </ul>
             </div>

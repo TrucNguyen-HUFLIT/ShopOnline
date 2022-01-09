@@ -45,8 +45,6 @@ namespace ShopOnline.Controllers.Staff
             ViewBag.CurrentSort = sortOrder;
             ViewBag.OrderDay = String.IsNullOrEmpty(sortOrder) ? "order_day_desc" : "";
 
-            var enumStatusOrder = (StatusOrder)statusOrder;
-
             var model = new OrderModel
             {
                 ListCustomer = await _reviewBusiness.GetListCustomer(),
