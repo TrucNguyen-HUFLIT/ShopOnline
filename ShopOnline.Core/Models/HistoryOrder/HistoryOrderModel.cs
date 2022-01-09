@@ -19,6 +19,7 @@ namespace ShopOnline.Core.Models.HistoryOrder
         public StatusOrder StatusOrder { get; set; }
         public PaymentMethod Payment { get; set; }
         public int ExtraFee { get; set; }
+        public bool IsPaid { get; set; }
         public string Address { get; set; }
         public int TotalPrice { get; set; }
     }

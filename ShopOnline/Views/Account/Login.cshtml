@@ -14,9 +14,9 @@
             <p id="password_msg" class="text-msg-error"></p>
         </div>
         <div class="main__login-remember">
-            <input type="checkbox" name="" id="check-remember">
-            <label for="#check-remember"><em>Remember me</em></label>
-            <a asp-action="ResetPassword">Forgot password?</a>
+            @*<input type="checkbox" name="" id="check-remember">
+            <label for="#check-remember"><em>Remember me</em></label>*@
+            <a asp-action="ResetPassword" style="margin-left: 105px">Forgot password?</a>
         </div>
     </form>
     <input type="submit" value="LOGIN"  onclick="login()">

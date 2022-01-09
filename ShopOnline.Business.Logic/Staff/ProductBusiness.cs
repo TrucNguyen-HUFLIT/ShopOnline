@@ -6,6 +6,7 @@ using ShopOnline.Core.Entities;
 using ShopOnline.Core.Exceptions;
 using ShopOnline.Core.Models.Enum;
 using ShopOnline.Core.Models.Product;
+using ShopOnline.Data.Repositories.Product;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -18,10 +19,12 @@ namespace ShopOnline.Business.Logic.Staff
     public class ProductBusiness : IProductBusiness
     {
         private readonly MyDbContext _context;
+        private readonly IProductRepository _productRepository;
         private readonly IWebHostEnvironment hostEnvironment;
-        public ProductBusiness(MyDbContext context, IWebHostEnvironment hostEnvironment)
+        public ProductBusiness(MyDbContext context, IWebHostEnvironment hostEnvironment, IProductRepository productRepository)
         {
             _context = context;
+            _productRepository = productRepository;
             this.hostEnvironment = hostEnvironment;
         }
 

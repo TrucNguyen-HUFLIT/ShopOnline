@@ -17,6 +17,7 @@ using ShopOnline.Business.Staff;
 using ShopOnline.Core;
 using ShopOnline.Core.Filters;
 using ShopOnline.Core.Validators.Account;
+using ShopOnline.Data.Repositories.Product;
 using ShopOnline.Models;
 using System;
 
@@ -79,6 +80,7 @@ namespace ShopOnline
             services.AddScoped<IReviewBusiness, ReviewBusiness>();
             services.AddScoped<ICustomerBusiness, CustomerBusiness>();
             services.AddScoped<IOrderBusiness, OrderBusiness>();
+            services.AddScoped<IProductRepository, ProductRepository>();
 
         }
 
