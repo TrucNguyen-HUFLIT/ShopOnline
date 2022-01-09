@@ -6,18 +6,21 @@ namespace ShopOnline.Components
 {
     public class LoadAccountOptionsViewComponent : ViewComponent
     {
-
         public async Task<IViewComponentResult> InvokeAsync(bool isLayoutManager)
         {
-            var name = UserClaimsPrincipal.FindFirst(ClaimTypes.Name)?.Value;
-            var avatar = UserClaimsPrincipal.FindFirst("avatar")?.Value;
-
-            var vm = new LoadAccountOptionsViewModel
+            var vm = new LoadAccountOptionsViewModel();
+            await Task.Run(() =>
             {
-                Name = name,
-                Avatar = avatar,
-                IsLayoutManager = isLayoutManager
-            };
+                var name = UserClaimsPrincipal.FindFirst(ClaimTypes.Name)?.Value;
+                var avatar = UserClaimsPrincipal.FindFirst("avatar")?.Value;
+
+                var vm = new LoadAccountOptionsViewModel
+                {
+                    Name = name,
+                    Avatar = avatar,
+                    IsLayoutManager = isLayoutManager
+                };
+            });
             return View(vm);
         }
     }
