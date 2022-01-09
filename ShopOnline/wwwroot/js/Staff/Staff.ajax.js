@@ -582,25 +582,44 @@ $("#create-product-detail-form").submit(function (e) {
 
                 var objectValid = data.responseJSON;
 
-                if (objectValid["ProductDetailCreate.Name"] != undefined)
-                    document.getElementById("Err_Name").innerHTML = objectValid["ProductDetailCreate.Name"];
+                if (objectValid["productDetailCreate.Name"] != undefined)
+                    document.getElementById("Err_Name").innerHTML = objectValid["productDetailCreate.Name"];
                 else
                     document.getElementById("Err_Name").innerHTML = "";
 
-                if (objectValid["ProductDetailCreate.Price"] != undefined)
-                    document.getElementById("Err_Price").innerHTML = objectValid["ProductDetailCreate.Price"];
+                if (objectValid["productDetailCreate.Price"] != undefined)
+                    document.getElementById("Err_Price").innerHTML = objectValid["productDetailCreate.Price"];
                 else
                     document.getElementById("Err_Price").innerHTML = "";
 
-                if (objectValid["ProductDetailCreate.UploadPic1"] != undefined)
-                    document.getElementById("Err_UploadPic1").innerHTML = objectValid["ProductDetailCreate.UploadPic1"];
+                if (objectValid["productDetailCreate.BasePrice"] != undefined)
+                    document.getElementById("Err_BasePrice").innerHTML = objectValid["productDetailCreate.BasePrice"];
+                else
+                    document.getElementById("Err_BasePrice").innerHTML = "";
+
+                if (objectValid["productDetailCreate.Quantity"] != undefined)
+                    document.getElementById("Err_Quantity").innerHTML = objectValid["productDetailCreate.Quantity"];
+                else
+                    document.getElementById("Err_Quantity").innerHTML = "";
+
+                if (objectValid["productDetailCreate.Brand"] != undefined)
+                    document.getElementById("Err_Brand").innerHTML = objectValid["productDetailCreate.Brand"];
+                else
+                    document.getElementById("Err_Brand").innerHTML = "";
+
+                if (objectValid["productDetailCreate.UploadPic1"] != undefined)
+                    document.getElementById("Err_UploadPic1").innerHTML = objectValid["productDetailCreate.UploadPic1"];
                 else
                     document.getElementById("Err_UploadPic1").innerHTML = "";
 
             }
             catch {
+
                 document.getElementById("Err_Name").innerHTML = "";
                 document.getElementById("Err_Price").innerHTML = "";
+                document.getElementById("Err_Quantity").innerHTML = "";
+                document.getElementById("Err_BasePrice").innerHTML = "";
+                document.getElementById("Err_Brand").innerHTML = "";
                 document.getElementById("Err_UploadPic1").innerHTML = "";
             }
         },
@@ -650,6 +669,16 @@ $("#update-product-detail-form").submit(function (e) {
                 else
                     document.getElementById("Err_BasePrice").innerHTML = "";
 
+                if (objectValid["ProductDetailUpdate.Quantity"] != undefined)
+                    document.getElementById("Err_Quantity").innerHTML = objectValid["ProductDetailUpdate.Quantity"];
+                else
+                    document.getElementById("Err_Quantity").innerHTML = "";
+
+                if (objectValid["ProductDetailUpdate.Brand"] != undefined)
+                    document.getElementById("Err_Brand").innerHTML = objectValid["ProductDetailUpdate.Brand"];
+                else
+                    document.getElementById("Err_Brand").innerHTML = "";
+
                 if (objectValid["ProductDetailUpdate.UploadPic1"] != undefined)
                     document.getElementById("Err_UploadPic1").innerHTML = objectValid["ProductDetailUpdate.UploadPic1"];
                 else
@@ -659,6 +688,9 @@ $("#update-product-detail-form").submit(function (e) {
             catch {
                 document.getElementById("Err_Name").innerHTML = "";
                 document.getElementById("Err_Price").innerHTML = "";
+                document.getElementById("Err_BasePrice").innerHTML = "";
+                document.getElementById("Err_Quantity").innerHTML = "";
+                document.getElementById("Err_Brand").innerHTML = "";
                 document.getElementById("Err_UploadPic1").innerHTML = "";
             }
         },

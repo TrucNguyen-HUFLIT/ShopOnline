@@ -20,27 +20,6 @@ namespace ShopOnline.Controllers.Staff
         }
 
         [Authorize(Roles = ROLE.MANAGER)]
-        public async Task<IActionResult> ListBrand(string sortOrder, string currentFilter, string searchString, int? page)
-        {
-            ViewBag.CurrentSort = sortOrder;
-            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) || sortOrder.Equals("name") ? "name_desc" : "name";
-
-            ViewBag.IdSortParm = String.IsNullOrEmpty(sortOrder) ? "id_desc" : "";
-
-            //StaticAcc.Name = User.Claims.Where(x => x.Type == "name").FirstOrDefault().Value;
-
-            if (searchString != null) page = 1;
-            else searchString = currentFilter;
-            ViewBag.CurrentFilter = searchString;
-
-            var model = new BrandModel
-            {
-                ListBrand = await _productBusiness.GetListBrandAsync(sortOrder, currentFilter, searchString, page)
-            };
-            return View(model);
-        }
-
-        [Authorize(Roles = ROLE.MANAGER)]
         [HttpGet]
         public IActionResult CreateBrand()
         {
@@ -50,44 +29,6 @@ namespace ShopOnline.Controllers.Staff
             };
             return View(model);
         }
-
-        [Authorize(Roles = ROLE.MANAGER)]
-        [HttpPost]
-        [TypeFilter(typeof(ModelStateAjaxFilter))]
-        [TypeFilter(typeof(ExceptionFilter))]
-        public async Task<IActionResult> CreateBrand([FromForm] BrandCreate brandCreate)
-        {
-            await _productBusiness.CreateBrandAsync(brandCreate);
-            return Ok();
-        }
-
-        [Authorize(Roles = ROLE.MANAGER)]
-        [HttpGet]
-        public IActionResult UpdateBrand(int id)
-        {
-            var model = new BrandInforViewModel
-            {
-                BrandInfor = _productBusiness.GetBrandByIdAsync(id),
-            };
-            return View(model);
-        }
-
-        [Authorize(Roles = ROLE.MANAGER)]
-        [HttpPost]
-        [TypeFilter(typeof(ModelStateAjaxFilter))]
-        public async Task<IActionResult> UpdateBrand(BrandInfor brandInfor)
-        {
-            await _productBusiness.EditBrandAsync(brandInfor);
-            return Ok(brandInfor.Id);
-        }
-
-        [Authorize(Roles = ROLE.MANAGER)]
-        public async Task<IActionResult> DeleteBrandAsync(int id)
-        {
-            await _productBusiness.DeleteBrandAsync(id);
-            return Ok();
-        }
-
 
         [Authorize(Roles = ROLE.MANAGER)]
         public async Task<IActionResult> ListProductType(string sortOrder, string currentFilter, string searchString, int? page)
@@ -105,7 +46,6 @@ namespace ShopOnline.Controllers.Staff
 
             var model = new ProductTypeModel
             {
-                ListBrand = await _productBusiness.GetListBrand(),
                 ListProductType = await _productBusiness.GetListProductTypeAsync(sortOrder, currentFilter, searchString, page)
             };
             return View(model);
@@ -118,7 +58,6 @@ namespace ShopOnline.Controllers.Staff
             var model = new ProductTypeViewModel
             {
                 productType = new ProductTypeInfor(),
-                ListBrand = await _productBusiness.GetListBrand(),
             };
             return View(model);
         }
@@ -140,7 +79,6 @@ namespace ShopOnline.Controllers.Staff
             var model = new ProductTypeViewModel
             {
                 productType = _productBusiness.GetProductTypeByIdAsync(id),
-                ListBrand = await _productBusiness.GetListBrand(),
             };
             return View(model);
         }
@@ -230,88 +168,6 @@ namespace ShopOnline.Controllers.Staff
             {
                 ListProductType = await _productBusiness.GetListProductType(),
                 ListProductDetail = await _productBusiness.GetListProductDetailAsync(sortOrder, currentFilter, searchString, page)
-            };
-
-            return View(model);
-        }
-
-        [Authorize(Roles = ROLE.STAFF)]
-        [HttpGet]
-        public async Task<IActionResult> GetListProductDetail()
-        {
-            var listProductDetail = await _productBusiness.GetListProductDetail();
-            return Ok(listProductDetail);
-        }
-
-        [Authorize(Roles = ROLE.STAFF)]
-        [HttpGet]
-        public async Task<IActionResult> CreateProduct()
-        {
-            var model = new ProductCreateViewModel
-            {
-                ListProductSize = Enum.GetValues(typeof(ProductSize)).Cast<ProductSize>().ToList(),
-                ListProductDetail = await _productBusiness.GetListProductDetail(),
-            };
-
-            return View(model);
-        }
-
-        [Authorize(Roles = ROLE.STAFF)]
-        [HttpPost]
-        [TypeFilter(typeof(ModelStateAjaxFilter))]
-        [TypeFilter(typeof(ExceptionFilter))]
-        public async Task<IActionResult> CreateProduct([FromForm] ProductCreate productCreate)
-        {
-            await _productBusiness.CreateProductAsync(productCreate);
-            return Ok();
-        }
-
-        [Authorize(Roles = ROLE.STAFF)]
-        [HttpGet]
-        public async Task<IActionResult> UpdateProduct(int id)
-        {
-            var model = new ProductUpdateViewModel
-            {
-                ProductUpdate = await _productBusiness.GetProductByIdAsync(id),
-                ListProductDetail = await _productBusiness.GetListProductDetail(),
-            };
-            return View(model);
-        }
-
-        [Authorize(Roles = ROLE.STAFF)]
-        [HttpPost]
-        [TypeFilter(typeof(ModelStateAjaxFilter))]
-        public async Task<IActionResult> UpdateProduct(ProductUpdate productUpdate)
-        {
-            await _productBusiness.UpdateProductAsync(productUpdate);
-            return Ok(productUpdate.Id);
-        }
-
-        [Authorize(Roles = ROLE.STAFF)]
-        public async Task<IActionResult> DeleteProductAsync(int id)
-        {
-            await _productBusiness.DeleteProductAsync(id);
-            return Ok();
-        }
-
-        [Authorize(Roles = ROLE.STAFF)]
-        public async Task<IActionResult> ListProduct(string sortOrder, string currentFilter, string searchString, int? page)
-        {
-            ViewBag.CurrentSort = sortOrder;
-            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) || sortOrder.Equals("name") ? "name_desc" : "name";
-
-            ViewBag.IdSortParm = String.IsNullOrEmpty(sortOrder) ? "id_desc" : "";
-
-            //StaticAcc.Name = User.Claims.Where(x => x.Type == "name").FirstOrDefault().Value;
-
-            if (searchString != null) page = 1;
-            else searchString = currentFilter;
-            ViewBag.CurrentFilter = searchString;
-
-            var model = new ProductModel
-            {
-                ListProductDetail = await _productBusiness.GetListProductDetail(),
-                ListProduct = await _productBusiness.GetListProductAsync(sortOrder, currentFilter, searchString, page)
             };
 
             return View(model);

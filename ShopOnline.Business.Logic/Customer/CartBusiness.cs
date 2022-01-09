@@ -47,17 +47,16 @@ namespace ShopOnline.Business.Logic.Customer
 
             if (productInCart == null)
             {
-                productInCart = await _context.Products.Where(x => x.Id == idProduct && !x.IsDeleted)
+                productInCart = await _context.ProductDetails.Where(x => x.Id == idProduct && !x.IsDeleted)
                                     .Select(x => new ProductCartModel
                                     {
                                         Id = x.Id,
                                         Name = x.Name,
                                         Quantity = x.Quantity,
-                                        PriceVND = x.ProductDetail.Price,
-                                        BasePrice = x.ProductDetail.BasePrice,
-                                        Pic = x.ProductDetail.Pic1,
-                                        Size = x.Size,
-                                        IdProductDetail = x.IdProductDetail,
+                                        PriceVND = x.Price,
+                                        BasePrice = x.BasePrice,
+                                        Pic = x.Pic1,
+                                        Brand = x.Brand,
                                     })
                                     .FirstOrDefaultAsync();
 
@@ -137,8 +136,8 @@ namespace ShopOnline.Business.Logic.Customer
             var cart = GetProductsCart();
             if (!cart.Any()) throw new UserFriendlyException(ErrorCode.EmptyCart);
 
-            var productIds = cart.Select(x => x.Id).ToArray();
-            var products = await _context.Products.Where(x => !x.IsDeleted && productIds.Contains(x.Id)).ToArrayAsync();
+            var productDetailIds = cart.Select(x => x.Id).ToArray();
+            var productsDetail = await _context.ProductDetails.Where(x => !x.IsDeleted && productDetailIds.Contains(x.Id)).ToArrayAsync();
             var idCustomer = await _context.Customers
                                     .Where(x => !x.IsDeleted && x.Email == email && x.PhoneNumber == phone)
                                     .Select(x => x.Id)
@@ -159,10 +158,10 @@ namespace ShopOnline.Business.Logic.Customer
                 _context.Orders.Add(orderEntity);
                 await _context.SaveChangesAsync();
 
-                foreach (var product in cart)
+                foreach (var productDetail in cart)
                 {
-                    var productEntity = products.Where(x => x.Id == product.Id).FirstOrDefault();
-                    int newQuantity = productEntity.Quantity - product.SelectedQuantity;
+                    var productEntity = productsDetail.Where(x => x.Id == productDetail.Id).FirstOrDefault();
+                    int newQuantity = productEntity.Quantity - productDetail.SelectedQuantity;
 
                     if (newQuantity < 0)
                     {
@@ -173,15 +172,15 @@ namespace ShopOnline.Business.Logic.Customer
                     {
                         productEntity.Quantity = newQuantity;
                     }
-                    _context.Products.Update(productEntity);
+                    _context.ProductDetails.Update(productEntity);
 
                     orderDetails.Add(new OrderDetailEntity
                     {
                         IdOrder = orderEntity.Id,
-                        IdProduct = product.Id,
-                        TotalPrice = product.TotalVND,
-                        TotalBasePrice = product.TotalBasePrice,
-                        QuantityPurchased = product.SelectedQuantity,
+                        IdProductDetail = productDetail.Id,
+                        TotalPrice = productDetail.TotalVND,
+                        TotalBasePrice = productDetail.TotalBasePrice,
+                        QuantityPurchased = productDetail.SelectedQuantity,
                     });
                 }
                 _context.OrderDetails.AddRange(orderDetails);

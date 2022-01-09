@@ -32,10 +32,10 @@
             </div>
             <div id="header__navbar-items" class="header__navbar-items">
                 <ul id="nav">
-                    @foreach (var brandInfor in BrandSingleton.Instance.BrandInfors)
+                    @foreach (var typeInfor in ProductTypeSingleton.Instance.ProductTypeInfors)
                     {
-                        <a asp-action="Products" asp-controller="Client" asp-route-brandid="@brandInfor.Id">
-                            <li>@brandInfor.Name</li>
+                        <a asp-action="Products" asp-controller="Client" asp-route-typeid="@typeInfor.Id">
+                            <li>@typeInfor.Name</li>
                         </a>
                     }
                     <a href="#footer">
@@ -106,7 +106,7 @@
                 <h1>BRANDS</h1>
                 <br>
                 <ul>
-                    @foreach (var brandInfor in BrandSingleton.Instance.BrandInfors)
+                    @foreach (var brandInfor in ProductTypeSingleton.Instance.ProductTypeInfors)
                     {
                         <li><a asp-action="Products" asp-route-brandid="@brandInfor.Id">@brandInfor.Name</a></li>
                     }

@@ -7,12 +7,12 @@ namespace ShopOnline.Business.Customer
 {
     public interface IClientBusiness
     {
-        Task InitBrands();
+        Task InitTypes();
         Task<List<ProductInforViewModel>> GetProductsAsync(int? amountTake);
         Task<ProductDetailViewModel> GetDetailProductAsync(int id);
         Task<List<ProductInforModel>> GetCurrentProductsInforAsync(int amountTake);
         Task CreateReviewDetailAsync(ReviewDetailModel reviewDetail);
-        Task<ProductsViewModel> GetProductsByBrandAsync(int brandId, int? typeId);
-        Task<TypeOfBrandInforModel> GetTypesOfBrandAsync(int brandId);
+        Task<ProductsViewModel> GetProductsByTypeAsync(int typeId);
+        Task<TypeInforModel> GetTypesAsync(int typeId);
     }
 }

@@ -15,7 +15,7 @@
                         <svg class="icon icon-xxs" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
                     </a>
                 </li>
-                <li class="breadcrumb-item"><a>Product Management</a></li>
+                <li class="breadcrumb-item"><a>Management Product</a></li>
                 <li class="breadcrumb-item active" aria-current="page">List Product Type</li>
             </ol>
         </nav>
@@ -52,9 +52,8 @@
     <table class="table table-hover">
         <thead>
             <tr>
-                <th>@Html.ActionLink("Id", "Index", new { sortOrder = ViewBag.IDSortParm })</th>
-                <th> @Html.ActionLink("Name", "Index", new { sortOrder = ViewBag.NameSortParm })</th>
-                <th>@Html.DisplayNameFor(model => model.productType.IdBrand)</th>
+                <th>@Html.ActionLink("Id", "Index", new { sortOrder = ViewBag.IDSortParm }, new { @class = "text-info" })</th>
+                <th>@Html.ActionLink("Name", "Index", new { sortOrder = ViewBag.NameSortParm }, new { @class = "text-info" })</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -67,17 +66,6 @@
                     </td>
                     <td>
                         @productType.Name
-                    </td>
-                    <td>
-                        @foreach (var brand in Model.ListBrand)
-                        {
-                            if (brand.Id == productType.IdBrand)
-                            {
-                                @brand.BrandName
-                                break;
-                            }
-
-                        }
                     </td>
                     <td>
                         <a asp-action="UpdateProductType" asp-route-id="@productType.Id" type="button"><i class="fas fa-edit" style="font-size: 20px; color: #f0bc74;"></i></a>

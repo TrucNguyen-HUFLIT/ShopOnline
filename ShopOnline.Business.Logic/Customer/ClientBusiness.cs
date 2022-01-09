@@ -24,18 +24,17 @@ namespace ShopOnline.Business.Logic.Customer
         public async Task<List<ProductInforViewModel>> GetProductsAsync(int? amountTake)
         {
             var productsInfor = new List<ProductInforViewModel>();
-            var currentBrandIds = BrandSingleton.Instance.BrandInfors.Select(x => x.Id).ToList();
+            var currentTypeIds = ProductTypeSingleton.Instance.ProductTypeInfors.Select(x => x.Id).ToList();
 
             var productsDetail = await _context.ProductDetails
-                                        .Where(x => currentBrandIds.Contains(x.ProductType.IdBrand)
+                                        .Where(x => currentTypeIds.Contains(x.IdProductType)
                                                 && !x.IsDeleted && !x.ProductType.IsDeleted)
                                         .Select(x => new
                                         {
                                             x.Id,
                                             x.Name,
                                             x.Price,
-                                            x.Pic1,
-                                            BrandId = x.ProductType.IdBrand
+                                            x.Pic1
                                         })
                                         .OrderByDescending(x => x.Id)
                                         .Take(amountTake ?? 0)
@@ -55,11 +54,11 @@ namespace ShopOnline.Business.Logic.Customer
                 });
             }
 
-            foreach (var brandId in currentBrandIds)
+            foreach (var typeId in currentTypeIds)
             {
                 productsInfor.Add(new ProductInforViewModel
                 {
-                    BrandInfor = BrandSingleton.Instance.BrandInfors.Where(x => x.Id == brandId).FirstOrDefault(),
+                    TypeInfor = ProductTypeSingleton.Instance.ProductTypeInfors.Where(x => x.Id == typeId).FirstOrDefault(),
                     ProductsInforDetail = productsInforDetail,
                 });
             }
@@ -81,21 +80,12 @@ namespace ShopOnline.Business.Logic.Customer
                                             Pic3 = x.Pic3,
                                             Description = x.Description,
                                             PriceVND = x.Price,
-                                            BrandInfor = new BrandInforModel
+                                            TypeInfor = new TypeInforModel
                                             {
-                                                Id = x.ProductType.IdBrand,
-                                                Name = x.ProductType.Brand.Name
+                                                Id = x.IdProductType,
+                                                Name = x.ProductType.Name
                                             },
-                                            BaseProductInfors = x.Products
-                                                            .Where(y => !y.IsDeleted && y.Quantity > 0)
-                                                            .Select(y => new BaseProductInfor
-                                                            {
-                                                                Id = y.Id,
-                                                                Quantity = y.Quantity,
-                                                                Size = y.Size,
-                                                                IsAvailable = true
-                                                            })
-                                                            .ToList(),
+                                            Quantity = x.Quantity,
                                             ReviewsDetail = x.ReviewDetails
                                                             .Where(y => !y.IsDeleted && y.ReviewStatus == ReviewStatus.Approved)
                                                             .Select(y => new ReviewDetailViewModel
@@ -112,25 +102,6 @@ namespace ShopOnline.Business.Logic.Customer
                                         })
                                         .SingleOrDefaultAsync();
             productDetail.PriceUSD = await ConvertCurrencyHelper.ConvertVNDToUSD(productDetail.PriceVND);
-
-            var availableSize = productDetail.BaseProductInfors
-                                        .Select(x => x.Size)
-                                        .ToArray();
-            var productSizes = Enum.GetValues(typeof(ProductSize))
-                           .Cast<ProductSize>()
-                           .ToList();
-
-            foreach (var productSize in productSizes)
-            {
-                if (!availableSize.Contains(productSize))
-                {
-                    productDetail.BaseProductInfors.Add(new BaseProductInfor
-                    {
-                        Size = productSize
-                    });
-                }
-            }
-            productDetail.BaseProductInfors = productDetail.BaseProductInfors.OrderBy(x => (int)x.Size).ToList();
 
             return productDetail;
         }
@@ -171,50 +142,35 @@ namespace ShopOnline.Business.Logic.Customer
             await _context.SaveChangesAsync();
         }
 
-        public async Task InitBrands()
+        public async Task InitTypes()
         {
-            var brandInfors = await _context.Brands
+            var brandInfors = await _context.ProductTypes
                                 .Where(x => !x.IsDeleted)
-                                .Select(x => new BrandInforModel
+                                .Select(x => new TypeInforModel
                                 {
                                     Id = x.Id,
                                     Name = x.Name,
                                 })
                                 .ToListAsync();
-            BrandSingleton.Instance.Init(brandInfors);
+            ProductTypeSingleton.Instance.Init(brandInfors);
         }
 
-        public async Task<TypeOfBrandInforModel> GetTypesOfBrandAsync(int brandId)
+        public async Task<TypeInforModel> GetTypesAsync(int typeId)
         {
-            var brandInfor = await _context.Brands
-                                    .Where(x => x.Id == brandId && !x.IsDeleted)
-                                    .Select(x => new
+            var typesInfor = await _context.ProductTypes
+                                    .Where(x => x.Id == typeId && !x.IsDeleted)
+                                    .Select(x => new TypeInforModel
                                     {
-                                        BrandId = x.Id,
-                                        Type = x.ProductTypes,
-                                        BrandName = x.Name,
+                                        Id = x.Id,
+                                        Name = x.Name,
                                     }).FirstOrDefaultAsync();
-
-            var types = new TypeOfBrandInforModel
-            {
-                BrandInfor = new BrandInforModel
-                {
-                    Id = brandInfor.BrandId,
-                    Name = brandInfor.BrandName
-                },
-                TypeInfors = brandInfor.Type.Select(x => new TypeInforModel
-                {
-                    Id = x.Id,
-                    Name = x.Name
-                }).ToList()
-            };
-
-            return types;
+           
+            return typesInfor;
         }
 
-        public async Task<ProductsViewModel> GetProductsByBrandAsync(int brandId, int? typeId)
+        public async Task<ProductsViewModel> GetProductsByTypeAsync(int typeId)
         {
-            var productsQuery = _context.ProductDetails.Where(x => x.ProductType.IdBrand == brandId
+            var productsQuery = _context.ProductDetails.Where(x => x.IdProductType == typeId
                                                                 && !x.IsDeleted)
                                         .AsQueryable();
             var amountProduct = await productsQuery.CountAsync();

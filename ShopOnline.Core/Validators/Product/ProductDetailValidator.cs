@@ -13,6 +13,8 @@ namespace ShopOnline.Core.Validators.Product
     {
         public ProductDetailCreateValidator()
         {
+            RuleFor(x => x.Quantity).NotEmpty();
+            RuleFor(x => x.Brand).NotEmpty();
             RuleFor(x => x.Name).NotEmpty();
             RuleFor(x => x.Price).NotEmpty();
             RuleFor(x => x.BasePrice).NotEmpty();
@@ -23,6 +25,8 @@ namespace ShopOnline.Core.Validators.Product
     {
         public ProductDetailUpdateValidator()
         {
+            RuleFor(x => x.Quantity).NotEmpty();
+            RuleFor(x => x.Brand).NotEmpty();
             RuleFor(x => x.Name).NotEmpty();
             RuleFor(x => x.Price).NotEmpty();
             RuleFor(x => x.BasePrice).NotEmpty();

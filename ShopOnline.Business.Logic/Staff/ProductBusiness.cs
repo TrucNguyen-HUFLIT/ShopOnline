@@ -25,93 +25,6 @@ namespace ShopOnline.Business.Logic.Staff
             this.hostEnvironment = hostEnvironment;
         }
 
-        public async Task CreateBrandAsync(BrandCreate brandCreate)
-        {
-            var brand = await _context.Brands.Where(x => x.Name == brandCreate.BrandName && !x.IsDeleted).Select(x => x.Name).FirstOrDefaultAsync();
-            if (brand == null)
-            {
-                var brandEntity = new BrandEntity
-                {
-                    Name = brandCreate.BrandName,
-                };
-                _context.Brands.Add(brandEntity);
-                await _context.SaveChangesAsync();
-            }
-            else
-            {
-                throw new UserFriendlyException(ErrorCode.BrandExisted);
-            }
-        }
-
-        public async Task<bool> EditBrandAsync(BrandInfor brandInfor)
-        {
-            var brandEntity = await _context.Brands.Where(x => x.Id == brandInfor.Id && !x.IsDeleted).FirstOrDefaultAsync();
-            if (brandEntity == null)
-            {
-                throw new UserFriendlyException(ErrorCode.BrandNotExisted);
-            }
-
-            var brandName = brandInfor.BrandName.ToLower().Trim();
-            if (brandEntity.Name.ToLower().Trim() != brandName)
-            {
-                bool isExistedBrandName = await _context.Brands.AnyAsync(x => x.Name.ToLower().Trim() == brandName && !x.IsDeleted);
-                if (isExistedBrandName) throw new UserFriendlyException(ErrorCode.BrandExisted);
-
-                brandEntity.Name = brandInfor.BrandName;
-
-                _context.Brands.Update(brandEntity);
-                await _context.SaveChangesAsync();
-                return true;
-            }
-            return false;
-        }
-
-        public BrandInfor GetBrandByIdAsync(int id)
-        {
-            var brand = _context.Brands.Where(x => x.Id == id && !x.IsDeleted).Select(x => new BrandInfor
-            {
-                Id = x.Id,
-                BrandName = x.Name,
-            }).FirstOrDefault();
-
-            return brand;
-        }
-
-        public async Task<IPagedList<BrandInfor>> GetListBrandAsync(string sortOrder, string currentFilter, string searchString, int? page)
-        {
-            var listBrand = new List<BrandInfor>();
-            var brands = await _context.Brands.Where(x => !x.IsDeleted).ToListAsync();
-            if (brands != null)
-            {
-                foreach (var brand in brands)
-                {
-                    var brandInfor = new BrandInfor
-                    {
-                        Id = brand.Id,
-                        BrandName = brand.Name
-                    };
-                    listBrand.Add(brandInfor);
-                }
-
-                if (!String.IsNullOrEmpty(searchString))
-                {
-                    listBrand = listBrand.Where(s => s.BrandName.ToLower().Contains(searchString.ToLower())).ToList();
-                }
-                listBrand = sortOrder switch
-                {
-                    "name_desc" => listBrand.OrderByDescending(x => x.BrandName).ToList(),
-                    "name" => listBrand.OrderBy(x => x.BrandName).ToList(),
-                    "id_desc" => listBrand.OrderByDescending(x => x.Id).ToList(),
-                    _ => listBrand.OrderBy(x => x.Id).ToList(),
-                };
-                int pageSize = 10;
-                int pageNumber = (page ?? 1);
-                return listBrand.ToPagedList(pageNumber, pageSize);
-            }
-
-            return null;
-        }
-
         public async Task<IPagedList<ProductTypeInfor>> GetListProductTypeAsync(string sortOrder, string currentFilter, string searchString, int? page)
         {
             var listProductType = new List<ProductTypeInfor>();
@@ -124,7 +37,6 @@ namespace ShopOnline.Business.Logic.Staff
                     {
                         Id = product.Id,
                         Name = product.Name,
-                        IdBrand = product.IdBrand
                     };
                     listProductType.Add(productType);
                 }
@@ -154,7 +66,6 @@ namespace ShopOnline.Business.Logic.Staff
             {
                 Id = x.Id,
                 Name = x.Name,
-                IdBrand = x.IdBrand,
             }).FirstOrDefault();
 
             return productType;
@@ -170,22 +81,11 @@ namespace ShopOnline.Business.Logic.Staff
                 bool isExistedProductTypeName = await _context.ProductTypes.AnyAsync(x => x.Name.ToLower().Trim() == productTypeName && !x.IsDeleted);
                 if (isExistedProductTypeName) throw new UserFriendlyException(ErrorCode.ProductTypeExisted);
                 productTypeEntity.Name = productType.Name;
-                productTypeEntity.IdBrand = productType.IdBrand;
                 _context.ProductTypes.Update(productTypeEntity);
                 await _context.SaveChangesAsync();
                 return true;
             }
             return false;
-        }
-
-        public async Task<List<BrandInfor>> GetListBrand()
-        {
-            var brands = await _context.Brands.Where(x => !x.IsDeleted).Select(x => new BrandInfor
-            {
-                BrandName = x.Name,
-                Id = x.Id,
-            }).ToListAsync();
-            return brands;
         }
 
         public async Task CreateProductTypeAsync(ProductTypeInfor productTypeInfor)
@@ -196,7 +96,6 @@ namespace ShopOnline.Business.Logic.Staff
                 var productTypeEntity = new ProductTypeEntity
                 {
                     Name = productTypeInfor.Name,
-                    IdBrand = productTypeInfor.IdBrand,
                 };
                 _context.ProductTypes.Add(productTypeEntity);
                 await _context.SaveChangesAsync();
@@ -222,6 +121,7 @@ namespace ShopOnline.Business.Logic.Staff
                         Pic1 = productDetail.Pic1,
                         Price = productDetail.Price,
                         Status = productDetail.Status,
+                        BasePrice = productDetail.BasePrice,   
                         IdProductType = productDetail.IdProductType,
                     };
                     listProductDetail.Add(productDetailInfor);
@@ -252,52 +152,9 @@ namespace ShopOnline.Business.Logic.Staff
             {
                 Name = x.Name,
                 Id = x.Id,
-                IdBrand = x.IdBrand
             }).ToListAsync();
 
             return productTypes;
-        }
-
-        public async Task<IPagedList<ProductInfor>> GetListProductAsync(string sortOrder, string currentFilter, string searchString, int? page)
-        {
-            var listProduct = new List<ProductInfor>();
-            var products = await _context.Products.Where(x => !x.IsDeleted).ToListAsync();
-            if (products != null && products.Any())
-            {
-                foreach (var product in products)
-                {
-                    var productInfor = new ProductInfor
-                    {
-                        Id = product.Id,
-                        Name = product.Name,
-                        Quantity = product.Quantity,
-                        Size = product.Size,
-                        IdProductDetail = product.IdProductDetail,
-                        //Pic1 = product.ProductDetail.Pic1,
-                        //Pic2 = product.ProductDetail.Pic2,
-                        //Pic3 = product.ProductDetail.Pic3,
-
-                    };
-                    listProduct.Add(productInfor);
-                }
-
-                if (!String.IsNullOrEmpty(searchString))
-                {
-                    listProduct = listProduct.Where(s => s.Name.ToLower().Contains(searchString.ToLower())).ToList();
-                }
-                listProduct = sortOrder switch
-                {
-                    "name_desc" => listProduct.OrderByDescending(x => x.Name).ToList(),
-                    "name" => listProduct.OrderBy(x => x.Name).ToList(),
-                    "id_desc" => listProduct.OrderByDescending(x => x.Id).ToList(),
-                    _ => listProduct.OrderBy(x => x.Id).ToList(),
-                };
-                int pageSize = 10;
-                int pageNumber = (page ?? 1);
-                return listProduct.ToPagedList(pageNumber, pageSize);
-            }
-
-            return null;
         }
 
         public async Task<List<ProductDetailInfor>> GetListProductDetail()
@@ -328,6 +185,8 @@ namespace ShopOnline.Business.Logic.Staff
                     Status = productDetailCreate.Status,
                     Price = productDetailCreate.Price,
                     BasePrice = productDetailCreate.BasePrice,
+                    Brand = productDetailCreate.Brand,
+                    Quantity = productDetailCreate.Quantity,
                     IdProductType = productDetailCreate.IdProductType,
                 };
 
@@ -393,6 +252,8 @@ namespace ShopOnline.Business.Logic.Staff
                 productDetailEntity.BasePrice = productDetailUpdate.BasePrice;
                 productDetailEntity.Status = productDetailUpdate.Status;
                 productDetailEntity.IdProductType = productDetailUpdate.IdProductType;
+                productDetailEntity.Brand = productDetailUpdate.Brand;
+                productDetailEntity.Quantity = productDetailUpdate.Quantity;
 
                 #region Save Image from wwwroot/img
                 string wwwRootPath = hostEnvironment.WebRootPath;
@@ -461,121 +322,13 @@ namespace ShopOnline.Business.Logic.Staff
             return productDetail;
         }
 
-        public async Task<ProductUpdate> GetProductByIdAsync(int id)
-        {
-            var product = await _context.Products.Where(x => x.Id == id && !x.IsDeleted).Select(x => new ProductUpdate
-            {
-                Id = x.Id,
-                Name = x.Name,
-                Quantity = x.Quantity,
-                IdProductDetail = x.IdProductDetail,
-                Size = x.Size,
-            }).FirstOrDefaultAsync();
-
-            return product;
-        }
-
-        public async Task CreateProductAsync(ProductCreate productCreate)
-        {
-            var product = await _context.Products
-                            .Where(x => !x.IsDeleted
-                            && x.IdProductDetail == productCreate.IdProductDetail
-                            && x.Size == productCreate.Size)
-                            .FirstOrDefaultAsync();
-
-            if (product == null)
-            {
-                var productEntity = new ProductEntity
-                {
-                    Name = productCreate.Name,
-                    Quantity = productCreate.Quantity,
-                    Size = productCreate.Size,
-                    IdProductDetail = productCreate.IdProductDetail,
-                };
-
-                _context.Products.Add(productEntity);
-            }
-            else
-            {
-                product.Quantity += productCreate.Quantity;
-                _context.Products.Update(product);
-            }
-
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task<bool> UpdateProductAsync(ProductUpdate productUpdate)
-        {
-            var productEntity = await _context.Products.Where(x => x.Id == productUpdate.Id && !x.IsDeleted).FirstOrDefaultAsync();
-
-            if (productEntity != null)
-            {
-                productEntity.Quantity = productUpdate.Quantity;
-
-                _context.Products.Update(productEntity);
-                await _context.SaveChangesAsync();
-                return true;
-            }
-
-            return false;
-        }
-
-        public async Task<bool> DeleteProductAsync(int id)
-        {
-            var product = await _context.Products.Where(x => x.Id == id && !x.IsDeleted).FirstOrDefaultAsync();
-            if (product != null)
-            {
-                var isCannotDelete = await _context.Products.Where(x => x.Id == id).AnyAsync(x => x.OrderDetails.Any(y => y.Order.StatusOrder == AppEnum.StatusOrder.Accepted
-                                                                              || y.Order.StatusOrder == AppEnum.StatusOrder.Processing
-                                                                              || y.Order.StatusOrder == AppEnum.StatusOrder.Delivering));
-
-                if (isCannotDelete)
-                {
-                    throw new UserFriendlyException(ErrorCode.CannotDeleteProduct);
-                }
-
-                product.IsDeleted = true;
-                _context.Products.Update(product);
-                await _context.SaveChangesAsync();
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public async Task<bool> DeleteBrandAsync(int id)
-        {
-            var brand = await _context.Brands.Where(x => x.Id == id && !x.IsDeleted).FirstOrDefaultAsync();
-
-            if (brand != null)
-            {
-                var isCannotDelete = await _context.ProductTypes.Where(x => x.IdBrand == id).AnyAsync(x => !x.IsDeleted || x.ProductDetails.Any(y => !y.IsDeleted || y.Products.Any(z => !z.IsDeleted)));
-
-                if (isCannotDelete)
-                {
-                    throw new UserFriendlyException(ErrorCode.CannotDelete);
-                }
-
-                brand.IsDeleted = true;
-                _context.Brands.Update(brand);
-                await _context.SaveChangesAsync();
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
         public async Task<bool> DeleteProductTypeAsync(int id)
         {
             var productType = await _context.ProductTypes.Where(x => x.Id == id && !x.IsDeleted).FirstOrDefaultAsync();
 
             if (productType != null)
             {
-                var isCannotDelete = await _context.ProductDetails.Where(x => x.IdProductType == id).AnyAsync(x => !x.IsDeleted || x.Products.Any(y => !y.IsDeleted));
+                var isCannotDelete = await _context.ProductDetails.Where(x => x.IdProductType == id).AnyAsync(x => !x.IsDeleted);
 
                 if (isCannotDelete)
                 {

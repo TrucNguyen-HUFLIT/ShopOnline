@@ -9,7 +9,7 @@
 <div class="main__selection">
     <!-- Get brands -->
     <h1>
-        @Model.TypeOfBrand.BrandInfor.Name (@Model.AmountProduct)   <!--789 are all product items of brand--> <span>
+        @Model.TypeInfor.Name (@Model.AmountProduct)   <!--789 are all product items of brand--> <span>
             <img id="show-more-btn" class="main__selection-img" src="~/img/icon/icon-arrow-down.png" alt="" onclick="showMoreCateBtn()" />
         </span>
     </h1>
@@ -18,41 +18,22 @@
         <div class="main__selection-btn-sort">
             <span>
                 @Html.ActionLink("Price: High-Low", "Products",
-          new { brandId = Model.TypeOfBrand.BrandInfor.Id, typeId = ViewBag.CurrentType, sortIncrease = false },
-          new { id = "sortDecrease" })
+                new { typeId = Model.TypeInfor.Id, sortIncrease = false },
+                new { id = "sortDecrease" })
             </span>
             <img src="~/img/icon/icon-down-arrow.png" alt="" />
         </div>
         <div class="main__selection-btn-sort">
             <span>
                 @Html.ActionLink("Price: Low-High", "Products",
-           new { brandId = Model.TypeOfBrand.BrandInfor.Id, typeId = ViewBag.CurrentType, sortIncrease = true },
-           new { id = "sortIncrease" })
+                new { typeId = Model.TypeInfor.Id, sortIncrease = true },
+                new { id = "sortIncrease" })
             </span>
             <img src="~/img/icon/icon-up-arrow.png" alt="">
         </div>
     </div>
-</div><div class="main__producst">
-    <div id="main__products-filters" class="main__products-filters">
-        <div class="main__products-filters-title">
-            <ul>
-                @foreach (var type in Model.TypeOfBrand.TypeInfors)
-                {
-                    var param = new
-                    {
-                        BrandId = Model.TypeOfBrand.BrandInfor.Id,
-                        TypeId = type.Id
-                    };
-
-                    <li>
-                        <a asp-action="Products"
-                           asp-route-brandId="@param.BrandId"
-                           asp-route-typeId="@param.TypeId">@type.Name</a>
-                    </li>
-                }
-            </ul>
-        </div>
-    </div>
+</div>
+<div class="main__producst">
     <div id="main__products-items" class="main__products-items">
         @foreach (var productInforDetail in Model.ProductsInfor)
         {
@@ -74,5 +55,5 @@
 </div>
 <div id="products-paging" class="main__products-paging">
     @Html.PagedListPager(Model.ProductsInfor, page => Url.Action("Products",
-        new { brandId = Model.TypeOfBrand.BrandInfor.Id, typeId = ViewBag.CurrentType, sortIncrease = ViewBag.CurrentSort, page }))
+    new { typeId = Model.TypeInfor.Id, sortIncrease = ViewBag.CurrentSort, page }))
 </div>

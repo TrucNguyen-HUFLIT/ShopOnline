@@ -27,7 +27,7 @@ namespace ShopOnline.Controllers.Customer
         [HttpGet]
         public async Task<IActionResult> ProductCartAsync()
         {
-            await _clientBusiness.InitBrands();
+            await _clientBusiness.InitTypes();
 
             var productCart = _cartBusiness.GetProductsCart();
 
@@ -38,7 +38,7 @@ namespace ShopOnline.Controllers.Customer
         [HttpGet]
         public async Task<IActionResult> CheckOutAsync()
         {
-            await _clientBusiness.InitBrands();
+            await _clientBusiness.InitTypes();
 
             var productCart = _cartBusiness.GetProductsCart();
             var userInfor = _userBusiness.LoadInforUser(User);
@@ -63,7 +63,7 @@ namespace ShopOnline.Controllers.Customer
         [HttpGet]
         public async Task<IActionResult> DigitalPayment(int id)
         {
-            await _clientBusiness.InitBrands();
+            await _clientBusiness.InitTypes();
             var orderInfor = await _cartBusiness.GetOrderById(id);
             return View(orderInfor);
         }

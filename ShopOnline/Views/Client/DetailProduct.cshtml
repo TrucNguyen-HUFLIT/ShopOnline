@@ -21,7 +21,7 @@
     <div class="main__product-details-disc">
         <div class="main__product-details-disc-content">
             <!-- Get name brand -->
-            <h2><a href="@Model.ProductDetail.BrandInfor.Id">@Model.ProductDetail.BrandInfor.Name</a></h2>
+            <h2><a href="@Model.ProductDetail.TypeInfor.Id">@Model.ProductDetail.TypeInfor.Name</a></h2>
             <!-- Get name product -->
             <h1>@Model.ProductDetail.Name</h1>
             <!-- Get price product -->
@@ -29,7 +29,7 @@
             <p>@Model.ProductDetail.Description</p>
         </div>
         <form id="add-to-cart-form">
-            <div class="main__product-details-disc-select-size">
+            @*<div class="main__product-details-disc-select-size">
                 <h2>Select Size</h2>
                 <div class="main__product-select-size">
                     @foreach (var productInfor in Model.ProductDetail.BaseProductInfors)
@@ -53,7 +53,7 @@
                         }
                     }
                 </div>
-            </div>
+            </div>*@
             <div class="main__product-details-select-quantity">
                 <h2>Quantity</h2>
                 <div class="main__product-quantity-box">

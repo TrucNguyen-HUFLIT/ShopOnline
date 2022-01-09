@@ -23,6 +23,8 @@ namespace ShopOnline.Core.Models.Product
         public string Pic3 { get; set; }
         public int Price { get; set; }
         public int BasePrice { get; set; }
+        public int Quantity { get; set; }
+        public string Brand { get; set; }
         public ProductStatus Status { get; set; }
         [Display(Name = "Type")]
         public int IdProductType { get; set; }

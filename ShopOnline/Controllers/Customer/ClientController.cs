@@ -25,7 +25,7 @@ namespace ShopOnline.Controllers.Customer
         [HttpGet]
         public async Task<IActionResult> HomeAsync()
         {
-            await _clientBusiness.InitBrands();
+            await _clientBusiness.InitTypes();
             const int TAKE_4 = 4;
             var products = await _clientBusiness.GetProductsAsync(TAKE_4);
 
@@ -36,7 +36,7 @@ namespace ShopOnline.Controllers.Customer
         [HttpGet]
         public async Task<IActionResult> DetailProductAsync(int id)
         {
-            await _clientBusiness.InitBrands();
+            await _clientBusiness.InitTypes();
             const int TAKE_8 = 8;
             var productDetail = await _clientBusiness.GetDetailProductAsync(id);
             var products = await _clientBusiness.GetCurrentProductsInforAsync(TAKE_8);
@@ -58,10 +58,10 @@ namespace ShopOnline.Controllers.Customer
         }
 
         [HttpGet]
-        public async Task<IActionResult> ProductsAsync(int brandId, int? typeId, bool sortIncrease, int? page)
+        public async Task<IActionResult> ProductsAsync(int typeId, bool sortIncrease, int? page)
         {
-            await _clientBusiness.InitBrands();
-            var products = await _clientBusiness.GetProductsByBrandAsync(brandId, typeId);
+            await _clientBusiness.InitTypes();
+            var products = await _clientBusiness.GetProductsByTypeAsync(typeId);
 
             ViewBag.CurrentSort = sortIncrease;
             ViewBag.CurrentType = typeId;
@@ -71,13 +71,14 @@ namespace ShopOnline.Controllers.Customer
             var productsBrandPageViewModel = new ProductsBrandPageViewModel
             {
                 AmountProduct = products.AmountProduct,
-                TypeOfBrand = await _clientBusiness.GetTypesOfBrandAsync(brandId),
+                TypeInfor = await _clientBusiness.GetTypesAsync(typeId),
                 ProductsInfor = productInforsPaged,
             };
 
             return View(productsBrandPageViewModel);
         }
 
+        [Authorize(Roles = ROLE.CUSTOMER)]
         [HttpGet]
         public async Task<IActionResult> ListHistoryOrderCustomerAsync(string sortOrder, string currentFilter, int? page)
         {

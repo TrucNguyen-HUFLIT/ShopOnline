@@ -16,7 +16,6 @@ namespace ShopOnline.Core.Models.Product
         public int Id { get; set; }
         public string Name { get; set; }
         public int Quantity { get; set; }
-        public ProductSize Size { get; set; }
         public int IdProductDetail { get; set; }
     }
 
@@ -37,7 +36,6 @@ namespace ShopOnline.Core.Models.Product
 
     public class ProductCreateViewModel
     {
-        public List<ProductSize> ListProductSize { get; set; }
         public List<ProductDetailInfor> ListProductDetail { get; set; }
     }
 

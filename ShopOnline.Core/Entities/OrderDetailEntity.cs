@@ -8,7 +8,7 @@
 
         public int IdOrder { get; set; }
         public OrderEntity Order { get; set; }
-        public int IdProduct { get; set; }
-        public ProductEntity Product { get; set; }
+        public int IdProductDetail { get; set; }
+        public ProductDetailEntity ProductDetail { get; set; }
     }
 }

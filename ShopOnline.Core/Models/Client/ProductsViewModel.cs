@@ -10,7 +10,7 @@ namespace ShopOnline.Core.Models.Client
 
     public class ProductInforViewModel
     {
-        public BrandInforModel BrandInfor { get; set; }
+        public TypeInforModel TypeInfor { get; set; }
         public List<ProductInforModel> ProductsInforDetail { get; set; }
 
     }
@@ -18,7 +18,7 @@ namespace ShopOnline.Core.Models.Client
     public class ProductsBrandPageViewModel
     {
         public int AmountProduct { get; set; }
-        public TypeOfBrandInforModel TypeOfBrand { get; set; }
+        public TypeInforModel TypeInfor { get; set; }
         public IPagedList<ProductInforModel> ProductsInfor { get; set; }
     }
 
@@ -43,19 +43,8 @@ namespace ShopOnline.Core.Models.Client
         public string Name { get; set; }
     }
 
-    public class BrandInforModel : InforModel
-    {
-
-    }
-
     public class TypeInforModel : InforModel
     {
 
-    }
-
-    public class TypeOfBrandInforModel
-    {
-        public BrandInforModel BrandInfor { get; set; }
-        public List<TypeInforModel> TypeInfors { get; set; }
     }
 }

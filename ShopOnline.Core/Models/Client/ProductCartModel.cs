@@ -12,8 +12,8 @@ namespace ShopOnline.Core.Models.Client
     public class ProductCartModel
     {
         public int Id { get; set; }
-        public int IdProductDetail { get; set; }
         public string Name { get; set; }
+        public string Brand { get; set; }
         public int PriceVND { get; set; }
         public int PriceUSD { get; set; }
         public int BasePrice { get; set; }
@@ -23,7 +23,6 @@ namespace ShopOnline.Core.Models.Client
         public string Pic { get; set; }
         public int Quantity { get; set; }
         public int SelectedQuantity { get; set; }
-        public ProductSize Size { get; set; }
     }
 
     public class ProductCartViewModel

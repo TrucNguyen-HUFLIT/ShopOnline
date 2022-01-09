@@ -14,11 +14,12 @@ namespace ShopOnline.Core.Entities
         public int Price { get; set; }
         public int BasePrice { get; set; }
         public ProductStatus Status { get; set; }
+        public int Quantity { get; set; }
+        public string Brand { get; set; }
 
         public int IdProductType { get; set; }
         public ProductTypeEntity ProductType { get; set; }
-        public ICollection<ProductEntity> Products { get; set; }
         public virtual ICollection<ReviewDetailEntity> ReviewDetails { get; set; }
-        public virtual ICollection<FavoriteProductEntity> FavoriteProducts { get; set; }
+        public virtual IList<OrderDetailEntity> OrderDetails { get; set; }
     }
 }

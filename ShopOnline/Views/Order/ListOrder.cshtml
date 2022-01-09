@@ -5,6 +5,21 @@
 @model ShopOnline.Core.Models.Order.OrderModel
 @using X.PagedList.Mvc.Core;
 @using Microsoft.AspNetCore.Mvc;
+@using ShopOnline.Core.Models.Enum;
+
+@{
+    bool isAllStatus = Model.ListOrder.Any(x => x.StatusOrder == AppEnum.StatusOrder.Accepted)
+                    && Model.ListOrder.Any(x => x.StatusOrder == AppEnum.StatusOrder.Delivering);
+    bool isAccepted = Model.ListOrder.Any(x => x.StatusOrder == AppEnum.StatusOrder.Accepted);
+    bool isDelivering = Model.ListOrder.Any(x => x.StatusOrder == AppEnum.StatusOrder.Delivering);
+    bool isCompleted = Model.ListOrder.Any(x => x.StatusOrder == AppEnum.StatusOrder.Completed);
+    bool isCancelled = Model.ListOrder.Any(x => x.StatusOrder == AppEnum.StatusOrder.Cancelled);
+
+    int currentStatusOrder = isAccepted ? 2
+                            : isDelivering ? 3
+                            : isCompleted ? 4
+                            : isCancelled ? 5 : 0;
+}
 
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
     <div class="d-block mb-4 mb-md-0">
@@ -15,7 +30,7 @@
                         <svg class="icon icon-xxs" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
                     </a>
                 </li>
-                <li class="breadcrumb-item"><a>Order Management</a></li>
+                <li class="breadcrumb-item"><a>Management Order</a></li>
                 <li class="breadcrumb-item active" aria-current="page">List Order</li>
             </ol>
         </nav>
@@ -30,7 +45,7 @@
 </div>
 <div class="table-settings mb-4">
     <div class="row align-items-center justify-content-between">
-        @using (Html.BeginForm("Index", "Order", FormMethod.Get))
+        @using (Html.BeginForm("ListOrder", "Order", FormMethod.Get))
         {
             <div class="col col-md-6 col-lg-3 col-xl-4">
                 <div class="input-group me-2 me-lg-3 fmxw-400">
@@ -39,7 +54,48 @@
                             <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
                         </svg>
                     </span>
-                    <input type="text" class="form-control" id="searchString" name="searchString" value="@ViewBag.CurrentFilter" placeholder="Find by name or email">
+                    <select class="form-select" name="StatusOrder" aria-label="Default select example">
+                        @if (isAllStatus)
+                        {
+                            <option value="0" selected>All</option>
+                            <option value="2">Accepted</option>
+                            <option value="3">Delivering</option>
+                            <option value="4">Completed</option>
+                            <option value="5">Cancelled</option>
+                        }
+                        else if (isAccepted)
+                        {
+                            <option value="0">All</option>
+                            <option value="2" selected>Accepted</option>
+                            <option value="3">Delivering</option>
+                            <option value="4">Completed</option>
+                            <option value="5">Cancelled</option>
+                        }
+                        else if (isDelivering)
+                        {
+                            <option value="0">All</option>
+                            <option value="2">Accepted</option>
+                            <option value="3" selected>Delivering</option>
+                            <option value="4">Completed</option>
+                            <option value="5">Cancelled</option>
+                        }
+                        else if (isCompleted)
+                        {
+                            <option value="0">All</option>
+                            <option value="2">Accepted</option>
+                            <option value="3">Delivering</option>
+                            <option value="4" selected>Completed</option>
+                            <option value="5">Cancelled</option>
+                        }
+                        else
+                        {
+                            <option value="0">All</option>
+                            <option value="2">Accepted</option>
+                            <option value="3">Delivering</option>
+                            <option value="4">Completed</option>
+                            <option value="5" selected>Cancelled</option>
+                        }
+                    </select>
                     <button type="submit" value="Search" class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
                         Search
                     </button>
@@ -53,10 +109,14 @@
         <thead>
             <tr>
                 <th>#Id</th>
-                @*<th>  @Html.ActionLink("FullName", "ListOrder", new { sortOrder = ViewBag.NameSortParm })</th>*@
                 <th>Customer</th>
-                <th>@Html.ActionLink("Order Day", "ListOrder", new { sortOrder = ViewBag.OrderDay })</th>
+                <th>Phone Number</th>
+                <th>Address</th>
+                <th>Extra Fee (VND)</th>
+                <th>Payment</th>
                 <th>Status</th>
+                <th>Total Price (VND)</th>
+                <th>@Html.ActionLink("Order Day", "ListOrder", new { sortOrder = ViewBag.OrderDay, statusOrder = currentStatusOrder }, new { @class = "text-info" })</th>
             </tr>
         </thead>
         <tbody>
@@ -67,28 +127,41 @@
                         @order.Id
                     </td>
                     <td>
-                         @foreach (var customer in Model.ListCustomer)
-                        {
-                            if (customer.Id == order.IdCustomer)
-                            {
-                                @customer.FullName
-                                break;
-                            }
+                        @{
+                            var customerName = Model.ListCustomer.Where(x => x.Id == order.IdCustomer).Select(x => x.FullName).FirstOrDefault();
                         }
+                        @customerName;
                     </td>
-                    <td >
-                        @order.OrderDay
+                    <td>
+                        @{
+                            var customerPhone = Model.ListCustomer.Where(x => x.Id == order.IdCustomer).Select(x => x.PhoneNumber).FirstOrDefault();
+                        }
+                        @customerPhone;
+                    </td>
+                    <td>
+                        @order.Address
+                    </td>
+                    <td>
+                        @string.Format("{0:N0}", ((Int64)order.ExtraFee))
+                    </td>
+                    <td>
+                        @order.Payment
                     </td>
                     <td>
                         @order.StatusOrder
                     </td>
-
+                    <td>
+                        @string.Format("{0:N0}", ((Int64)order.TotalPrice))
+                    </td>
+                    <td>
+                        @order.OrderDay
+                    </td>
                 </tr>
             }
         </tbody>
     </table>
     Page @(Model.ListOrder.PageCount < Model.ListOrder.PageNumber ? 0 : Model.ListOrder.PageNumber) of @Model.ListOrder.PageCount
     @Html.PagedListPager(Model.ListOrder, page => Url.Action("ListOrder",
-                                        new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+                                        new { page, sortOrder = ViewBag.CurrentSort, statusOrder = currentStatusOrder, currentFilter = ViewBag.CurrentFilter }))
     @*<div class="fw-normal small mt-4 mt-lg-0">Showing <b>5</b> out of <b>25</b> entries</div>*@
 </div>
