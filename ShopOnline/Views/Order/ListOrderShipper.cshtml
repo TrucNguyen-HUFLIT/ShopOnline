@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Management Order";
+    ViewData["Title"] = "Order Accepted";
     Layout = "~/Views/Shared/_LayoutManager.cshtml";
 }
 @model ShopOnline.Core.Models.Order.OrderInforShipperModel
@@ -15,11 +15,11 @@
                         <svg class="icon icon-xxs" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
                     </a>
                 </li>
-                <li class="breadcrumb-item"><a>Home</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Receive Order History</li>
+                <li class="breadcrumb-item"><a></a></li>
+                <li class="breadcrumb-item active" aria-current="page">Order Accepted</li>
             </ol>
         </nav>
-        <h2 class="h4"> Receive Order History</h2>
+        <h2 class="h4">Order Accepted</h2>
     </div>
 </div>
 <div class="card card-body border-0 shadow table-wrapper table-responsive">
@@ -27,12 +27,13 @@
         <thead>
             <tr>
                 <th>Customer</th>
-                <th>@Html.ActionLink("Order Day", "ListOrderShipper", new { sortOrder = ViewBag.OrderDay })</th>
+                <th>Phone Number</th>
                 <th>Address</th>
-                <th>ExtraFee</th>
+                <th>Extra Fee (VND)</th>
                 <th>Payment</th>
-                <th>Status</th>
-                <th>Total</th>
+                <th>Total Price (VND)</th>
+                <th>@Html.ActionLink("Order Day", "ListOrderShipper", new { sortOrder = ViewBag.OrderDay }, new { @class = "text-info" })</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
@@ -40,32 +41,34 @@
             {
                 <tr>
                     <td>
-                        @foreach (var customer in Model.ListCustomer)
-                        {
-                            if (customer.Id == orderInforShipper.IdCustomer)
-                            {
-                                @customer.FullName
-                                break;
-                            }
+                        @{
+                            var customerName = Model.ListCustomer.Where(x => x.Id == orderInforShipper.IdCustomer).Select(x => x.FullName).FirstOrDefault();
                         }
+                        @customerName
                     </td>
                     <td>
-                        @orderInforShipper.OrderDay
+                        @{
+                            var customerPhone = Model.ListCustomer.Where(x => x.Id == orderInforShipper.IdCustomer).Select(x => x.PhoneNumber).FirstOrDefault();
+                        }
+                        @customerPhone
                     </td>
                     <td>
                         @orderInforShipper.Address
                     </td>
                     <td>
-                        @orderInforShipper.ExtraFee
+                        @string.Format("{0:N0}", ((Int64)orderInforShipper.ExtraFee))
                     </td>
                     <td>
                         @orderInforShipper.Payment
                     </td>
                     <td>
-                        @orderInforShipper.StatusOrder
+                        @string.Format("{0:N0}", ((Int64)orderInforShipper.TotalPrice))
                     </td>
                     <td>
-                        @orderInforShipper.TotalPrice
+                        @orderInforShipper.OrderDay
+                    </td>
+                    <td>
+                        <a asp-action="AcceptDelivery" asp-route-id="@orderInforShipper.Id" class="btn btn-primary" >Accept Delivery</a>
                     </td>
                 </tr>
             }
