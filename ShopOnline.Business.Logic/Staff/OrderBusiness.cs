@@ -20,7 +20,7 @@ namespace ShopOnline.Business.Logic.Staff
             _context = context;
         }
 
-        public async Task<IPagedList<OrderInfor>> GetListOrderAsync(string sortOrder, string currentFilter, string searchString, int? page)
+        public async Task<IPagedList<OrderInfor>> GetListOrderAsync(string sortOrder, string currentFilter, int? page)
         {
             var listOrder = new List<OrderInfor>();
             var orders = await _context.Orders.Where(x => !x.IsDeleted).ToListAsync();
@@ -28,12 +28,17 @@ namespace ShopOnline.Business.Logic.Staff
             {
                 foreach (var order in orders)
                 {
+                    var totalPrice = await _context.OrderDetails.Where(x => x.IdOrder == order.Id).SumAsync(x => x.TotalPrice);
                     var orderInforForList = new OrderInfor
                     {
                         Id = order.Id,
                         OrderDay = order.OrderDay,
                         StatusOrder = order.StatusOrder,
                         IdCustomer = order.IdCustomer,
+                        Address = order.Address,
+                        ExtraFee = order.ExtraFee,
+                        Payment =  order.Payment,
+                        TotalPrice = totalPrice
                     };
                     listOrder.Add(orderInforForList);
                 }
@@ -58,12 +63,17 @@ namespace ShopOnline.Business.Logic.Staff
             {
                 foreach (var order in orders)
                 {
+                    var totalPrice = await _context.OrderDetails.Where(x => x.IdOrder == order.Id).SumAsync(x => x.TotalPrice);
                     var orderInforForList = new OrderInfor
                     {
                         Id = order.Id,
                         OrderDay = order.OrderDay,
                         StatusOrder = order.StatusOrder,
                         IdCustomer = order.IdCustomer,
+                        Address = order.Address,
+                        ExtraFee = order.ExtraFee,
+                        Payment = order.Payment,
+                        TotalPrice = totalPrice
                     };
                     listOrder.Add(orderInforForList);
                 }
@@ -88,12 +98,17 @@ namespace ShopOnline.Business.Logic.Staff
             {
                 foreach (var order in orders)
                 {
+                    var totalPrice = await _context.OrderDetails.Where(x => x.IdOrder == order.Id).SumAsync(x => x.TotalPrice);
                     var orderInforForList = new OrderInfor
                     {
                         Id = order.Id,
                         OrderDay = order.OrderDay,
                         StatusOrder = order.StatusOrder,
                         IdCustomer = order.IdCustomer,
+                        Address = order.Address,
+                        ExtraFee = order.ExtraFee,
+                        Payment = order.Payment,
+                        TotalPrice = totalPrice
                     };
                     listOrder.Add(orderInforForList);
                 }
@@ -110,7 +125,7 @@ namespace ShopOnline.Business.Logic.Staff
             return null;
         }
 
-        public async Task<IPagedList<HistoryOrderInfor>> GetHistoryOrderCustomerAsync(string sortOrder, string currentFilter, string searchString, int? page, ClaimsPrincipal user)
+        public async Task<IPagedList<HistoryOrderInfor>> GetHistoryOrderCustomerAsync(string sortOrder, string currentFilter, int? page, ClaimsPrincipal user)
         {
             string email = user.FindFirst(ClaimTypes.Email).Value;
             var customerId = _context.Customers.Where(x => x.Email == email && !x.IsDeleted).Select(x => x.Id).FirstOrDefault();
@@ -120,7 +135,7 @@ namespace ShopOnline.Business.Logic.Staff
             {
                 foreach (var historyOrder in historyOrders)
                 {
-                    var totalPrice = await _context.OrderDetails.Where(x => x.IdOrder == historyOrder.Id).Select(x => x.TotalPrice).FirstOrDefaultAsync();
+                    var totalPrice = await _context.OrderDetails.Where(x => x.IdOrder == historyOrder.Id).SumAsync(x => x.TotalPrice);
                     var historyOrderInfor = new HistoryOrderInfor
                     {
                         Id = historyOrder.Id,
@@ -146,7 +161,7 @@ namespace ShopOnline.Business.Logic.Staff
             return null;
         }
 
-        public async Task<IPagedList<HistoryOrderShipperInfor>> GetHistoryOrderShipperAsync(string sortOrder, string currentFilter, string searchString, int? page, ClaimsPrincipal user)
+        public async Task<IPagedList<HistoryOrderShipperInfor>> GetHistoryOrderShipperAsync(string sortOrder, string currentFilter, int? page, ClaimsPrincipal user)
         {
             string email = user.FindFirst(ClaimTypes.Email).Value;
             var shipperId = _context.Shippers.Where(x => x.Email == email && !x.IsDeleted).Select(x => x.Id).FirstOrDefault();
@@ -156,7 +171,7 @@ namespace ShopOnline.Business.Logic.Staff
             {
                 foreach (var historyOrderShipper in historyOrdersShipper)
                 {
-                    var totalPrice = await _context.OrderDetails.Where(x => x.IdOrder == historyOrderShipper.Id).Select(x => x.TotalPrice).FirstOrDefaultAsync();
+                    var totalPrice = await _context.OrderDetails.Where(x => x.IdOrder == historyOrderShipper.Id).SumAsync(x => x.TotalPrice);
                     var historyOrderInfor = new HistoryOrderShipperInfor
                     {
                         Id = historyOrderShipper.Id,
@@ -178,6 +193,42 @@ namespace ShopOnline.Business.Logic.Staff
                 int pageSize = 10;
                 int pageNumber = (page ?? 1);
                 return listHistoryOrderShipper.ToPagedList(pageNumber, pageSize);
+            }
+            return null;
+        }
+
+        public async Task<IPagedList<OrderInforShipper>> GetOrderShipperAsync(string sortOrder, string currentFilter, int? page, ClaimsPrincipal user)
+        {
+            string email = user.FindFirst(ClaimTypes.Email).Value;
+            var shipperId = _context.Shippers.Where(x => x.Email == email && !x.IsDeleted).Select(x => x.Id).FirstOrDefault();
+            var listOrderShipper = new List<OrderInforShipper>();
+            var ordersShipper = await _context.Orders.Where(x => !x.IsDeleted && x.IdShipper == shipperId && x.StatusOrder == AppEnum.StatusOrder.Accepted).ToListAsync();
+            if (ordersShipper != null)
+            {
+                foreach (var orderShipper in ordersShipper)
+                {
+                    var totalPrice = await _context.OrderDetails.Where(x => x.IdOrder == orderShipper.Id).SumAsync(x => x.TotalPrice);
+                    var orderInforShipper = new OrderInforShipper
+                    {
+                        Id = orderShipper.Id,
+                        OrderDay = orderShipper.OrderDay,
+                        Address = orderShipper.Address,
+                        ExtraFee = orderShipper.ExtraFee,
+                        StatusOrder = orderShipper.StatusOrder,
+                        Payment = orderShipper.Payment,
+                        IdCustomer = orderShipper.IdCustomer,
+                        TotalPrice = totalPrice
+                    };
+                    listOrderShipper.Add(orderInforShipper);
+                }
+                listOrderShipper = sortOrder switch
+                {
+                    "order_day" => listOrderShipper.OrderBy(x => x.OrderDay).ToList(),
+                    _ => listOrderShipper.OrderByDescending(x => x.OrderDay).ToList(),
+                };
+                int pageSize = 10;
+                int pageNumber = (page ?? 1);
+                return listOrderShipper.ToPagedList(pageNumber, pageSize);
             }
             return null;
         }

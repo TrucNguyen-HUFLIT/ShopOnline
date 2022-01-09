@@ -95,7 +95,7 @@ namespace ShopOnline.Business.Logic.Staff
 
                 if (!String.IsNullOrEmpty(searchString))
                 {
-                    listBrand = listBrand.Where(s => s.BrandName.Contains(searchString)).ToList();
+                    listBrand = listBrand.Where(s => s.BrandName.ToLower().Contains(searchString.ToLower())).ToList();
                 }
                 listBrand = sortOrder switch
                 {
@@ -131,7 +131,7 @@ namespace ShopOnline.Business.Logic.Staff
 
                 if (!String.IsNullOrEmpty(searchString))
                 {
-                    listProductType = listProductType.Where(s => s.Name.Contains(searchString)).ToList();
+                    listProductType = listProductType.Where(s => s.Name.ToLower().Contains(searchString.ToLower())).ToList();
                 }
                 listProductType = sortOrder switch
                 {
@@ -229,7 +229,7 @@ namespace ShopOnline.Business.Logic.Staff
 
                 if (!String.IsNullOrEmpty(searchString))
                 {
-                    listProductDetail = listProductDetail.Where(s => s.Name.Contains(searchString)).ToList();
+                    listProductDetail = listProductDetail.Where(s => s.Name.ToLower().Contains(searchString.ToLower())).ToList();
                 }
                 listProductDetail = sortOrder switch
                 {
@@ -283,7 +283,7 @@ namespace ShopOnline.Business.Logic.Staff
 
                 if (!String.IsNullOrEmpty(searchString))
                 {
-                    listProduct = listProduct.Where(s => s.Name.Contains(searchString)).ToList();
+                    listProduct = listProduct.Where(s => s.Name.ToLower().Contains(searchString.ToLower())).ToList();
                 }
                 listProduct = sortOrder switch
                 {

@@ -79,18 +79,14 @@ namespace ShopOnline.Controllers.Customer
         }
 
         [HttpGet]
-        public async Task<IActionResult> ListHistoryOrderCustomerAsync(string sortOrder, string currentFilter, string searchString, int? page)
+        public async Task<IActionResult> ListHistoryOrderCustomerAsync(string sortOrder, string currentFilter, int? page)
         {
             ViewBag.CurrentSort = sortOrder;
             ViewBag.OrderDay = String.IsNullOrEmpty(sortOrder) ? "order_day" : "";
 
-            if (searchString != null) page = 1;
-            else searchString = currentFilter;
-            ViewBag.CurrentFilter = searchString;
-
             var model = new HistoryOrderModel
             {
-                ListHistoryOrder = await _orderBusiness.GetHistoryOrderCustomerAsync(sortOrder, currentFilter, searchString, page, User)
+                ListHistoryOrder = await _orderBusiness.GetHistoryOrderCustomerAsync(sortOrder, currentFilter, page, User)
             };
 
             return View(model);

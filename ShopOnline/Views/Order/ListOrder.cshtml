@@ -54,7 +54,7 @@
             <tr>
                 <th>#Id</th>
                 @*<th>  @Html.ActionLink("FullName", "ListOrder", new { sortOrder = ViewBag.NameSortParm })</th>*@
-                @*<th>@Html.DisplayNameFor(model => model.orderInfor.IdCustomer)</th>*@
+                <th>Customer</th>
                 <th>@Html.ActionLink("Order Day", "ListOrder", new { sortOrder = ViewBag.OrderDay })</th>
                 <th>Status</th>
             </tr>
@@ -66,15 +66,22 @@
                     <td>
                         @order.Id
                     </td>
+                    <td>
+                         @foreach (var customer in Model.ListCustomer)
+                        {
+                            if (customer.Id == order.IdCustomer)
+                            {
+                                @customer.FullName
+                                break;
+                            }
+                        }
+                    </td>
                     <td >
                         @order.OrderDay
                     </td>
                     <td>
                         @order.StatusOrder
                     </td>
-                    @*<td>
-                        @order.IdCustomer
-                    </td>*@
 
                 </tr>
             }

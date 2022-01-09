@@ -1,0 +1,78 @@
+﻿@{
+    ViewData["Title"] = "Management Order";
+    Layout = "~/Views/Shared/_LayoutManager.cshtml";
+}
+@model ShopOnline.Core.Models.Order.OrderInforShipperModel
+@using X.PagedList.Mvc.Core;
+@using Microsoft.AspNetCore.Mvc;
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
+    <div class="d-block mb-4 mb-md-0">
+        <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
+            <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
+                <li class="breadcrumb-item">
+                    <a href="#">
+                        <svg class="icon icon-xxs" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                    </a>
+                </li>
+                <li class="breadcrumb-item"><a>Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Receive Order History</li>
+            </ol>
+        </nav>
+        <h2 class="h4"> Receive Order History</h2>
+    </div>
+</div>
+<div class="card card-body border-0 shadow table-wrapper table-responsive">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Customer</th>
+                <th>@Html.ActionLink("Order Day", "ListOrderShipper", new { sortOrder = ViewBag.OrderDay })</th>
+                <th>Address</th>
+                <th>ExtraFee</th>
+                <th>Payment</th>
+                <th>Status</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var orderInforShipper in Model.ListOrderInforShipper)
+            {
+                <tr>
+                    <td>
+                        @foreach (var customer in Model.ListCustomer)
+                        {
+                            if (customer.Id == orderInforShipper.IdCustomer)
+                            {
+                                @customer.FullName
+                                break;
+                            }
+                        }
+                    </td>
+                    <td>
+                        @orderInforShipper.OrderDay
+                    </td>
+                    <td>
+                        @orderInforShipper.Address
+                    </td>
+                    <td>
+                        @orderInforShipper.ExtraFee
+                    </td>
+                    <td>
+                        @orderInforShipper.Payment
+                    </td>
+                    <td>
+                        @orderInforShipper.StatusOrder
+                    </td>
+                    <td>
+                        @orderInforShipper.TotalPrice
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    Page @(Model.ListOrderInforShipper.PageCount < Model.ListOrderInforShipper.PageNumber ? 0 : Model.ListOrderInforShipper.PageNumber) of @Model.ListOrderInforShipper.PageCount
+    @Html.PagedListPager(Model.ListOrderInforShipper, page => Url.Action("ListOrderShipper",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+    @*<div class="fw-normal small mt-4 mt-lg-0">Showing <b>5</b> out of <b>25</b> entries</div>*@
+</div>
