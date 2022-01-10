@@ -91,9 +91,8 @@
             <h2>Write a review</h2>
             <form id="create-review-detail-form">
                 <textarea placeholder="Enter your review..." name="Content"></textarea>
-                <input name="IdCustomer" value="1" hidden>
                 <input name="IdProductDetail" value="@Model.ProductDetail.Id" hidden>
-                <input type="submit" value="ADD" onclick="CreateReviewDetail()">
+                <input type="submit" value="ADD" onclick="CreateReviewDetail(event)">
             </form>
         </div>
     </div>

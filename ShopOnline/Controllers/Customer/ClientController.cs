@@ -36,7 +36,6 @@ namespace ShopOnline.Controllers.Customer
         [HttpGet]
         public async Task<IActionResult> DetailProductAsync(int id)
         {
-            await _clientBusiness.InitBrands();
             const int TAKE_8 = 8;
             var productDetail = await _clientBusiness.GetDetailProductAsync(id);
             var products = await _clientBusiness.GetCurrentProductsInforAsync(TAKE_8);
@@ -53,14 +52,13 @@ namespace ShopOnline.Controllers.Customer
         [HttpPost]
         public async Task<IActionResult> CreateReviewDetailAsync(ReviewDetailModel reviewDetail)
         {
-            await _clientBusiness.CreateReviewDetailAsync(reviewDetail);
+            await _clientBusiness.CreateReviewDetailAsync(reviewDetail, User);
             return Ok();
         }
 
         [HttpGet]
         public async Task<IActionResult> ProductsAsync(int brandId, int? typeId, bool sortIncrease, int? page)
         {
-            await _clientBusiness.InitBrands();
             var products = await _clientBusiness.GetProductsByBrandAsync(brandId, typeId);
 
             ViewBag.CurrentSort = sortIncrease;

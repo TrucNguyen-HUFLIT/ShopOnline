@@ -27,7 +27,7 @@ function ConfirmDelete(id, url) {
                 data: formData,
                 success: function () {
                     toast("Delete successfully", true);
-                    document.getElementById(`id-${id}`).hidden = true;
+                    document.getElementById(`id-${id}`).remove();
                 },
                 error: function (XMLHttpRequest) {
                     toast(XMLHttpRequest.responseText, false);

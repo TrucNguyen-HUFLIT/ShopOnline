@@ -1664,3 +1664,41 @@ label span:first-of-type {
             opacity: 0.7;
         }
 /* Payment end */
+
+#toastSuccessfully, #toastFailed {
+    visibility: hidden;
+    min-width: 250px;
+    margin-left: -125px;
+    border-radius: 5px;
+    padding: 14px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    position: fixed;
+    z-index: 1000;
+    right: 30px;
+    bottom: 30px;
+}
+
+#toastSuccessfully {
+    background-color: #6CA21D;
+}
+
+#toastFailed {
+    background-color: #f44336;
+}
+
+    #toastSuccessfully.show, #toastFailed.show {
+        visibility: visible;
+        -webkit-animation: fadein 1s, fadeout 1s 3s;
+        animation: fadein 1s, fadeout 1s 3s;
+    }
+
+#toastSuccessfully__title, #toastFailed__title {
+    color: white;
+    font-weight: bold;
+}
+
+#toastSuccessfully--message, #toastFailed--message {
+    font-size: 15px;
+    color: white;
+}
