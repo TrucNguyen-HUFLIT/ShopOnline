@@ -7,6 +7,7 @@ using ShopOnline.Core.Models.Client;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using static ShopOnline.Core.Models.Enum.AppEnum;
 
@@ -157,13 +158,21 @@ namespace ShopOnline.Business.Logic.Customer
             return products;
         }
 
-        public async Task CreateReviewDetailAsync(ReviewDetailModel reviewDetail)
+        public async Task CreateReviewDetailAsync(ReviewDetailModel reviewDetail, ClaimsPrincipal user)
         {
+            string email = user.FindFirst(ClaimTypes.Email).Value;
+            string phone = user.FindFirst(ClaimTypes.MobilePhone).Value;
+            var idCustomer = await _context.Customers
+                                    .Where(x => !x.IsDeleted && x.Email == email && x.PhoneNumber == phone)
+                                    .Select(x => x.Id)
+                                    .FirstOrDefaultAsync();
+
             var reviewDetailEntity = new ReviewDetailEntity
             {
                 Content = reviewDetail.Content,
                 ReviewTime = DateTime.Now,
-                IdCustomer = reviewDetail.IdCustomer,
+                IdCustomer = idCustomer,
+                ReviewStatus = ReviewStatus.Waiting,
                 IdProductDetail = reviewDetail.IdProductDetail
             };
 

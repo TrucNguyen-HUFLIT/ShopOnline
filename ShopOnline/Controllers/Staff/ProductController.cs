@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ShopOnline.Business.Customer;
 using ShopOnline.Business.Staff;
 using ShopOnline.Core.Filters;
 using ShopOnline.Core.Models;
@@ -14,9 +15,13 @@ namespace ShopOnline.Controllers.Staff
     public class ProductController : Controller
     {
         private readonly IProductBusiness _productBusiness;
-        public ProductController(IProductBusiness productBusiness)
+        private readonly IClientBusiness _clientBusiness;
+
+        public ProductController(IProductBusiness productBusiness,
+                    IClientBusiness clientBusiness)
         {
             _productBusiness = productBusiness;
+            _clientBusiness = clientBusiness;
         }
 
         [Authorize(Roles = ROLE.MANAGER)]
@@ -57,6 +62,7 @@ namespace ShopOnline.Controllers.Staff
         [TypeFilter(typeof(ExceptionFilter))]
         public async Task<IActionResult> CreateBrand([FromForm] BrandCreate brandCreate)
         {
+            await _clientBusiness.InitBrands();
             await _productBusiness.CreateBrandAsync(brandCreate);
             return Ok();
         }
@@ -77,6 +83,7 @@ namespace ShopOnline.Controllers.Staff
         [TypeFilter(typeof(ModelStateAjaxFilter))]
         public async Task<IActionResult> UpdateBrand(BrandInfor brandInfor)
         {
+            await _clientBusiness.InitBrands();
             await _productBusiness.EditBrandAsync(brandInfor);
             return Ok(brandInfor.Id);
         }
