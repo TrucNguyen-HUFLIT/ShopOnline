@@ -39,6 +39,7 @@ namespace ShopOnline.Controllers
         }
 
         [HttpGet]
+
         public async Task<IActionResult> ChangePasswordAsync()
         {
             var model = new ChangePasswordViewModel

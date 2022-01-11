@@ -6,7 +6,8 @@
         REMOVE_ALL: '/Cart/RemoveAllProductFromCart',
         PRODUCT_CART: '/Cart/ProductCart',
         DIGITAL_PAYMENT: '/Cart/DigitalPayment?id={id}',
-        E_WALLET: '/Cart/EWallet',
+        SHIP_COD_PAYMENT: '/Cart/ShipCODPayment?id={id}',
+        E_WALLET_PAYMENT: '/Cart/EWalletPayment',
         CHECK_OUT: '/Cart/CheckOut',
     },
 }
@@ -132,10 +133,12 @@ function order() {
                     window.location.replace(ROUTE_CART.CART.DIGITAL_PAYMENT.replace('{id}', data));
                     break;
                 case PAYMENT_METHODS.E_WALLET:
-                    console.log(ROUTE_CART.CART.E_WALLET);
+                    window.location.replace(ROUTE_CART.CART.SHIP_COD_PAYMENT.replace('{id}', data));
+
+                    //console.log(ROUTE_CART.CART.E_WALLET);
                     break;
                 default:
-                    console.log(PAYMENT_METHODS.SHIP_COD);
+                    window.location.replace(ROUTE_CART.CART.SHIP_COD_PAYMENT.replace('{id}', data));
                     break;
             }
         },

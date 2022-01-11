@@ -36,4 +36,11 @@ namespace ShopOnline.Core.Models.Account
 
         public string PhoneNumber { get; set; }
     }
+
+    public class InforAccount
+    {
+        public int Id { get; set; }
+        public string Email { get; set; }
+        public string FullName { get; set; }
+    }
 }

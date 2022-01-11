@@ -1,11 +1,14 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using MailKit.Net.Smtp;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using MimeKit;
 using Newtonsoft.Json;
 using ShopOnline.Business.Customer;
 using ShopOnline.Core;
 using ShopOnline.Core.Entities;
 using ShopOnline.Core.Exceptions;
 using ShopOnline.Core.Helpers;
+using ShopOnline.Core.Models.Account;
 using ShopOnline.Core.Models.Client;
 using ShopOnline.Core.Models.Enum;
 using System;
@@ -139,9 +142,14 @@ namespace ShopOnline.Business.Logic.Customer
 
             var productIds = cart.Select(x => x.Id).ToArray();
             var products = await _context.Products.Where(x => !x.IsDeleted && productIds.Contains(x.Id)).ToArrayAsync();
-            var idCustomer = await _context.Customers
+            var customer = await _context.Customers
                                     .Where(x => !x.IsDeleted && x.Email == email && x.PhoneNumber == phone)
-                                    .Select(x => x.Id)
+                                    .Select(x => new InforAccount
+                                    {
+                                        Id = x.Id,
+                                        Email = x.Email,
+                                        FullName = x.FullName,
+                                    })
                                     .FirstOrDefaultAsync();
 
             using (var transaction = await _context.Database.BeginTransactionAsync())
@@ -150,7 +158,7 @@ namespace ShopOnline.Business.Logic.Customer
                 {
                     OrderDay = DateTime.Now,
                     StatusOrder = StatusOrder.Processing,
-                    IdCustomer = idCustomer,
+                    IdCustomer = customer.Id,
                     Address = address,
                     IsPaid = paymentMethod == PaymentMethod.ShipCod,
                     Payment = paymentMethod,
@@ -185,11 +193,108 @@ namespace ShopOnline.Business.Logic.Customer
                     });
                 }
                 _context.OrderDetails.AddRange(orderDetails);
-
+                await SendEmailConfirm(customer, cart, orderEntity.Id , address);
                 await _context.SaveChangesAsync();
                 transaction.Commit();
                 await RemoveAllProductFromCartAsync();
                 return orderEntity.Id;
+            }
+        }
+
+        public async Task SendEmailConfirm(InforAccount infor, List<ProductCartModel> productCarts, int idOrder, string address)
+        {
+            MimeMessage message = new MimeMessage();
+
+            MailboxAddress from = new("Dreams Store", "dreamsstore.ss@gmail.com");
+            message.From.Add(from);
+
+            MailboxAddress to = new(infor.FullName, infor.Email);
+            message.To.Add(to);
+
+            message.Subject = "Confirm order from Dreams Store";
+
+            StringBuilder productsInfor = new StringBuilder();
+
+            string inforAccountTemplate = "<div> " +
+                "<div style=\"width: 100 %; padding: 24px 0 16px 0; background - color: #f5f5f5; text-align: center;\">" +
+                " <div style=\"display: inline-block; width: 90%; max-width: 680px; min-width: 280px; text-align: left; font-family: Roboto, Arial, Helvetica, sans-serif;\">" +
+                " <div class=\"adM\" dir=\"ltr\" style=\"height: 0px;\">&nbsp;</div> " +
+                "<div class=\"adM\" style=\"display: block; padding: 0 2px;\">&nbsp;</div> " +
+                "<div style=\"border-left: 1px solid #F5F5F5; border-right: 1px solid #F5F5F5;\"> " +
+                "<div style=\"width: 100%; background-color: #8bc53f; height: 5px;\">&nbsp;</div> " +
+                "<div dir=\"ltr\" style=\"padding: 24px 32px 24px 32px; background: #fff; border-right: 1px solid #eaeaea; border-left: 1px solid #eaeaea;\"> " +
+                "<div style=\"font-size: 14px; line-height: 18px; color: #444; padding-bottom: 20px;\">" +
+                $" <h3> Hi {infor.FullName}, </h3>" +
+                $" <div> Dream Store is very happy to receive your order. We will contact you shortly to confirm your order. Your ID order is #{idOrder}" +
+                "<br/>" +
+                " <h4 style=\"border-top: 1px solid black;\">Order Information </h4> " +
+                "<table> ";
+                   
+            string closeTagTemplate =
+                " <div style=\"font-weight: bold; font-size: 15px; margin: 20px;\">Delivery Address</div>" +
+                $"<div style=\"margin: 20px;\"> {address}</div>"+
+                "</div>" +
+                " </div>" +
+                " </div>" +
+                " </div> " +
+                "</div>" +
+                " </div>" +
+                " </div>";
+
+            string headers =
+                "<tr> " +
+                    "<th style=\"border: 1px solid #dddddd; text-align: left; padding: 8px;\" >#Id</th> " +
+                    "<th style=\"border: 1px solid #dddddd; text-align: left; padding: 8px;\">Product Name</th> " +
+                    "<th style=\"border: 1px solid #dddddd; text-align: left; padding: 8px;\">Quantity</th> " +
+                    "<th style=\"border: 1px solid #dddddd; text-align: left; padding: 8px;\">Size</th> " +
+                    "<th style=\"border: 1px solid #dddddd; text-align: left; padding: 8px;\">Price</th> " +
+                "</tr>";
+
+            string lastRow = "<tr> " +
+                        "<td></td> " +
+                        "<td></td> " +
+                        "<td></td> " +
+                        $"<td style=\"border: 1px solid #dddddd; text-align: left; padding: 8px;\">Total Price</td> " +
+                        $"<td style=\"border: 1px solid #dddddd; text-align: left; padding: 8px;\">{string.Format("{0:N0}", productCarts.Sum(x => x.TotalVND))} đ - ${string.Format("{0:N0}", productCarts.Sum(x => x.TotalUSD))}</td> " +
+                    "</tr>" + "</table>";
+
+            productsInfor.Append(headers);
+
+            foreach (var product in productCarts)
+            {
+                string newRow =
+                    "<tr> " +
+                        $"<td style=\"border: 1px solid #dddddd; text-align: left; padding: 8px;\">{product.Id}</td> " +
+                        $"<td style=\"border: 1px solid #dddddd; text-align: left; padding: 8px;\">{product.Name}</td> " +
+                        $"<td style=\"border: 1px solid #dddddd; text-align: left; padding: 8px;\">{product.SelectedQuantity}</td> " +
+                        $"<td style=\"border: 1px solid #dddddd; text-align: left; padding: 8px;\">{product.Size}</td> " +
+                        $"<td style=\"border: 1px solid #dddddd; text-align: left; padding: 8px;\">{string.Format("{0:N0}", product.PriceVND)}đ - ${string.Format("{0:N0}", product.PriceUSD)}</td> " +
+                    "</tr>";
+                productsInfor.Append(newRow);
+            }
+
+            BodyBuilder bodyBuilder = new()
+            {
+                HtmlBody = inforAccountTemplate + productsInfor + lastRow + closeTagTemplate,
+                TextBody = "Confirm order from Dreams Store"
+            };
+            message.Body = bodyBuilder.ToMessageBody();
+
+            try
+            {
+                SmtpClient client = new();
+                //connect (smtp address, port , true)
+                await client.ConnectAsync("smtp.gmail.com", 465, true);
+                await client.AuthenticateAsync("dreamsstore.ss@gmail.com", "4thanggay");
+
+                await client.SendAsync(message);
+                await client.DisconnectAsync(true);
+                client.Dispose();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw new UserFriendlyException(ErrorCode.NotResponse);
             }
         }
 
