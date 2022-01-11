@@ -1,0 +1,87 @@
+﻿@{
+    ViewData["Title"] = "Management Review";
+    Layout = "~/Views/Shared/_LayoutManager.cshtml";
+}
+@model ShopOnline.Core.Models.Report.ReportViewModel
+@using X.PagedList.Mvc.Core;
+@using Microsoft.AspNetCore.Mvc;
+@using ShopOnline.Core.Models.Enum;
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
+    <div class="d-block mb-4 mb-md-0">
+        <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
+            <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
+                <li class="breadcrumb-item">
+                    <a href="#">
+                        <svg class="icon icon-xxs" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                    </a>
+                </li>
+                <li class="breadcrumb-item"><a>Management Report</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Report</li>
+            </ol>
+        </nav>
+        <h2 class="h4">Report</h2>
+    </div>
+</div>
+<div class="table-settings mb-4">
+    <div class="row align-items-center justify-content-between">
+            <div class="col col-md-6 col-lg-3 col-xl-4">
+                <div class="input-group me-2 me-lg-3 fmxw-400">
+                    <label>Total profit: <span style="color:orange">@string.Format("{0:N0}", ((Int64)Model.Reports.Sum(x=>x.TotalProfit)))đ</span></label>
+                </div>
+            </div>
+    </div>
+</div>
+<div class="card card-body border-0 shadow table-wrapper table-responsive">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Product Name</th>
+                <th>Quantity Purchased Sizes</th>
+                <th>Payment Methods</th>
+                <th>Total Price</th>
+                <th>Total Extra Free</th>
+                <th>Total Base Price</th>
+                <th>Total Profit</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var report in Model.Reports)
+            {
+            <tr>
+                <td>
+                    @report.ProductName
+                </td>
+                <td>
+                    @foreach (var quantityPurchasedSize in report.QuantityPurchasedSizes)
+                    {
+                        <span>@((int)quantityPurchasedSize.Size) x @quantityPurchasedSize.QuantityPurchased</span>
+                    }
+                </td>
+                <td>
+                    @foreach (var paymentMethod in report.PaymentMethods)
+                    {
+                        <span>@paymentMethod, </span>
+                    }
+                </td>
+                <td>
+                    @string.Format("{0:N0}", ((Int64)report.TotalPrice))đ
+                </td>
+                <td>
+                    @string.Format("{0:N0}", ((Int64)report.TotalExtraFree))đ
+                </td>
+                <td>
+                    @string.Format("{0:N0}", ((Int64)report.TotalBasePrice))đ
+                </td>
+                <td>
+                    @string.Format("{0:N0}", ((Int64)report.TotalProfit))đ
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+    Page @(Model.Reports.PageCount < Model.Reports.PageNumber ? 0 : Model.Reports.PageNumber) of @Model.Reports.PageCount
+    @Html.PagedListPager(Model.Reports, page => Url.Action("ListReport",
+    new { page }))
+    @*<div class="fw-normal small mt-4 mt-lg-0">Showing <b>5</b> out of <b>25</b> entries</div>*@<div class="fw-normal small mt-4 mt-lg-0"><b></b><b></b></div>
+</div>

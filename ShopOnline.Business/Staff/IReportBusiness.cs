@@ -1,7 +1,11 @@
-﻿namespace ShopOnline.Business.Staff
+﻿using ShopOnline.Core.Models.Report;
+using System.Threading.Tasks;
+using X.PagedList;
+
+namespace ShopOnline.Business.Staff
 {
-    interface IReportBusiness
+    public interface IReportBusiness
     {
-        //Task<IPagedList<ReportInfor>> GetListOrderAsync(string sortOrder, string currentFilter, string searchString, int? page);
+        Task<IPagedList<ReportModel>> GetListReportAsync(int? page);
     }
 }

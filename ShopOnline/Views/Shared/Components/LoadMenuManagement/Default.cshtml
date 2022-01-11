@@ -122,7 +122,7 @@
             </div>
         </li>
         <li class="nav-item">
-            <a asp-action="" asp-controller="" class="nav-link">
+            <a asp-action="ListReport" asp-controller="Report" class="nav-link">
                 <span class="sidebar-text">Report</span>
             </a>
         </li>
@@ -156,11 +156,11 @@
                     @if (Model.Role == AppEnum.TypeAcc.Customer)
                     {
 
-                        <li class="nav-item ">
+                        @*<li class="nav-item ">
                             <a class="nav-link" asp-action="" asp-controller="">
                                 <span class="sidebar-text">Favorites</span>
                             </a>
-                        </li>
+                        </li>*@
                         <li class="nav-item ">
                             <a class="nav-link" asp-action="ListHistoryOrderCustomer" asp-controller="Client">
                                 <span class="sidebar-text">History</span>
