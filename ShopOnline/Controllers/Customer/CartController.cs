@@ -60,6 +60,14 @@ namespace ShopOnline.Controllers.Customer
             return View(orderInfor);
         }
 
+        [Authorize(Roles = ROLE.CUSTOMER)]
+        [HttpGet]
+        public async Task<IActionResult> ShipCODPayment(int id)
+        {
+            var orderInfor = await _cartBusiness.GetOrderById(id);
+            return View(orderInfor);
+        }
+
         [HttpPost]
         public async Task<IActionResult> AddProductToCartAsync(int idProduct, int quantity)
         {

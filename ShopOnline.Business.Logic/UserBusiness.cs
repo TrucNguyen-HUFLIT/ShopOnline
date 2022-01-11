@@ -157,11 +157,11 @@ namespace ShopOnline.Business.Logic
             MailboxAddress to = new(accountReset.FullName, accountReset.Email);
             message.To.Add(to);
 
-            message.Subject = "Cấp lại mật khẩu thành công";
+            message.Subject = "Password reset successful";
             BodyBuilder bodyBuilder = new()
             {
-                HtmlBody = $"<h1>Mật khẩu của bạn đã được reset, mật khẩu mới: {newPassword}  </h1>",
-                TextBody = "Mật Khẩu của bạn đã được thay đổi "
+                HtmlBody = $"<h1>Your password has been reset, new password: {newPassword}  </h1>",
+                TextBody = "Your password has been reset "
             };
             message.Body = bodyBuilder.ToMessageBody();
 

@@ -1,14 +1,14 @@
 ﻿@{
-    ViewData["Title"] = "Momo Payment";
+    ViewData["Title"] = "Ship COD Payment";
     Layout = "~/Views/Shared/_LayoutClient.cshtml";
 }
 
 @model ShopOnline.Core.Models.Client.OrderInfor
 
 <div class="main__payment">
-    <h1>DIGITAL PAYMENT METHODS</h1>
+    <h1>SHIP COD PAYMENT METHODS</h1>
     <p>Please check your orders</p>
-    <div class="main__payment-review">
+    <div class="main__payment-review" style="margin-left: 160px">
         <table>
             <tr>
                 <th>Address</th>
@@ -31,10 +31,6 @@
                 <th>@string.Format("{0:N0}", ((Int64)Model.PriceVND))<span>đ</span></th>
             </tr>
         </table>
-        <img src="~/img/icon/momopay.jpg" alt="">
-    </div>
-    <div class="main__payment-img">
-        <img src="~/img/icon/instruct.png" alt="Alternate Text" />
     </div>
     <div class="main__payment-selected-btn">
         <input type="submit" value="Completed" onclick="location.href='@Url.Action("Home", "Client")'">

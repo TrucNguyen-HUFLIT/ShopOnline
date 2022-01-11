@@ -706,6 +706,26 @@ $("#update-product-form").submit(function (e) {
     });
 });
 
+$("#change-password-form").submit(function (e) {
+    e.preventDefault();
+
+    let formData = $('#change-password-form').serializeArray();
+
+    $.ajax({
+        url: '/profile/changepassword',
+        type: "post",
+        enctype: 'multipart/form-data',
+        data: formData,
+        success: function (data) {
+            toast("Change password successfully", true);
+            setTimeout(() => window.location.replace(`/profile/changepassword/${data}`), 1000);
+        },
+        error: function (data) {
+            toast("Change password failed", false);
+        },
+    });
+});
+
 function ApproveReview(id) {
     const formData = {
         id: id
