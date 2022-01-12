@@ -85,7 +85,7 @@
                     <div class="col-sm-4 mb-3">
                         <div class="form-group">
                             <label>Choose Picture 1</label>
-                            <input asp-for="ProductDetailCreate.UploadPic1" type="file" accept="image/*" class="form-control" onchange="document.getElementById('output').src = window.URL.createObjectURL(this.files[0])" />
+                            <input asp-for="ProductDetailCreate.UploadPic1" type="file" accept="image/*" class="form-control" onchange="document.getElementById('output1').src = window.URL.createObjectURL(this.files[0])" />
                             <span asp-validation-for="ProductDetailCreate.UploadPic1" class="text-danger" id="Err_UploadPic1"></span>
                         </div>
                     </div>
@@ -94,7 +94,7 @@
                     <div class="col-sm-4 mb-3">
                         <div class="form-group">
                             <label>Choose Picture 2</label>
-                            <input asp-for="ProductDetailCreate.UploadPic2" type="file" accept="image/*" class="form-control" onchange="document.getElementById('output').src = window.URL.createObjectURL(this.files[0])" />
+                            <input asp-for="ProductDetailCreate.UploadPic2" type="file" accept="image/*" class="form-control" onchange="document.getElementById('output2').src = window.URL.createObjectURL(this.files[0])" />
                         </div>
                     </div>
                 </div>
@@ -102,7 +102,7 @@
                     <div class="col-sm-4 mb-3">
                         <div class="form-group">
                             <label>Choose Picture 3</label>
-                            <input asp-for="ProductDetailCreate.UploadPic3" type="file" accept="image/*" class="form-control" onchange="document.getElementById('output').src = window.URL.createObjectURL(this.files[0])" />
+                            <input asp-for="ProductDetailCreate.UploadPic3" type="file" accept="image/*" class="form-control" onchange="document.getElementById('output3').src = window.URL.createObjectURL(this.files[0])" />
                         </div>
                     </div>
                 </div>

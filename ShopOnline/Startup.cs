@@ -65,8 +65,7 @@ namespace ShopOnline
                 .AddCookie(opt =>
                 {
                     opt.LoginPath = "/Account/Login";
-                    opt.AccessDeniedPath = "/Login";
-                    opt.ReturnUrlParameter = "returnUrl";
+                    opt.AccessDeniedPath = "/Account/Logout";
                     opt.LogoutPath = "/Logout";
                     opt.ExpireTimeSpan = TimeSpan.FromMinutes(20);
                 });

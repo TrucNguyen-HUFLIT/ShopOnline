@@ -43,7 +43,7 @@ namespace ShopOnline.Controllers.Staff
         public async Task<IActionResult> ListOrderProcessing(string sortOrder, int? page)
         {
             ViewBag.CurrentSort = sortOrder;
-            ViewBag.OrderDay = String.IsNullOrEmpty(sortOrder) ? "order_day_desc" : "";
+            ViewBag.OrderDay = String.IsNullOrEmpty(sortOrder) ? "order_day" : "";
 
             var model = new OrderModel
             {

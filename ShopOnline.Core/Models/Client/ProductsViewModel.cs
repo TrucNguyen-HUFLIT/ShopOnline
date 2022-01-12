@@ -31,6 +31,7 @@ namespace ShopOnline.Core.Models.Client
     public class ProductInforModel
     {
         public int Id { get; set; }
+        public int BrandId { get; set; }
         public string Name { get; set; }
         public int PriceVND { get; set; }
         public int PriceUSD { get; set; }

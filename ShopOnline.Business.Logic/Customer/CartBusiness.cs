@@ -160,7 +160,7 @@ namespace ShopOnline.Business.Logic.Customer
                     StatusOrder = StatusOrder.Processing,
                     IdCustomer = customer.Id,
                     Address = address,
-                    IsPaid = paymentMethod == PaymentMethod.ShipCod,
+                    IsPaid = false,
                     Payment = paymentMethod,
                     ExtraFee = cart.Sum(x => x.TotalVND) > 5000000 ? 0 : 5000000,
                 };

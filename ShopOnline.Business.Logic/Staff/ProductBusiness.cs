@@ -363,7 +363,7 @@ namespace ShopOnline.Business.Logic.Staff
             {
                 fileName1 = Path.GetFileNameWithoutExtension(productDetailUpdate.UploadPic1.FileName);
                 extension1 = Path.GetExtension(productDetailUpdate.UploadPic1.FileName);
-                productDetailUpdate.Pic1 = "/img/Product/" + fileName1 + extension1;
+                productDetailEntity.Pic1 = "/img/Product/" + fileName1 + extension1;
                 string path1 = Path.Combine(wwwRootPath + "/img/Product/", fileName1 + extension1);
                 using (var fileStream = new FileStream(path1, FileMode.Create))
                 {
@@ -374,7 +374,7 @@ namespace ShopOnline.Business.Logic.Staff
             {
                 fileName2 = Path.GetFileNameWithoutExtension(productDetailUpdate.UploadPic2.FileName);
                 extension2 = Path.GetExtension(productDetailUpdate.UploadPic2.FileName);
-                productDetailUpdate.Pic2 = "/img/Product/" + fileName2 + extension2;
+                productDetailEntity.Pic2 = "/img/Product/" + fileName2 + extension2;
                 string path2 = Path.Combine(wwwRootPath + "/img/Product/", fileName2 + extension2);
                 using (var fileStream = new FileStream(path2, FileMode.Create))
                 {
@@ -386,7 +386,7 @@ namespace ShopOnline.Business.Logic.Staff
             {
                 fileName3 = Path.GetFileNameWithoutExtension(productDetailUpdate.UploadPic3.FileName);
                 extension3 = Path.GetExtension(productDetailUpdate.UploadPic3.FileName);
-                productDetailUpdate.Pic1 = "/img/Product/" + fileName3 + extension3;
+                productDetailEntity.Pic1 = "/img/Product/" + fileName3 + extension3;
                 string path3 = Path.Combine(wwwRootPath + "/img/Product/", fileName3 + extension3);
                 using (var fileStream = new FileStream(path3, FileMode.Create))
                 {
@@ -413,6 +413,7 @@ namespace ShopOnline.Business.Logic.Staff
                 Pic2 = x.Pic2,
                 Pic3 = x.Pic3,
                 Price = x.Price,
+                BasePrice = x.BasePrice,
                 Status = x.Status,
             }).FirstOrDefault();
 

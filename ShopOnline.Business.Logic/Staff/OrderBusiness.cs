@@ -27,8 +27,8 @@ namespace ShopOnline.Business.Logic.Staff
 
             ordersQuery = sortOrder switch
             {
-                "order_day_desc" => ordersQuery.OrderByDescending(x => x.OrderDay),
-                _ => ordersQuery.OrderBy(x => x.Id),
+                "order_day" => ordersQuery.OrderBy(x => x.OrderDay),
+                _ => ordersQuery.OrderByDescending(x => x.Id),
             };
 
             if (statusOrder != 0)
