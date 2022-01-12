@@ -12,7 +12,6 @@ Create a place where customers can shop with peace of mind without going through
 
 ## 🏍 Start
 
-
 ## 🏍 Technical
 - C# .Net 5.0, Html, CSS, Bootstap, Javascript, Jquery, Ajax.
 - ASP.NET Core MVC.
@@ -22,11 +21,7 @@ Create a place where customers can shop with peace of mind without going through
 - Hash Password (Strategy: MD5/SHA1/SHA256).
 
 ## 🏍 ERD and Design database
-
-## ERD
 <img src="https://i.imgur.com/gn5Bcyy.jpg" />
-
-## Design database
 
 ## 🏍 Functional
 - Function login, register, reset password.
