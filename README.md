@@ -11,9 +11,7 @@ Create a place where customers can shop with peace of mind without going through
 - Duong Quang Tuong
 
 ## 🏍 Start
-- Tải và thực thi file 'datacnpmnc.sql' trên SSMS của bạn.
-- Thay đổi đường dẫn Server=[local của bạn] trong file 'Starup.cs' và file 'QLMTContext.cs'.
-- Dùng VS để build Web.
+
 
 ## 🏍 Technical
 - C# .Net 5.0, Html, CSS, Bootstap, Javascript, Jquery, Ajax.
