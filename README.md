@@ -24,7 +24,7 @@ Create a place where customers can shop with peace of mind without going through
 ## 🏍 ERD and Design database
 
 ## ERD
-<img src="" />
+<img src="https://i.imgur.com/gn5Bcyy.jpg" />
 
 ## Design database
 
