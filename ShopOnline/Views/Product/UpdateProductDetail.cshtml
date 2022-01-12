@@ -80,18 +80,25 @@
                             <textarea class="form-control" asp-for="ProductDetailUpdate.Description" placeholder="Description..." id="textarea" rows="4"></textarea>
                         </div>
                     </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="form-group">
+                            <label asp-for="ProductDetailUpdate.BasePrice"></label>
+                            <input asp-for="ProductDetailUpdate.BasePrice" class="form-control" id="number" type="number" placeholder="No.">
+                            <span asp-validation-for="ProductDetailUpdate.BasePrice" class="text-danger" id="Err_BasePrice"></span>
+                        </div>
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-4 mb-3">
                         <div class="form-group">
                             <label>Choose Picture 1</label>
-                            <input asp-for="ProductDetailUpdate.UploadPic1" type="file" accept="image/*" class="form-control" onchange="document.getElementById('output').src = window.URL.createObjectURL(this.files[0])" />
+                            <input asp-for="ProductDetailUpdate.UploadPic1" type="file" accept="image/*" class="form-control" onchange="document.getElementById('output1').src = window.URL.createObjectURL(this.files[0])" />
                             <span asp-validation-for="ProductDetailUpdate.UploadPic1" class="text-danger" id="Err_UploadPic1"></span>
                         </div>
                     </div>
                     <div class="col-sm-4 mb-3">
                         <div class="form-group">
-                            <img class="rounded avatar-xl" src="@(Model.ProductDetailUpdate.Pic1 != null? Url.Content(Model.ProductDetailUpdate.Pic1) :"")" id="output" />
+                            <img class="rounded avatar-xl" src="@(Model.ProductDetailUpdate.Pic1 != null? Url.Content(Model.ProductDetailUpdate.Pic1) :"")" id="output1" />
                         </div>
                     </div>
                 </div>
@@ -99,12 +106,12 @@
                     <div class="col-sm-4 mb-3">
                         <div class="form-group">
                             <label for="address">Choose Picture 2</label>
-                            <input asp-for="ProductDetailUpdate.UploadPic2" type="file" accept="image/*" class="form-control" onchange="document.getElementById('output').src = window.URL.createObjectURL(this.files[0])" />
+                            <input asp-for="ProductDetailUpdate.UploadPic2" type="file" accept="image/*" class="form-control" onchange="document.getElementById('output2').src = window.URL.createObjectURL(this.files[0])" />
                         </div>
                     </div>
                     <div class="col-sm-4 mb-3">
                         <div class="form-group">
-                            <img class="rounded avatar-xl" src="@(Model.ProductDetailUpdate.Pic2 != null? Url.Content(Model.ProductDetailUpdate.Pic2) :"")" id="output" />
+                            <img class="rounded avatar-xl" src="@(Model.ProductDetailUpdate.Pic2 != null? Url.Content(Model.ProductDetailUpdate.Pic2) :"")" id="output2" />
                         </div>
                     </div>
                 </div>
@@ -112,12 +119,12 @@
                     <div class="col-sm-4 mb-3">
                         <div class="form-group">
                             <label for="address">Choose Picture 3</label>
-                            <input asp-for="ProductDetailUpdate.UploadPic3" type="file" accept="image/*" class="form-control" onchange="document.getElementById('output').src = window.URL.createObjectURL(this.files[0])" />
+                            <input asp-for="ProductDetailUpdate.UploadPic3" type="file" accept="image/*" class="form-control" onchange="document.getElementById('output3').src = window.URL.createObjectURL(this.files[0])" />
                         </div>
                     </div>
                     <div class="col-sm-4 mb-3">
                         <div class="form-group">
-                            <img class="rounded avatar-xl" src="@(Model.ProductDetailUpdate.Pic3 != null? Url.Content(Model.ProductDetailUpdate.Pic3) :"")" id="output" />
+                            <img class="rounded avatar-xl" src="@(Model.ProductDetailUpdate.Pic3 != null? Url.Content(Model.ProductDetailUpdate.Pic3) :"")" id="output3" />
                         </div>
                     </div>
                 </div>

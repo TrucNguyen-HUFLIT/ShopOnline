@@ -34,7 +34,7 @@
                 <th>Extra Fee (VND)</th>
                 <th>Payment</th>
                 <th>Total Price (VND)</th>
-                <th>@Html.ActionLink("Order Day", "ListOrder", new { sortOrder = ViewBag.OrderDay }, new { @class = "text-info" })</th>
+                <th>@Html.ActionLink("Order Day", "ListOrderProcessing", new { sortOrder = ViewBag.OrderDay }, new { @class = "text-info" })</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -90,7 +90,7 @@
         </tbody>
     </table>
     Page @(Model.ListOrder.PageCount < Model.ListOrder.PageNumber ? 0 : Model.ListOrder.PageNumber) of @Model.ListOrder.PageCount
-    @Html.PagedListPager(Model.ListOrder, page => Url.Action("ListOrder",
+    @Html.PagedListPager(Model.ListOrder, page => Url.Action("ListOrderProcessing",
                                         new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
     @*<div class="fw-normal small mt-4 mt-lg-0">Showing <b>5</b> out of <b>25</b> entries</div>*@
 </div>

@@ -52,6 +52,7 @@ namespace ShopOnline.Business.Logic.Customer
                     Name = product.Name,
                     PriceVND = product.Price,
                     PriceUSD = priceUSD,
+                    BrandId = product.BrandId,
                     Pic = product.Pic1
                 });
             }
@@ -61,7 +62,7 @@ namespace ShopOnline.Business.Logic.Customer
                 productsInfor.Add(new ProductInforViewModel
                 {
                     BrandInfor = BrandSingleton.Instance.BrandInfors.Where(x => x.Id == brandId).FirstOrDefault(),
-                    ProductsInforDetail = productsInforDetail,
+                    ProductsInforDetail = productsInforDetail.Where(x=> x.BrandId == brandId).ToList(),
                 });
             }
 

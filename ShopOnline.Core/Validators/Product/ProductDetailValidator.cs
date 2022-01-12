@@ -26,7 +26,7 @@ namespace ShopOnline.Core.Validators.Product
             RuleFor(x => x.Name).NotEmpty();
             RuleFor(x => x.Price).NotEmpty();
             RuleFor(x => x.BasePrice).NotEmpty();
-            RuleFor(x => x.UploadPic1).NotEmpty();
+            //RuleFor(x => x.UploadPic1).NotEmpty();
         }
     }
 }
